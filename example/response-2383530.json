@@ -1,0 +1,579 @@
+{
+    "Request": {
+        "Number": "2383530",
+        "LanguageSource": "EN",
+        "LanguageTarget": "EN"
+    },
+    "Response": {
+        "_elapsedTime": 677,
+        "Error": {},
+        "SAPNote": {
+            "_type": "00200720410000000382",
+            "_requestedLanguage": "E",
+            "_masterLanguage": "E",
+            "_loadedLanguage": "E",
+            "_machineTranslationLanguage": "",
+            "Actions": {
+                "_label": "Actions",
+                "Favorite": {
+                    "_labelWhenFalse": "Mark as Favorite",
+                    "_labelWhenTrue": "Unmark as Favorite",
+                    "_type": "EVENT",
+                    "value": false,
+                    "_visible": false
+                },
+                "Confirm": {
+                    "_label": "Confirm",
+                    "_type": "EVENT",
+                    "_visible": false
+                },
+                "NotRelevant": {
+                    "_label": "Not Relevant",
+                    "_type": "EVENT",
+                    "_visible": false
+                },
+                "Translation": {
+                    "_label": "",
+                    "_type": "EVENT",
+                    "_visible": false
+                },
+                "Download": {
+                    "_label": "Download for SNOTE",
+                    "_type": "URL",
+                    "_visible": false,
+                    "url": ""
+                },
+                "Print": {
+                    "_label": "PDF Version",
+                    "_type": "URL",
+                    "_visible": false,
+                    "url": ""
+                },
+                "ShareByEmail": {
+                    "_label": "Share by Email",
+                    "_type": "EVENT",
+                    "_visible": false
+                },
+                "OpenNewWindow": {
+                    "_label": "Open in New Window",
+                    "_type": "EVENT",
+                    "_visible": false
+                },
+                "Edit": {
+                    "_label": "Edit",
+                    "_type": "URL",
+                    "url": "https://i7p.wdf.sap.corp/sap/support/notes/edit/0002383530",
+                    "_visible": false
+                },
+                "CompareVersions": {
+                    "_label": "Show Changes",
+                    "_type": "URL",
+                    "_visible": false,
+                    "url": "/notesLatestChanges/0002383530/E/diff"
+                },
+                "Rating": {
+                    "_label": "Rate this document",
+                    "_type": "EVENT",
+                    "_visible": false
+                }
+            },
+            "Header": {
+                "_label": "Header Data",
+                "Number": {
+                    "_label": "SAP Note/KBA",
+                    "value": "2383530"
+                },
+                "Type": {
+                    "_label": "Type",
+                    "value": "SAP Note"
+                },
+                "Version": {
+                    "_label": "Version",
+                    "value": 430
+                },
+                "Recency": {
+                    "_label": "Recency",
+                    "key": "UPDATED",
+                    "value": "Updated"
+                },
+                "Language": {
+                    "_label": "Language",
+                    "value": "English"
+                },
+                "MasterLanguage": {
+                    "_label": "Master Language",
+                    "value": "English"
+                },
+                "Category": {
+                    "_label": "Category",
+                    "value": "Consulting"
+                },
+                "Priority": {
+                    "_label": "Priority",
+                    "value": "Correction with high priority"
+                },
+                "Status": {
+                    "_label": "Release Status",
+                    "value": "Released to Customer"
+                },
+                "ReleasedOn": {
+                    "_label": "Released On",
+                    "value": "2025.05.26"
+                },
+                "SAPComponentKey": {
+                    "_label": "Component",
+                    "value": "BW-B4H-LM"
+                },
+                "SAPComponentKeyText": {
+                    "_label": "Component",
+                    "value": "SAP Business Warehouse > SAP BW/4HANA Starter Add-On > Addon Lifecycle Tools"
+                },
+                "SAPComponentPath": [
+                    {
+                        "_label": "Services & Support",
+                        "value": "servicessupport",
+                        "_url": "/servicessupport"
+                    },
+                    {
+                        "_label": "KBAs & Notes",
+                        "value": "knowledge",
+                        "_url": "/servicessupport/knowledge"
+                    },
+                    {
+                        "_label": "SAP Business Warehouse",
+                        "value": "BW",
+                        "_url": "/mynotes?tab=Search&sortBy=Relevance&filters=themk%25253Aeq~'BW*'%25252BreleaseStatus%25253Aeq~'CustomerRelease'%25252BsecurityPatchDay%25253Aeq~'NotRestricted'%25252BfuzzyThreshold%25253Aeq~'0.9'&flag=mynotes "
+                    },
+                    {
+                        "_label": "SAP BW/4HANA Starter Add-On",
+                        "value": "BW-B4H",
+                        "_url": "/mynotes?tab=Search&sortBy=Relevance&filters=themk%25253Aeq~'BW-B4H*'%25252BreleaseStatus%25253Aeq~'CustomerRelease'%25252BsecurityPatchDay%25253Aeq~'NotRestricted'%25252BfuzzyThreshold%25253Aeq~'0.9'&flag=mynotes "
+                    },
+                    {
+                        "_label": "Addon Lifecycle Tools (BW-B4H-LM)",
+                        "value": "BW-B4H-LM",
+                        "_url": "/mynotes?tab=Search&sortBy=Relevance&filters=themk%25253Aeq~'BW-B4H-LM*'%25252BreleaseStatus%25253Aeq~'CustomerRelease'%25252BsecurityPatchDay%25253Aeq~'NotRestricted'%25252BfuzzyThreshold%25253Aeq~'0.9'&flag=mynotes "
+                    }
+                ]
+            },
+            "Title": {
+                "_label": "Title",
+                "value": "2383530 - Conversion from SAP BW to SAP BW/4HANA"
+            },
+            "LongText": {
+                "_label": "Description",
+                "value": "<div id=\"DISCLAIMER\" class=\"sapMMsgStrip sapMMsgStripError sapUiSmallMarginTop sapUiMediumMarginBottom\"><div class=\"sapMMsgStripMessage\"><span dir=\"auto\" class=\"sapMText sapUiSelectable sapMTextMaxWidth\" style=\"text-align: left;\"><strong>A new version is in preparation...!</strong>  <br/>The content for this document is being improved and a new version is in preparation but not released yet. Please be aware that you are viewing outdated data from the previous version in a restricted mode with limited functionality.  You will be automatically notified once the new version is ready and released. The restrictions are described in <a style=\"color:var(--sapLinkColor);\" href=\"/notes/3453681\" target=\"_blank\">KBA 3453681</a>.</span></div></div><div><h3 data-toc-skip class=\"section\" id=\"Symptom\">Symptom</h3>\r\n<p>This note describes the different paths to get from SAP BW to SAP BW/4HANA.</p>\r\n<h3 data-toc-skip class=\"section\" id=\"Other Terms\">Other Terms</h3>\r\n<p>SAP BW/4HANA, SAP BW, Migration, Conversion, Transfer,&#160;In-Place, Remote, Shell, Lifecycle Management</p>\r\n<h3 data-toc-skip class=\"section\" id=\"Reason and Prerequisites\">Reason and Prerequisites</h3>\r\n<p>Conversion to BW/4HANA</p>\r\n<h3 data-toc-skip class=\"section\" id=\"Solution\">Solution</h3>\r\n<p><span style=\"text-decoration: underline;\"><strong>0 Disclaimer</strong></span></p>\r\n<p>Converting a SAP BW system to SAP BW/4HANA is not a simple task. There is no \"wizard\" that magically converts everything. Instead, SAP provides a well-defined process to guide you through the renovation of your data warehouse. We have developed tools to automate this renovation where applicable and feasible, but they are not built or meant to fix badly designed models or clean-up neglected systems. In any conversion there is a need for manual interaction and re-design. The amount of such manual tasks varies from customer to customer and depends on the configuration and state of the SAP BW system. For example, a conversion of newer systems that have been configured using SAP HANA-optimized objects and LSA++ from the beginning will be relatively easy. In contrast to that, a conversion of older systems that are running on non-SAP HANA databases, using out-of-date interfaces, legacy data models, and multiple redundant layers can become quite challenging.</p>\r\n<p>It is therefore essential that you understand the differences between SAP BW and SAP BW/4HANA and how to handle them, thoroughly analyze your existing system, estimate the complexity and duration of required tasks, properly plan all conversion activities, learn and practice to use the conversion tools, test the conversion processes ideally with a \"copy of production\", and actively manage changes to your business. It speaks for itself that good project management and skilled personnel will be required to execute a timely and efficient conversion of a complete SAP BW system. If done right, your conversion to SAP BW/4HANA will be very successful.</p>\r\n<p>SAP offers several way to help. To get to started run a <a target=\"_blank\" href=\"https://help.sap.com/viewer/p/SAP_READINESS_CHECK\">SAP Readiness Check</a> or book a <a target=\"_blank\" href=\"http://sapsupport.info/offerings/sap-value-assurance/\">SAP Value Assurance service </a><a target=\"_blank\" href=\"http://sapsupport.info/offerings/sap-value-assurance/\">for SAP BW/4HANA</a>.</p>\r\n<p>We also highly recommend&#160;the Class Room Training <strong>BW4HC</strong>. (<a target=\"_blank\" href=\"https://training.sap.com/course/bw4hc-system-conversion-to-sap-bw4hana-classroom-017-de-en/\">https://training.sap.com/course/bw4hc-system-conversion-to-sap-bw4hana-classroom-017-de-en/</a>?).</p>\r\n<p>&#160;</p>\r\n<p><span style=\"text-decoration: underline;\"><strong>1 Overview</strong></span></p>\r\n<p><strong>1.1 What is SAP BW/4HANA</strong></p>\r\n<p>SAP BW/4HANA is a new, next generation data warehouse product from SAP that, like SAP S/4HANA, is optimized for the SAP HANA platform, including inheriting the high performance, simplicity, and agility of SAP HANA. SAP BW/4HANA delivers real time, enterprise wide analytics that minimize the movement of data and can connect all the data in an organization into a single, logical view, including new data types and sources.<strong><br /></strong></p>\r\n<p><strong>1.2 Related Information</strong></p>\r\n<p>Please find more information here:</p>\r\n<ul>\r\n<li>The Future of Data Warehousing - SAP BW/4HANA &#160;<br /><a target=\"_blank\" href=\"http://sap.com/bw4hana\">http://sap.com/bw4hana</a></li>\r\n<li>SAP BW/4HANA Community (includes FAQ)<br /><a target=\"_blank\" href=\"https://community.sap.com/topics/bw4-hana\">https://community.sap.com/topics/bw4-hana</a><br /><a target=\"_blank\" href=\"https://www.sap.com/documents/2016/08/c4458a08-877c-0010-82c7-eda71af511fa.html\">https://www.sap.com/documents/2016/08/c4458a08-877c-0010-82c7-eda71af511fa.html</a></li>\r\n<li>Online Documentation<br /><a target=\"_blank\" href=\"http://help.sap.com/bw4hana10\">http://help.sap.com/bw4hana10</a></li>\r\n<li>Product Roadmap<br /><a target=\"_blank\" href=\"https://roadmaps.sap.com/board?range=FIRST-LAST&amp;PRODUCT=73554900100800000681#Q1%202021\">https://roadmaps.sap.com/board?range=FIRST-LAST&amp;PRODUCT=73554900100800000681#Q1%202021</a></li>\r\n<li>SAP BW/4HANA vs. SAP BW<br /><a target=\"_blank\" href=\"https://www.sap.com/documents/2017/08/30aa5e11-cf7c-0010-82c7-eda71af511fa.html\">https://www.sap.com/documents/2017/08/30aa5e11-cf7c-0010-82c7-eda71af511fa.html</a><br /><br /></li>\r\n</ul>\r\n<p>For information related to functionality available in SAP BW but replaced or deleted in SAP BW/4HANA please refer to the Simplification List:&#160;<br /><a target=\"_blank\" href=\"https://help.sap.com/doc/590752e646cc4b15a9092f32353b209a/1.0/en-US/SAP_BW4HANA_10_Simplification_List.pdf\">https://help.sap.com/doc/590752e646cc4b15a9092f32353b209a/1.0/en-US/SAP_BW4HANA_10_Simplification_List.pdf</a></p>\r\n<p>For a holistic view of the Conversion topic, see&#160;Conversion Guide for SAP BW/4HANA 1.0:&#160;<br /><a target=\"_blank\" href=\"https://help.sap.com/doc/c3f4454877614bc7b9e85ae1f9d1d2c7/1.0/en-US/SAP_BW4HANA_10_Conversion_Guide.pdf\">https://help.sap.com/doc/c3f4454877614bc7b9e85ae1f9d1d2c7/1.0/en-US/SAP_BW4HANA_10_Conversion_Guide.pdf</a></p>\r\n<p>For a holistic view of the Conversion topic, see&#160;Conversion Guide for SAP BW/4HANA 2.0:</p>\r\n<p><a target=\"_blank\" href=\"https://help.sap.com/doc/999ae5f8c578402dab1fea94fa4599f9/2.0/en-US/SAP_BW4HANA_20_Conversion_Guide.pdf\">https://help.sap.com/doc/999ae5f8c578402dab1fea94fa4599f9/2.0/en-US/SAP_BW4HANA_20_Conversion_Guide.pdf</a></p>\r\n<p>For a holistic view of the Conversion topic, see&#160;Conversion Guide for SAP BW/4HANA 2021 and higher:</p>\r\n<p><a target=\"_blank\" href=\"https://help.sap.com/doc/c8e1ac37fee64e0f887a2d6d6af32a33/2021.00/en-US/SAP_BW4HANA_2021_Conversion_Guide.pdf\">https://help.sap.com/doc/c8e1ac37fee64e0f887a2d6d6af32a33/2021.00/en-US/SAP_BW4HANA_2021_Conversion_Guide.pdf</a></p>\r\n<p>&#160;</p>\r\n<p><span style=\"text-decoration: underline;\"><strong>2 How to Get to BW/4HANA</strong></span></p>\r\n<p><strong>2.1 Paths to SAP BW/4 HANA</strong></p>\r\n<p><strong><em>2.1.1 New implementation or fresh start</em></strong></p>\r\n<p>New implementations are the best choice for customers converting from a legacy system or building a system from scratch with new data model only.</p>\r\n<p><strong>Steps</strong>: Install SAP BW/4HANA, selective transport of BW objects (optional), implement HANA-optimized data models and flows, followed by data load and quality checks.</p>\r\n<p><strong>What to use</strong>: Software Provisioning Manager (SWPM), system connection (SAP Source), SAP BW/4HANA ETL, file upload and/or SAP HANA EIM (legacy sources)</p>\r\n<p>See SAP First Guidance: Complete functional scope (CFS) for SAP BW/4HANA: <a target=\"_blank\" href=\"https://www.sap.com/documents/2016/09/b001a9de-8a7c-0010-82c7-eda71af511fa.html\">https://www.sap.com/documents/2016/09/b001a9de-8a7c-0010-82c7-eda71af511fa.html<br /></a></p>\r\n<p><em><strong>2.1.2 System conversion</strong></em></p>\r\n<p>A system conversion addresses customers who want to change their current SAP BW system into a SAP BW/4HANA system. Using the Transfer Cockpit provided by SAP, the logical systemname of the system can be kept (in-place conversion) or a new&#160;&#160;logical systemname&#160;can be used (remote conversion resp. shell conversion).</p>\r\n<p>A conversion project typically follows this sequence:</p>\r\n<ul>\r\n<li><strong>Discover / Prepare Phase</strong>: check system for BW/4HANA compliance (gather information about objects and code that needs to be transferred or changed), estimate effort for the conversion project</li>\r\n<li><strong>Explore / Realization Phase</strong>: Transfer legacy objects into HANA-optimized counterparts, system conversion, post conversion tasks</li>\r\n</ul>\r\n<p><em>2.1.2.1. In-Place conversion</em></p>\r\n<p>Systems running on SAP BW 7.50 powered by SAP HANA can be converted in-place keeping their logical systemname. In the realization phase of the conversion project, classic objects have to be transferred into their HANA optimized replacements using the Transfer Cockpit. This transfer can be performed scenario-by-scenario. When all classic objects have been replaced, the system conversion to SAP BW/4HANA can be triggered.</p>\r\n<p>SAP highly recommends to use the latest support package for SAP BW/4HANA when performing the conversion. See note https://launchpad.support.sap.com/#/notes/2347382 regarding the equivalent support packages. Please keep the RTC Dates of the different Support Packages in mind when you plan your conversion project.</p>\r\n<p><strong>Steps</strong>: Migrate and/or upgrade to SAP BW 7.50 powered by SAP HANA (if necessary), install SAP BW/4HANA Starter Add-On (see &#8220;Installation&#8221; below), install Transfer Cockpit, transfer data models, adjust custom coding, perform system conversion</p>\r\n<p>To include the Data Comparison Functionality into InPlace-TaskList, please&#160;refer to the SAP&#160;Note <a target=\"_blank\" href=\"/notes/2607742\">2607742</a>.</p>\r\n<p><strong>Incident Component</strong>: BW-B4H-CNV-IPL</p>\r\n<p><strong>What to use</strong>: SAP BW/4HANA Starter Add-On, SAP BW/4HANA Transfer Cockpit, SPAM/SAINT<br /><em></em></p>\r\n<p><em></em><em>2.1.2.2. Remote conversion</em></p>\r\n<p>For SAP BW systems on releases from 7.30 to 7.50 running on Any-DB, a remote conversion can be performed. For that conversion type, a green field installation (new &#160;logical systemname) of SAP BW/4HANA is used. The Transfer Cockpit is able to transport selected data models into the new installation and to perform a remote data transfer.</p>\r\n<p><strong>Steps</strong>: Install SAP BW/4HANA, install DMIS Add-On,&#160;transfer data models, transport custom developments (might need adjustment to work with SAP BW/4HANA)</p>\r\n<p><strong>Incident Component</strong>: BW-B4H-CNV-RMT</p>\r\n<p><strong>What to use</strong>: Software Provisioning Manager (SWPM), SAP BW/4HANA Transfer Cockpit, DMIS Add-On</p>\r\n<p><em>2.1.2.3.&#160;Shell conversion</em></p>\r\n<p>For SAP BW systems on releases from 7.00 to 7.50 running on Any-DB, a&#160;Shell conversion can be performed. For that conversion type, a green field installation (new &#160;logical systemname) of SAP&#160;BW/4HANA is used. The Transfer Cockpit is able to transport selected data models without data into the new installation.</p>\r\n<p>Our recommendation for shell conversion is to use a sandbox as the sender system.&#160;The latest SPs should also be installed on this system. Depending on the version of the current system, this saves a lot of time and effort. If you still decide to import the hints, you should look at the wiki&#160;<a target=\"_blank\" href=\"https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=562729718\" title=\"https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=562729718\">https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=562729718</a>&#160;beforehand and follow the information from the wiki when importing.</p>\r\n<p><em><strong>Steps</strong>: </em>Install SAP BW/4HANA, transfer data models without data using SAP BW/4HANA Transfer Cockpit, and transport custom developments (might need adjustments to work with SAP BW/4HANA).</p>\r\n<p><strong>Incident Component</strong>: BW-B4H-CNV-SHL</p>\r\n<p><strong>What to use: </strong>Software Provisioning Manager (SWPM), SAP BW/4HANA Transfer Cockpit</p>\r\n<p><strong><em>2.1.3. Landscape transformation</em></strong></p>\r\n<p>Landscape transformation is for customers who want to consolidate and optimize their complex SAP BW landscape (multiple production systems) into a single SAP BW/4HANA system or who want to carve-out selected data models or flows into a global SAP BW/4HANA system.</p>\r\n<p><strong>Steps</strong>: Install SAP BW/4HANA, implement consolidated and HANA-optimized data models and flows, followed by data load and quality checks</p>\r\n<p><strong>What to use</strong>: Selective data transfer, SAP Landscape Transformation (SLT), SAP Data Services, SAP BW/4HANA ETL or SAP HANA EIM<br /><em></em></p>\r\n<p>The following sections are focusing on the system conversion.</p>\r\n<p>&#160;</p>\r\n<p><strong>2.2 Availability</strong></p>\r\n<p><strong><em>2.2.1&#160;Overview</em></strong></p>\r\n<p>The tools required to perform an In-Place, Remote&#160;or&#160;Shell&#160;conversion are general available now.</p>\r\n<p><strong><em>2.2.2 Releases</em></strong></p>\r\n<p>SAP highly recommends to use the latest support package for a release to start a conversion project with. It will massively reduce the effort for notes implementation and we cannot guarantee that all required notes can be imported from other areas.<em>&#160;</em>Nevertheless, the Transfer Cockpit was made available via SAP Notes for the following support packages.</p>\r\n<p><em>2.2.2.1 Pre-Checks (General Available)</em></p>\r\n<div class=\"table-responsive\"><table class=\"table table-bordered table-striped col-resizeable\" border=\"1\" cellpadding=\"3\" cellspacing=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Release</strong></td>\r\n<td><strong>Recommended Support Package</strong></td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.00</td>\r\n<td>SP 25 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.01</td>\r\n<td>SP 09 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.02</td>\r\n<td>SP 07 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.30</td>\r\n<td>SP 08 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.31</td>\r\n<td>SP 05 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.40</td>\r\n<td>SP 09 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.50</td>\r\n<td>SP 05 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.51</td>\r\n<td>SP 08 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.58</td>\r\n<td>SP 00 and higher</td>\r\n</tr>\r\n</tbody>\r\n</table></div>\r\n<p><em>2.2.2.2 In-Place conversion</em></p>\r\n<p>SAP BW 7.50<strong> minimal </strong>requirement SP 05 ,<strong> recommended </strong>SP 12&#160;and higher.</p>\r\n<p>An in-place conversion of SAP BW <strong>7.51</strong> or higher to SAP BW/4HANA 1.0 is <strong>not</strong> possible (since SAP BW/4HANA 1.0 is based on SAP Basis <strong>7.50</strong>).</p>\r\n<p>Starting from Release SAP BW <strong>7.50 SP16</strong> the conversion is only to SAP BW/4HANA <strong>2.0 SP&gt;=04</strong>&#160;possible!</p>\r\n<p>SAP highly recommends to update the systems&#160;before starting the conversion process. Support Package Implementation is possible until B4H Mode.</p>\r\n<p>Other components relevant for SAP BW Systems&#160;used for&#160;InPlace Conversion</p>\r\n<ul>\r\n<li>SAP HANA 1.0 SPS 12 and higher (Relevant for Conversion to Target Release SAP BW/4HANA <strong>1.0</strong>)</li>\r\n<li>SAP HANA 2.0 SPS 36 and higher (Relevant for Conversion to Target Release SAP BW/4HANA <strong>2.0</strong>)</li>\r\n<li>SAP Business Content 7.57 SP11 and higher</li>\r\n<li>SPAM version 72 and higher</li>\r\n<li>SAP UI 7.52 or lower (Relevant for Conversion to Target Release SAP BW/4HANA <strong>1.0</strong> . SAP BW/4HANA 1.0 does <strong>not</strong> support SAP_UI 7.53. See SAP Note <a target=\"_blank\" href=\"/notes/2347382\">2347382</a>)</li>\r\n<li>SAP UI 7.53 (Possible only&#160;by Conversion to Target Release SAP BW/4HANA <strong>2.0</strong>. See SAP Note <a target=\"_blank\" href=\"/notes/2347382\">2347382</a>)</li>\r\n</ul>\r\n<p>&#160;</p>\r\n<p><em>2.2.2.3. Remote conversion </em></p>\r\n<div class=\"table-responsive\"><table class=\"table table-bordered table-striped col-resizeable\" border=\"1\" cellpadding=\"3\" cellspacing=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Release</strong></td>\r\n<td><strong>Recommended Support Package</strong></td>\r\n<td><strong>Exceptional usage with increased manual implementation effort</strong></td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.30</td>\r\n<td colspan=\"2\">SP 10 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.31</td>\r\n<td colspan=\"2\">SP 10 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.40</td>\r\n<td>SP 12 and higher</td>\r\n<td>SP 09</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.50</td>\r\n<td colspan=\"2\">SP 05 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.51</td>\r\n<td colspan=\"2\">SP 08 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.58</td>\r\n<td colspan=\"2\">SP 00 and higher</td>\r\n</tr>\r\n</tbody>\r\n</table></div>\r\n<p><em><em>2.2.2.4 Shell conversion</em></em></p>\r\n<div class=\"table-responsive\"><table class=\"table table-bordered table-striped col-resizeable\" border=\"1\" cellpadding=\"3\" cellspacing=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Release </strong></td>\r\n<td><strong>Recommended Support Package</strong></td>\r\n<td><strong>&#160;<strong>Exceptional usage with increased manual implementation effort</strong></strong></td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.00</td>\r\n<td>SP 28 and higher</td>\r\n<td>SP 25</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.01</td>\r\n<td>SP 12 and higher</td>\r\n<td>SP 09</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.02</td>\r\n<td>SP 10 and higher</td>\r\n<td>SP 07</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.30</td>\r\n<td colspan=\"2\">SP&#160;10 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.31</td>\r\n<td colspan=\"2\">SP&#160;10 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.40</td>\r\n<td>SP&#160;12 and higher</td>\r\n<td>SP 09</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.50</td>\r\n<td colspan=\"2\">SP&#160;05 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.51</td>\r\n<td colspan=\"2\">SP&#160;08 and higher</td>\r\n</tr>\r\n<tr>\r\n<td>SAP BW 7.58</td>\r\n<td colspan=\"2\">SP&#160;00 and higher</td>\r\n</tr>\r\n</tbody>\r\n</table></div>\r\n<p><em><em>2.2.2.5 SAP BW/4HANA required release and support package stack</em></em></p>\r\n<p><em><em></em></em>SAP BW/4HANA General Information see SAP Note <a target=\"_blank\" href=\"/notes/2347382\">2347382</a></p>\r\n<p>SAP BW/4HANA <strong>1.0</strong></p>\r\n<p>For In-Place / Shell:<strong> minimal</strong> requirement&#160;SP 08, <strong>recommended</strong> - latest released SP!</p>\r\n<p>For Remote:&#160;<strong>minimal</strong> requirement&#160;SP 09, <strong>recommended</strong> - latest released SP!</p>\r\n<p>SAP BW/4HANA <strong>2.0</strong></p>\r\n<p>For In-Place / Shell / Remote: <strong>minimal</strong> requirement SP 02 (released)</p>\r\n<p>For more information regading SAP BW/4HANA 2.0&#160;Release Restictions see SAP Note <a target=\"_blank\" href=\"/notes/2733740\">2733740</a>.</p>\r\n<p>SAP BW/4HANA&#160;<strong>2021</strong></p>\r\n<p>For In-Place / Shell / Remote:&#160;<strong>minimal</strong>&#160;requirement SP 00 (released)</p>\r\n<p>For more information regading SAP BW/4HANA 2021 Release Restictions see SAP Note&#160;<a target=\"_blank\" href=\"/notes/3100794\">3100794</a>.<a target=\"_blank\" href=\"/notes/2733740\"><br /></a></p>\r\n<p>SAP BW/4HANA&#160;<strong>2023</strong></p>\r\n<p>For In-Place / Shell / Remote:&#160;<strong>minimal</strong>&#160;requirement SP 00 (released)</p>\r\n<p>For more information regading SAP BW/4HANA 2023 Release Restictions see SAP Note&#160;<a target=\"_blank\" href=\"/notes/3365187\">3365187</a>.</p>\r\n<p>For Conversion from SAP_BW 7.50 for HANA to SAP BW/4HANA 2023 (SAP_BASIS 7.58) please check the downloaded Upgrade Export according to SAP Note <a target=\"_blank\" href=\"https://me.sap.com/notes/3454844\">3454844</a>.</p>\r\n<p><span style=\"font-size: 14px;\"><em>2.2.2.6 Add-On's</em></span></p>\r\n<p><span style=\"font-size: 14px;\">Please see SAP Note <a target=\"_blank\" href=\"/notes/2189708\">2189708</a> regarding usage of Add-Ons in </span><span style=\"font-size: 14px;\">SAP BW/4HANA.</span></p>\r\n<p>&#160;</p>\r\n<p><em></em><em><strong>2.2.3 Installation</strong></em></p>\r\n<p><em>2.2.3.1 SAP BW/4HANA Starter Add-On</em></p>\r\n<p>For the In-Place Conversion, the installation of the SAP BW/4HANA Starter Add-on is required. Please follow the instruction of the Conversion Guide.</p>\r\n<p>For Shell or Remote Conversion, the SAP BW/4HANA Starter&#160;Add-On is not required.</p>\r\n<p><em>2.2.3.2 SAP BW/4HANA Transfer Cockpit</em></p>\r\n<p>To install the Transfer Cockpit for a transfer of scenarios (in-place, remote, and shell conversion), a set of SAP Notes needs to be applied to the corresponding systems. Please use the SAP BW Note Analyzer to analyze the system and to install the prerequisites. Create the SAP BW Note Analyzer program in each system for which notes have to be applied. Depending on your use case, the following systems needs to be processed:</p>\r\n<ul>\r\n<li><strong>SAP BW</strong> (in-place conversion or sending system for a remote/shell conversion)</li>\r\n<li><strong>Source systems</strong> connected to SAP BW (in-place and remote/shell conversion)</li>\r\n<li><strong>SAP BW/4HANA</strong> (post conversoin for in-place; receiving system for a remote/shell conversion)</li>\r\n</ul>\r\n<p>Run the SAP BW Note Analyzer in each system with the corresponding XML file.</p>\r\n<p><em>2.2.3.3 SAP BW Note Analyzer</em></p>\r\n<p>For a detailed documentation of the SAP BW Note Analyzer, please see&#160;<a target=\"_blank\" href=\"https://help.sap.com/doc/b235b5bd94664d9986f721f049d72cbb/1.0/en-US/User_Guide_for_SAP_BW_Note_Analyzer.pdf\">https://help.sap.com/doc/b235b5bd94664d9986f721f049d72cbb/1.0/en-US/User_Guide_for_SAP_BW_Note_Analyzer.pdf</a></p>\r\n<p>Attached to that note you&#8217;ll find a text file &#8220;Z_SAP_BW_NOTE_ANALYZER.txt&#8221;. Save the file on your computer and open it in an editor.</p>\r\n<p>In the corresponding system, use transaction SE38 to create a report called &#8220;Z_SAP_BW_NOTE_ANALYZER&#8221;. Copy and paste the content of the above-mentioned text file into the report and activate it.</p>\r\n<p>Attached to that note, you&#8217;ll find several XML files. Save those files that are related to your use-case:</p>\r\n<p>Please find more detailed informations under:</p>\r\n<p><a target=\"_blank\" href=\"https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=572523874\">https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=572523874</a>.</p>\r\n<p>You want to run the pre-checks in the discovery phase (RS_B4HANA_CONVERSION_CONTROL in SAP BW 7.0x and RS_B4HANA_RC from SAP BW 7.30 to 7.50):</p>\r\n<ul>\r\n<li>For SAP BW 7.0x, use <em>SAP_BW4HANA_<strong>Pre_Checks</strong>_[last_update].xml</em></li>\r\n<li>For SAP BW from 7.30 to 7.50, use&#160;XML<em> SAP_BW4HANA_<strong>Readiness_Check</strong>_<em>[last_update]</em>.xml</em> from note 2575059.&#160;</li>\r\n</ul>\r\n<p>You want to transfer scenarios and perform a system conversion in the realization phase:</p>\r\n<ul>\r\n<li>For SAP BW 7.50 (all cases),</li>\r\n<ul>\r\n<li>if you start now with the installation of the tool, use&#160;<em>SAP_BW4HANA_Conversion_<strong>SAP_BW_750</strong>_[last_update].xml&#160;</em></li>\r\n<li>if you&#160;have already installed most of the notes before and only want the latest updates, continue to use <em>SAP_BW4HANA_<strong>In-place_Conversion_(Original_System)</strong>_[last_update].xml</em></li>\r\n</ul>\r\n<li>For all systems connected to SAP BW as a data load source system, use <em><strong>Source_System</strong>_for_SAP_BW4HANA_[last_update].xml</em></li>\r\n<li>Remote Transfer</li>\r\n<ul>\r\n<li>For SAP BW from 7.30 to 7.40 acting as sending system for a remote conversion, use <em>SAP_BW4HANA_<strong>Remote_Conversion_(Original_System)</strong>_[last_update].xml</em></li>\r\n<li>For SAP BW/4HANA acting as receiving system for a remote conversion, use <em>SAP_BW4HANA_<strong>Remote_Conversion_(Target_System)</strong>_[last_update].xml</em></li>\r\n</ul>\r\n<li>Shell Transfer</li>\r\n<ul>\r\n<li>For SAP BW from 7.00 to 7.40 acting as sending system for a&#160;shell conversion, use <em>SAP_BW4HANA_<strong>Shell_Conversion_(Original_System)</strong>_[last_update].xml</em></li>\r\n<li>For SAP BW/4HANA acting as receiving system for a&#160;shell conversion, use <em>SAP_BW4HANA_<strong>Shell_Conversion_(Target_System)</strong>_[last_update].xml</em></li>\r\n</ul>\r\n</ul>\r\n<p>You have successfully converted the system (In-Place) to SAP BW/4HANA (see section&#160;2.3.2.3 Post-Conversion phase)</p>\r\n<ul>\r\n<li>Use&#160;<em>SAP_BW4HANA_<strong>In-place_Conversion_(After_System_Conversion)</strong>_[last_update].xml</em></li>\r\n</ul>\r\n<p>Execute the SAP BW Note Analyzer in each relevant system. Click on the icon &#8220;Load XML file&#8221; and chose the system specific XML file.</p>\r\n<p>Select radio button &#8220;Check implementation state against information in XML file&#8221; and check checkbox &#8220;Download needed SAP Notes&#8221;. Select radio button &#8220;In background&#8221;.</p>\r\n<p>Run the report. A background process will be started which downloads the required notes.</p>\r\n<p>When the process finished successfully, execute the report again with a de-selected checkbox &#8220;Download needed SAP Notes&#8221;.</p>\r\n<p>A list of notes with its implementation status will be shown. You can now install the missing notes by clicking on the corresponding icon in the list.</p>\r\n<p><em>2.2.3.4&#160;Transport-Enabled Correction Instructions (TCIs)</em></p>\r\n<p>When installing the SAP BW/4HANA Transfer Cockpit using the SAP BW Note Analyzer, you will be prompted for SAP Note <a target=\"_blank\" href=\"/notes/2358953\">2358953</a>,&#160;<a target=\"_blank\" href=\"/notes/2371120\">2371120</a>, and <a target=\"_blank\" href=\"/notes/2735300\">2735300</a> to install a TCI.</p>\r\n<p>For more information about TCI, see SAP Note <a target=\"_blank\" href=\"/notes/2358953\">2358953</a>.<a target=\"_blank\" href=\"/notes/2358953\"><br /></a></p>\r\n<p><em>2.2.3.5 DMIS Add-On</em></p>\r\n<p>For a remote conversion, the DMIS Add-On needs to be installed in SAP BW (sending system) and SAP BW/4HANA (receiving system). Follow the instructions in SAP Note <a target=\"_blank\" href=\"/notes/2513088\">2513088</a>.</p>\r\n<p>&#160;</p>\r\n<p><strong>2.3 Conversion Process</strong></p>\r\n<p>For a detailed description of the conversion process, see the <a target=\"_blank\" href=\"https://help.sap.com/viewer/p/SAP_BW4HANA\">Conversion Guide</a>. In additional we attached a excel file, \"<em><strong>SAP BW4HANA Conversion - Steps to consider.xlsx</strong></em>\", as a kind of check list/project plan.</p>\r\n<p>List of required authorization objects for conversion, see attachment \"<em><strong>Authorization_Objects_List_Conversion_2383530.xls</strong></em>\".</p>\r\n<p>Frequencly ask questions are collected in note&#160;<a target=\"_blank\" href=\"/notes/2930058\">2930058</a>.</p>\r\n<p>Each object can only be converted once. However, it can be collected again if it is used in another scenario. For example, an IOBJ that has been converted can be used in different objects such as ADSO, DSO, CUBE. Due to consistency, these IOBJs are also collected several times, but the metadata can only be transferred once.</p>\r\n<p><strong>2.4 New Features</strong></p>\r\n<p>Under link, you can find new developed features.</p>\r\n<p><a target=\"_blank\" href=\"https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=550043910\">https://wiki.scn.sap.com/wiki/pages/viewpage.action?pageId=550043910</a>.</p>\r\n<p>The wiki is updated regularly.</p></div>"
+            },
+            "Attributes": {
+                "_label": "Attributes",
+                "_columnNames": {
+                    "Key": "Key",
+                    "Value": "Value"
+                },
+                "Items": [
+                    {
+                        "Key": "Other Components",
+                        "Value": "SAP Business Warehouse > SAP BW/4HANA Starter Add-On > Conversion to SAP BW/4HANA (BW-B4H-CNV)"
+                    }
+                ]
+            },
+            "References": {
+                "_label": "References",
+                "RefTo": {
+                    "_label": "This document refers to",
+                    "_columnNames": {
+                        "RefNumber": "SAP Note/KBA",
+                        "RefComponent": "Component",
+                        "RefTitle": "Title",
+                        "RefUrl": "Url"
+                    },
+                    "Items": [
+                        {
+                            "RefNumber": "3454844",
+                            "RefComponent": "XX-INT-FA-EXP",
+                            "RefTitle": "Conversion from SAP Business Warehouse 7.50 to SAP BW/4HANA 2023 - faulty Upgrade Export",
+                            "RefUrl": "/notes/3454844"
+                        },
+                        {
+                            "RefNumber": "3365187",
+                            "RefComponent": "BW4-AE",
+                            "RefTitle": "Information/Restriction Note for Release SAP BW/4HANA 2023",
+                            "RefUrl": "/notes/3365187"
+                        },
+                        {
+                            "RefNumber": "3100794",
+                            "RefComponent": "BW4-AE",
+                            "RefTitle": "Release Information/Restrictions Note for SAP BW/4HANA 2021",
+                            "RefUrl": "/notes/3100794"
+                        },
+                        {
+                            "RefNumber": "2930058",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "FAQ - SAP BW/4 Conversions",
+                            "RefUrl": "/notes/2930058"
+                        },
+                        {
+                            "RefNumber": "2735300",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "TCI for SAP BW 7.5 for SAP BW/4HANA Transfer Cockpit (Installation Package)",
+                            "RefUrl": "/notes/2735300"
+                        },
+                        {
+                            "RefNumber": "2733740",
+                            "RefComponent": "BW4-AE",
+                            "RefTitle": "Release Information/Restrictions Note for SAP BW/4HANA 2.0",
+                            "RefUrl": "/notes/2733740"
+                        },
+                        {
+                            "RefNumber": "2513088",
+                            "RefComponent": "CA-LT-BW4",
+                            "RefTitle": "SAP BW/4HANA Conversion Cockpit - System Setup & Pre-requisite",
+                            "RefUrl": "/notes/2513088"
+                        },
+                        {
+                            "RefNumber": "2470352",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "BW4SL & BWbridgeSL - Data Flows (3.x)",
+                            "RefUrl": "/notes/2470352"
+                        },
+                        {
+                            "RefNumber": "2385382",
+                            "RefComponent": "BW4-ME",
+                            "RefTitle": "Add SAPFSPOR to avoid strange DUMPS during Support Package update",
+                            "RefUrl": "/notes/2385382"
+                        },
+                        {
+                            "RefNumber": "2362807",
+                            "RefComponent": "BW-WHM-MTD-SRCH",
+                            "RefTitle": "SAP HANA authorizations for BW metadata search/no results in search/input help for BW modeling tools",
+                            "RefUrl": "/notes/2362807"
+                        },
+                        {
+                            "RefNumber": "2358953",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "SAP BW/4HANA Conversion: Preparation Tasks",
+                            "RefUrl": "/notes/2358953"
+                        },
+                        {
+                            "RefNumber": "2351381",
+                            "RefComponent": "BW4-ME",
+                            "RefTitle": "SAP BW/4HANA task lists",
+                            "RefUrl": "/notes/2351381"
+                        },
+                        {
+                            "RefNumber": "2347382",
+                            "RefComponent": "BW-B4H-LM",
+                            "RefTitle": "SAP BW/4HANA – Composite Note (General Information)",
+                            "RefUrl": "/notes/2347382"
+                        },
+                        {
+                            "RefNumber": "2246699",
+                            "RefComponent": "BW-B4H-LM",
+                            "RefTitle": "SAP BW/4HANA Starter Add-On - Pre-Requisites/Installation/De-Installation/Update",
+                            "RefUrl": "/notes/2246699"
+                        },
+                        {
+                            "RefNumber": "2238220",
+                            "RefComponent": "BW-WHM-DBA-ADSO",
+                            "RefTitle": "BW on HANA: Transfer enhancements",
+                            "RefUrl": "/notes/2238220"
+                        },
+                        {
+                            "RefNumber": "2189708",
+                            "RefComponent": "BW-B4H-LM",
+                            "RefTitle": "SAP BW/4HANA Add-On Handling and Usage",
+                            "RefUrl": "/notes/2189708"
+                        }
+                    ]
+                },
+                "RefBy": {
+                    "_label": "This document is referenced by",
+                    "_columnNames": {
+                        "RefNumber": "SAP Note/KBA",
+                        "RefComponent": "Component",
+                        "RefTitle": "Title",
+                        "RefUrl": "Url"
+                    },
+                    "Items": [
+                        {
+                            "RefNumber": "2996682",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "Error Column 'RECORDMODE' not found when reloading data from archiving of a converted BW/4 HANA InfoProvider",
+                            "RefUrl": "/notes/2996682 "
+                        },
+                        {
+                            "RefNumber": "2960726",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "Error \"Data package contains error messages\" when converting InfoCube to ADSO",
+                            "RefUrl": "/notes/2960726 "
+                        },
+                        {
+                            "RefNumber": "2933246",
+                            "RefComponent": "BW-B4H-CNV-IPL",
+                            "RefTitle": "Run SAP_BW4_TRANSFER_INPLACE_* contains objects of current scope",
+                            "RefUrl": "/notes/2933246 "
+                        },
+                        {
+                            "RefNumber": "2000003",
+                            "RefComponent": "HAN-DB-ENG",
+                            "RefTitle": "FAQ: SAP HANA",
+                            "RefUrl": "/notes/2000003 "
+                        },
+                        {
+                            "RefNumber": "2347382",
+                            "RefComponent": "BW-B4H-LM",
+                            "RefTitle": "SAP BW/4HANA – Composite Note (General Information)",
+                            "RefUrl": "/notes/2347382 "
+                        },
+                        {
+                            "RefNumber": "3141688",
+                            "RefComponent": "DS-BWB",
+                            "RefTitle": "Conversion from SAP BW or SAP BW/4HANA to SAP Datasphere, SAP BW Bridge",
+                            "RefUrl": "/notes/3141688 "
+                        },
+                        {
+                            "RefNumber": "2934843",
+                            "RefComponent": "FIN-SEM-BCS",
+                            "RefTitle": "Remote conversion of SEM-BCS to BCS4HANA",
+                            "RefUrl": "/notes/2934843 "
+                        },
+                        {
+                            "RefNumber": "2976185",
+                            "RefComponent": "FIN-SEM-BCS",
+                            "RefTitle": "Note List for BCS/4HANA remote / shell conversion",
+                            "RefUrl": "/notes/2976185 "
+                        },
+                        {
+                            "RefNumber": "3037237",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "SAP BW Note Analyzer Z_SAP_BW_NOTE_ANALYZER - For which topics are Note Analyzer XML files available?",
+                            "RefUrl": "/notes/3037237 "
+                        },
+                        {
+                            "RefNumber": "3029083",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "SAP BW/4 Conversion: Last used in Pre-Check tool",
+                            "RefUrl": "/notes/3029083 "
+                        },
+                        {
+                            "RefNumber": "2930058",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "FAQ - SAP BW/4 Conversions",
+                            "RefUrl": "/notes/2930058 "
+                        },
+                        {
+                            "RefNumber": "2735300",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "TCI for SAP BW 7.5 for SAP BW/4HANA Transfer Cockpit (Installation Package)",
+                            "RefUrl": "/notes/2735300 "
+                        },
+                        {
+                            "RefNumber": "2730839",
+                            "RefComponent": "CA-LT-BW4",
+                            "RefTitle": "FAQs BW/4HANA Remote Conversion",
+                            "RefUrl": "/notes/2730839 "
+                        },
+                        {
+                            "RefNumber": "2238220",
+                            "RefComponent": "BW-WHM-DBA-ADSO",
+                            "RefTitle": "BW on HANA: Transfer enhancements",
+                            "RefUrl": "/notes/2238220 "
+                        },
+                        {
+                            "RefNumber": "2651241",
+                            "RefComponent": "FIN-SEM-BCS-INF",
+                            "RefTitle": "In-place conversion of SEM-BCS to BCS4HANA",
+                            "RefUrl": "/notes/2651241 "
+                        },
+                        {
+                            "RefNumber": "2246699",
+                            "RefComponent": "BW-B4H-LM",
+                            "RefTitle": "SAP BW/4HANA Starter Add-On - Pre-Requisites/Installation/De-Installation/Update",
+                            "RefUrl": "/notes/2246699 "
+                        },
+                        {
+                            "RefNumber": "2654307",
+                            "RefComponent": "BW-B4H-LM",
+                            "RefTitle": "Technical Note: Current Revisions and Versions of SAP BW/4HANA Transfer Cockpit (outdated & frozen)",
+                            "RefUrl": "/notes/2654307 "
+                        },
+                        {
+                            "RefNumber": "2421930",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "Simplification List for SAP BW/4HANA",
+                            "RefUrl": "/notes/2421930 "
+                        },
+                        {
+                            "RefNumber": "2358953",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "SAP BW/4HANA Conversion: Preparation Tasks",
+                            "RefUrl": "/notes/2358953 "
+                        },
+                        {
+                            "RefNumber": "2371120",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "SAP BW/4HANA In-Place Conversion and Remote Conversion (Receiver)",
+                            "RefUrl": "/notes/2371120 "
+                        },
+                        {
+                            "RefNumber": "1932459",
+                            "RefComponent": "BW-BCT-GEN",
+                            "RefTitle": "DataSource: Loading of data into multiple target systems is not supported",
+                            "RefUrl": "/notes/1932459 "
+                        },
+                        {
+                            "RefNumber": "2496706",
+                            "RefComponent": "BW-B4H-LM",
+                            "RefTitle": "BEx Web Application Add-on for SAP BW/4HANA - Deployment and Limitations",
+                            "RefUrl": "/notes/2496706 "
+                        },
+                        {
+                            "RefNumber": "2513088",
+                            "RefComponent": "CA-LT-BW4",
+                            "RefTitle": "SAP BW/4HANA Conversion Cockpit - System Setup & Pre-requisite",
+                            "RefUrl": "/notes/2513088 "
+                        },
+                        {
+                            "RefNumber": "2361350",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "Transport check for RS_B4HANA_CONVERSION_CONTROL",
+                            "RefUrl": "/notes/2361350 "
+                        },
+                        {
+                            "RefNumber": "2404023",
+                            "RefComponent": "BW-B4H-CNV",
+                            "RefTitle": "Syntax Error in CL_RSMD_RS_UTILITIES - RSRTS_CDS_VAR_F4_BADI conversion",
+                            "RefUrl": "/notes/2404023 "
+                        }
+                    ]
+                }
+            },
+            "Validity": {
+                "_label": "Software Components",
+                "_columnNames": {
+                    "SoftwareComponent": "Software Component",
+                    "From": "From",
+                    "To": "To"
+                },
+                "Items": [
+                    {
+                        "SoftwareComponent": "SAP_BW",
+                        "From": "700",
+                        "To": "702+"
+                    },
+                    {
+                        "SoftwareComponent": "SAP_BW",
+                        "From": "730",
+                        "To": "730+"
+                    },
+                    {
+                        "SoftwareComponent": "SAP_BW",
+                        "From": "731",
+                        "To": "731+"
+                    },
+                    {
+                        "SoftwareComponent": "SAP_BW",
+                        "From": "740",
+                        "To": "740+"
+                    },
+                    {
+                        "SoftwareComponent": "SAP_BW",
+                        "From": "750",
+                        "To": "751+"
+                    }
+                ]
+            },
+            "SupportPackage": {
+                "_label": "Support Package",
+                "_columnNames": {
+                    "SoftwareComponentVersion": "Software Component Version",
+                    "SupportPackage": "Support Package",
+                    "URL": "Url"
+                },
+                "Items": []
+            },
+            "SupportPackagePatch": {
+                "_label": "Support Package Patches",
+                "_columnNames": {
+                    "SoftwareComponentVersion": "Software Component Version",
+                    "SupportPackage": "Support Packages",
+                    "SupportPackagePatch": "Patch Level",
+                    "URL": "Url"
+                },
+                "Items": []
+            },
+            "CorrectionsInfo": {
+                "_label": "Information about Correction Instructions",
+                "Corrections": {
+                    "_label": "Correction",
+                    "value": 0,
+                    "state": "None"
+                },
+                "ManualActivities": {
+                    "_label": "Manual Activities",
+                    "value": 0,
+                    "state": "Success"
+                },
+                "Prerequisites": {
+                    "_label": "Prerequisites",
+                    "value": 0,
+                    "state": "None"
+                }
+            },
+            "Preconditions": {
+                "_label": "Prerequisites",
+                "_columnNames": {
+                    "SoftwareComponent": "Software Component",
+                    "ValidFrom": "From",
+                    "ValidTo": "To",
+                    "Number": "SAP Note/KBA",
+                    "URL": "Url",
+                    "Title": "Title",
+                    "Component": "Component"
+                },
+                "Items": []
+            },
+            "Rating": {
+                "_label": "Rate this document",
+                "RatingHelpful": {
+                    "_label": "Rated Helpful",
+                    "Helpful-Yes": "0 people"
+                },
+                "RatingQuality": {
+                    "_label": "Quality Rating"
+                },
+                "Quality-AVG": 0.0,
+                "Quality-Votes": 0,
+                "RatingQualityDetails": {
+                    "Stars-1": 0,
+                    "Stars-2": 0,
+                    "Stars-3": 0,
+                    "Stars-4": 0,
+                    "Stars-5": 0
+                },
+                "RatingQuestions": []
+            },
+            "SideEffects": {
+                "_label": "Side Effects",
+                "SideEffectsCausing": {
+                    "_label": "This document solves side effects",
+                    "_columnNames": {
+                        "RefNumber": "SAP Note/KBA",
+                        "RefTitle": "Title",
+                        "RefUrl": "Url"
+                    },
+                    "Items": []
+                },
+                "SideEffectsSolving": {
+                    "_label": "This document is causing side effects",
+                    "_columnNames": {
+                        "RefNumber": "SAP Note/KBA",
+                        "RefTitle": "Title",
+                        "RefUrl": "Url"
+                    },
+                    "Items": []
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SAP Note Viewer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+    <div class="note-container">
+        <div class="note-header">
+            <div style="float: right; margin: 10px;">
+                <img src="img/nnn_logo.svg" alt="No Nonsense Notes Logo" height="50">
+            </div>
+            <nav class="breadcrumbs" id="breadcrumbs"></nav>
+            <h1 id="note-title">Loading SAP Note...</h1>
+            <div class="metadata">
+                <span id="note-type-version">&nbsp;</span>
+                <span id="note-date">&nbsp;</span>
+            </div>
+        </div>
+        <div id="note-content" class="note-content">
+            <div class="left-column">
+                <div id="note-description"></div>
+            </div>
+            <div class="right-column">
+                <div class="section">
+                    <h3>Component</h3>
+                    <div id="note-component"></div>
+                </div>
+                <div class="section">
+                    <h3>Category</h3>
+                    <div id="note-category"></div>
+                </div>
+                <div class="section">
+                    <h3>Priority</h3>
+                    <div id="note-priority"></div>
+                </div>
+                <div class="section">
+                    <h3>Release Status</h3>
+                    <div id="note-status"></div>
+                </div>
+                <div class="section">
+                    <h3>Stats</h3>
+                    <div id="note-stats"></div>
+                </div>
+            </div>
+        </div>
+        <div id="note-content-wide" class="note-content-wide">
+            <div id="note-software-components-all" class="section">
+                <h3>Software Components</h3>
+                <div id="note-software-components"></div>
+            </div>
+            <div id="note-support-packages-all" class="section">
+                <h3>Support Packages</h3>
+                <div id="note-support-packages"></div>
+            </div>
+            <div id="note-references-all" class="section">
+                <h3>References</h3>
+                <div id="note-references"></div>
+            </div>
+            <div id="note-attachments-all" class="section">
+                <h3>Attachments</h3>
+                <div id="note-attachments"></div>
+            </div>
+            <div id="note-attributes-all" class="section">
+                <h3>Attributes</h3>
+                <div id="note-attributes"></div>
+            </div>
+        </div>
+    </div>
+    <button id="scrollToTop" class="scroll-to-top" title="Scroll to top"></button>
+    <script src="js/fetch.js"></script>
+    <script src="js/format.js"></script>
+    <script src="js/viewer.js"></script>
+</body>
+
+</html>

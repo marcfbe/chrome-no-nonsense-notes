@@ -1,0 +1,29 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with gradient -->
+  <defs>
+    <radialGradient id="circleGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="20%" style="stop-color:#60a5fa"/>
+      <stop offset="100%" style="stop-color:#1e3a8a"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="60" fill="url(#circleGradient)" stroke="#ffffff" stroke-width="4"/>
+  
+  <!-- Notepad icon -->
+  <rect x="32" y="28" width="64" height="72" rx="4" fill="#ffffff"/>
+  
+  <!-- Spiral binding holes -->
+  <circle cx="40" cy="36" r="2" fill="#2563eb"/>
+  <circle cx="48" cy="36" r="2" fill="#2563eb"/>
+  <circle cx="56" cy="36" r="2" fill="#2563eb"/>
+  <circle cx="64" cy="36" r="2" fill="#2563eb"/>
+  <circle cx="72" cy="36" r="2" fill="#2563eb"/>
+  <circle cx="80" cy="36" r="2" fill="#2563eb"/>
+  <circle cx="88" cy="36" r="2" fill="#2563eb"/>
+  
+  <!-- NNN text -->
+  <text x="39" y="65" font-family="Arial" font-size="23" font-weight="bold" fill="#2563eb">NNN</text>
+
+  <!-- Logo -->
+  <rect x="40" y="74" width="16" height="16" fill="#2563eb"/>
+  <polygon points="51,74 56,90 72,74" fill="#2563eb"/>
+</svg> 

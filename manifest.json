@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "No Nonsense Notes for SAP",
+  "version": "1.0.0",
+  "description": "Fast local viewer for SAP Notes",
+  "permissions": [],
+  "host_permissions": [
+    "https://me.sap.com/*"
+  ],
+  "web_accessible_resources": [{
+    "resources": ["viewer.html", "css/*", "fonts/*", "js/*", "favicon.ico"],
+    "matches": ["<all_urls>"]
+  }],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; connect-src https://me.sap.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+  },
+  "omnibox": {
+    "keyword": "note"
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "icons": {
+    "128": "img/nnn_logo.png"
+  }
+}
