@@ -4,6 +4,8 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?color=success)](https://github.com/abapPM/.github/blob/main/CODE_OF_CONDUCT.md)
 [![REUSE Status](https://api.reuse.software/badge/github.com/marcfbe/chrome-no-nonsense-notes)](https://api.reuse.software/info/github.com/marcfbe/chrome-no-nonsense-notes)
 
+![NNN](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/img/nnn_logo.svg)
+
 # No Nonsense Notes for SAP
 
 A Chrome extension for displaying SAP Notes and Knowledge Base Articles at an incredible speed (compared to SAP for Me)
