@@ -117,8 +117,40 @@ function formatLongText(longText) {
 
     // 6. Convert plain "Note \d+" references to viewer.html links
     formattedText = formattedText.replace(
-        /(?<!<a[^>]*>.*?)Note\s+(\d+)(?![^<]*<\/a>)/gi,
-        'Note <a href="viewer.html?id=$1">$1</a>'
+        /\bNote\s+(\d+)\b/gi,
+        (match, noteId) => {
+            // Check if this is already inside an <a> tag
+            const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
+            const afterMatch = formattedText.substring(formattedText.indexOf(match) + match.length);
+            
+            // Simple check: if there's an unclosed <a> tag before this match
+            const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
+            const closeTags = (beforeMatch.match(/<\/a>/gi) || []).length;
+            const insideLink = openTags > closeTags;
+            
+            if (insideLink) {
+                return match; // Don't modify if already inside a link
+            }
+            
+            return `Note <a href="viewer.html?id=${noteId}">${noteId}</a>`;
+        }
+    );
+
+    // 7. Convert bold/italic note references to viewer.html links
+    formattedText = formattedText.replace(
+        /Note\s+(?:<(?:strong|b|i)>)(\d+)(?:<\/(?:strong|b|i)>)/gi,
+        (match, noteId) => {
+            // Check if this is already inside an <a> tag
+            const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
+            const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
+            const closeTags = (beforeMatch.match(/<\/a>/gi) || []).length;
+            
+            if (openTags > closeTags) {
+                return match; // Don't modify if already inside a link
+            }
+            
+            return `Note <a href="viewer.html?id=${noteId}">${noteId}</a>`;
+        }
     );
 
     return formattedText;

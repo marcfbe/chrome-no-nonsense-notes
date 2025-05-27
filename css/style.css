@@ -327,9 +327,26 @@ table {
     display: flex;
     flex-direction: column;
     padding: 8px;
+    color: #131E29;
     background-color: #f8f9fa;
     border-radius: 4px;
     border-left: 3px solid #0070f2;
+}
+
+.stat-item.state-success {
+    border-left-color: #6c757d;
+}
+
+.stat-item.state-warning {
+    border-left-color: #ffc107;
+}
+
+.stat-item.state-error {
+    border-left-color: #dc3545;
+}
+
+.stat-item.state-none {
+    border-left-color: #6c757d;
 }
 
 .stat-label {
@@ -341,10 +358,210 @@ table {
 
 .stat-value {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
     color: #131E29;
 }
 
 .stat-value.highlight {
     color: #0070f2;
+}
+
+.support-packages-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.support-packages-table th {
+    background-color: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.support-packages-table td {
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    vertical-align: top;
+}
+
+.support-packages-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.support-packages-table tr:hover {
+    background-color: #e9ecef;
+}
+
+.support-packages-table a {
+    color: #0070f2;
+    text-decoration: none;
+}
+
+.support-packages-table a:hover {
+    text-decoration: underline;
+}
+
+.attachments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.attachments-table th {
+    background-color: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.attachments-table td {
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    vertical-align: top;
+}
+
+.attachments-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.attachments-table tr:hover {
+    background-color: #e9ecef;
+}
+
+.attachments-table a {
+    color: #0070f2;
+    text-decoration: none;
+}
+
+.attachments-table a:hover {
+    text-decoration: underline;
+}
+
+.attributes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.attributes-table th {
+    background-color: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.attributes-table td {
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    vertical-align: top;
+}
+
+.attributes-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.attributes-table tr:hover {
+    background-color: #e9ecef;
+}
+
+.attributes-table a {
+    color: #0070f2;
+    text-decoration: none;
+}
+
+.attributes-table a:hover {
+    text-decoration: underline;
+}
+
+.prerequisites-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.prerequisites-table th {
+    background-color: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.prerequisites-table td {
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    vertical-align: top;
+}
+
+.prerequisites-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.prerequisites-table tr:hover {
+    background-color: #e9ecef;
+}
+
+.prerequisites-table a {
+    color: #0070f2;
+    text-decoration: none;
+}
+
+.prerequisites-table a:hover {
+    text-decoration: underline;
+}
+
+.prerequisites-subtitle {
+    margin: 0 0 20px 0;
+    color: #666;
+}
+
+.corrections-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.corrections-table th {
+    background-color: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.corrections-table td {
+    border: 1px solid #e5e5e5;
+    padding: 8px 12px;
+    vertical-align: top;
+}
+
+.corrections-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.corrections-table tr:hover {
+    background-color: #e9ecef;
+}
+
+.corrections-table a {
+    color: #0070f2;
+    text-decoration: none;
+}
+
+.corrections-table a:hover {
+    text-decoration: underline;
 }
