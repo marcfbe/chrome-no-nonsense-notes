@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const noteId = urlParams.get('id');
+    const language = urlParams.get('t');
 
     if (!noteId) {
         const error = new Error('Invalid SAP Note');
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        const note = await fetchSAPNote(noteId);
+        const note = await fetchSAPNote(noteId, language);
 
         // console.log('Fetched note data:', note); // Add for debugging
 
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const stats = domId('stats');
             const statistics = calculateNoteStats(note);
 
-            if (statistics) {
+            if (statistics.totalCount > 0) {
                 const statsItems = domId('stats-items');
                 const isKBA = note.Header.Type.value !== 'SAP Note';
                 renderStats(statsItems, note, statistics, isKBA);
@@ -75,6 +76,71 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Description (HTML content)
         if (note.LongText && note.LongText.value) {
             domId('description').innerHTML = formatLongText(note.LongText.value);
+        }
+
+        // CVSS
+        domTextId('cvss-label', note.CVSS._label);
+
+        const cvss = domId('cvss');
+
+        if (note.CVSS) {
+            const cvssItems = domId('cvss-items');
+
+            // CVSS Score
+            domTextId('cvss-score-label', note.CVSS.CVSS_Score._label);
+            const score = parseFloat(note.CVSS.CVSS_Score.value);
+            domTextId('cvss-score-value', score + ' / 10');
+            const cvssScore = domId('cvss-score-value');
+
+            // Color based on severity
+            if (score === 0) {
+                cvssScore.style.color = '#666666'; // None - Gray
+            } else if (score <= 3.9) {
+                cvssScore.style.color = '#3CB371'; // Low - Green
+            } else if (score <= 6.9) {
+                cvssScore.style.color = '#FFD700'; // Medium - Yellow
+            } else if (score <= 8.9) {
+                cvssScore.style.color = '#FFA500'; // High - Orange
+            } else {
+                cvssScore.style.color = '#DC143C'; // Critical - Red
+            }
+
+            // CVSS Vector
+            domTextId('cvss-vector-label', note.CVSS.CVSS_Vector._label);
+            domTextId('cvss-vector-value', note.CVSS.CVSS_Vector.vectorValue);
+
+            const table = domCreate('table');
+            const thead = domCreate('thead');
+            const headerRow = domCreate('tr');
+
+            const columns = getColumns(note.CVSS.CVSS_Vector);
+            columns.forEach(column => {
+                const th = domText('th', column.value);
+                domAppend(headerRow, th);
+            });
+
+            domAppend(thead, headerRow);
+            domAppend(table, thead);
+
+            const tbody = domCreate('tbody');
+            note.CVSS.CVSS_Vector.Items.forEach(item => {
+                const row = domCreate('tr');
+
+                const keyCell = domText('td', item.Key);
+                keyCell.style.fontWeight = 'bold';
+                keyCell.style.whiteSpace = 'nowrap';
+                domAppend(row, keyCell);
+
+                const valueCell = domText('td', item.Value);
+                domAppend(row, valueCell);
+
+                domAppend(tbody, row);
+            });
+
+            domAppend(table, tbody);
+            domAppend(cvssItems, table);
+        } else {
+            domHide(cvss);
         }
 
         // Validity (Software Components / Products)
@@ -654,12 +720,9 @@ function calculateNoteStats(note) {
     stats.attachments = note.Attachments?.Items?.length || 0;
     stats.attachmentsState = 'None';
 
-    const totalCount = stats.corrections + stats.manualActivities + stats.prerequisites + stats.attachments;
-    if (totalCount === 0) {
-        return null;
-    } else {
-        return stats;
-    }
+    stats.totalCount = stats.corrections + stats.manualActivities + stats.prerequisites + stats.attachments;
+
+    return stats;
 }
 
 function renderStats(container, note, stats, isKBA = false) {
@@ -715,4 +778,4 @@ function getColumns(sectionData) {
             }));
     }
     return [];
-} 
+}

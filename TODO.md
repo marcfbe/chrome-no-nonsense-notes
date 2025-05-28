@@ -4,19 +4,14 @@
 
 ### SAP Notes
 
-- ManualActions
+- Priority alerts (HotNews, very high)
 - SideEffects
 
 ### KBAs
 
 - Rating
-- Products
-
-## Security
-
-- CV
 
 ## Features
 
 - Next Note Input
-- Language Switcher
+- Language Switcher (DisclaimerForMachineTranslation)

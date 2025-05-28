@@ -1,5 +1,6 @@
-async function fetchSAPNote(noteId) {
-    const response = await fetch(`https://me.sap.com/backend/raw/sapnotes/Detail?q=${noteId}&isVTEnabled=true`, {
+async function fetchSAPNote(noteId, language) {
+    const lang = language ? `&t=${language}` : '';
+    const response = await fetch(`https://me.sap.com/backend/raw/sapnotes/Detail?q=${noteId}&isVTEnabled=true${lang}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
