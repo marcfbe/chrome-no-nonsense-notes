@@ -4,96 +4,96 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!noteId) {
         const error = new Error('Invalid SAP Note');
-        displayErrorDisclaimer(error);
+        displayError(error);
         return;
     }
 
     try {
         const note = await fetchSAPNote(noteId);
-        
-        // console.log('Fetched note data:', note); // Add debugging
+
+        // console.log('Fetched note data:', note); // Add for debugging
 
         // Set breadcrumbs
-        const breadcrumbsDiv = domId('breadcrumbs');
-        if (note.Header && note.Header.SAPComponentPath && note.Header.SAPComponentPath.length > 0) {
+        const breadcrumbs = domId('breadcrumbs');
+
+        if (note.Header.SAPComponentPath && Array.isArray(note.Header.SAPComponentPath) && note.Header.SAPComponentPath.length > 0) {
             const breadcrumbsList = domCreate('ol', 'breadcrumbs-list');
 
-            note.Header.SAPComponentPath.forEach((pathItem, index) => {
+            note.Header.SAPComponentPath.forEach((pathItem) => {
                 const listItem = domCreate('li', 'breadcrumb-item');
-
-                if (pathItem._url) {
-                    const link = domCreate('a');
-                    link.href = `https://me.sap.com${pathItem._url}`;
-                    link.textContent = pathItem._label;
-                    link.target = '_blank';
-                    domAppend(listItem, link);
-                } else {
-                    listItem.textContent = pathItem._label;
-                }
-
+                const link = domLink(pathItem._label, pathItem._url);
+                domAppend(listItem, link);
                 domAppend(breadcrumbsList, listItem);
             });
 
-            domAppend(breadcrumbsDiv, breadcrumbsList);
+            domAppend(breadcrumbs, breadcrumbsList);
         }
 
         if (note.Title && note.Title.value) {
             document.title = note.Title.value.replace(/\.$/, '');
-            domId('note-title').textContent = document.title;
+            domTextId('title', document.title);
         }
-        
+
         if (note.Header) {
             if (note.Header.Type && note.Header.Version) {
-                domId('note-type-version').textContent = `${note.Header.Type.value}, Version: ${note.Header.Version.value}`;
+                domTextId('type-version', `${note.Header.Type.value}, ${note.Header.Version._label}: ${note.Header.Version.value}`);
             }
             if (note.Header.ReleasedOn && note.Header.ReleasedOn.value) {
-                domId('note-date').textContent = `Released: ${normalizeDateFormat(note.Header.ReleasedOn.value)}`;
+                domTextId('date', `${note.Header.ReleasedOn._label}: ${normalizeDateFormat(note.Header.ReleasedOn.value)}`);
             }
-            
+
             if (note.Header.SAPComponentKey) {
-                domId('note-component').textContent = note.Header.SAPComponentKey.value || '';
+                domTextId('component-label', note.Header.SAPComponentKey._label);
+                domTextId('component', note.Header.SAPComponentKey.value);
             }
             if (note.Header.Category) {
-                domId('note-category').textContent = note.Header.Category.value || '';
+                domTextId('category-label', note.Header.Category._label);
+                domTextId('category', note.Header.Category.value);
             }
             if (note.Header.Priority) {
-                domId('note-priority').textContent = note.Header.Priority.value || '';
+                domTextId('priority-label', note.Header.Priority._label);
+                domTextId('priority', note.Header.Priority.value);
             }
             if (note.Header.Status) {
-                domId('note-status').textContent = note.Header.Status.value || '';
+                domTextId('status-label', note.Header.Status._label);
+                domTextId('status', note.Header.Status.value);
             }
 
-            // Stats
-            const statsDiv = domId('note-stats');
-            const stats = calculateNoteStats(note);
+            // Statistics
+            const stats = domId('stats');
+            const statistics = calculateNoteStats(note);
 
-            if (stats.size > 0) {
+            if (statistics) {
+                const statsItems = domId('stats-items');
                 const isKBA = note.Header.Type.value !== 'SAP Note';
-                renderStats(statsDiv, stats, isKBA);
+                renderStats(statsItems, note, statistics, isKBA);
             } else {
-                statsDiv.style.display = 'none';
+                domHide(stats);
             }
         }
 
         // Description (HTML content)
         if (note.LongText && note.LongText.value) {
-            domId('note-description').innerHTML = formatLongText(note.LongText.value);
+            domId('description').innerHTML = formatLongText(note.LongText.value);
         }
 
-        // Software components
-        const softwareComponentsDiv = domId('note-software-components');
-        const softwareComponentsSection = domId('note-software-components-all');
+        // Validity (Software Components / Products)
+        domTextId('validity-label', note.Validity._label);
 
-        if (note.Validity && note.Validity.Items && note.Validity.Items.length > 0) {
-            const table = domCreate('table', 'software-components-table');
+        const validity = domId('validity');
 
+        if (hasValues(note.Validity)) {
+            const validityItems = domId('validity-items');
+            const table = domCreate('table');
             const thead = domCreate('thead');
             const headerRow = domCreate('tr');
 
-            const headers = ['Software Component', 'From', 'To'];
-            headers.forEach(headerText => {
-                const th = domCreate('th');
-                th.textContent = headerText;
+            const columns = getColumns(note.Validity);
+            columns.forEach(column => {
+                const th = domText('th', column.value);
+                if (column.key === 'Product' || column.key === 'SoftwareComponent') {
+                    th.style.width = '22em';
+                }
                 domAppend(headerRow, th);
             });
 
@@ -101,55 +101,59 @@ document.addEventListener('DOMContentLoaded', async () => {
             domAppend(table, thead);
 
             const tbody = domCreate('tbody');
-            note.Validity.Items.forEach(component => {
+            note.Validity.Items.forEach(item => {
                 const row = domCreate('tr');
 
-                // Software Component
-                const componentCell = domCreate('td');
-                componentCell.textContent = component.SoftwareComponent;
-                domAppend(row, componentCell);
+                if (item.Product) {
+                    const productCell = domText('td', item.Product);
+                    domAppend(row, productCell);
+                }
 
-                // From
-                const fromCell = domCreate('td');
-                fromCell.textContent = component.From;
-                domAppend(row, fromCell);
+                if (item.SoftwareComponent) {
+                    const componentCell = domText('td', item.SoftwareComponent);
+                    domAppend(row, componentCell);
+                }
 
-                // To
-                const toCell = domCreate('td');
-                toCell.textContent = component.To;
-                domAppend(row, toCell);
+                if (item.From) {
+                    const fromCell = domText('td', item.From);
+                    domAppend(row, fromCell);
+                }
+
+                if (item.To) {
+                    const toCell = domText('td', item.To);
+                    domAppend(row, toCell);
+                }
 
                 domAppend(tbody, row);
             });
 
             domAppend(table, tbody);
-            domAppend(softwareComponentsDiv, table);
+            domAppend(validityItems, table);
         } else {
-            softwareComponentsSection.style.display = 'none';
+            domHide(validity);
         }
 
         // Corrections
-        const correctionsDiv = domId('note-corrections');
-        const correctionsSection = domId('note-corrections-all');
-        const hasCorrections = note.CorrectionInstructions && note.CorrectionInstructions.Items && note.CorrectionInstructions.Items.length > 0;
-        const hasPrerequisites = note.Preconditions && note.Preconditions.Items && note.Preconditions.Items.length > 0;
-        
-        if (hasCorrections || hasPrerequisites) {
+        domTextId('corrections-label', note.CorrectionsInfo.Corrections._label);
+
+        const corrections = domId('corrections');
+        const hasCorrections = (hasValues(note.CorrectionInstructions) || hasValues(note.Preconditions) || note.ManualActions.value);
+
+        if (hasCorrections) {
             // Correction Instructions
-            if (hasCorrections) {
-                const heading = domCreate('h4');
-                heading.textContent = 'Correction instructions';
-                domAppend(correctionsDiv, heading);
+            domTextId('corrections-instructions-label', note.CorrectionInstructions._label);
 
-                const table = domCreate('table', 'corrections-table');
+            const correctionInstructions = domId('corrections-instructions');
 
+            if (hasValues(note.CorrectionInstructions)) {
+                const correctionsInstructionsItems = domId('corrections-instructions-items');
+                const table = domCreate('table');
                 const thead = domCreate('thead');
                 const headerRow = domCreate('tr');
 
-                const headers = ['Software Component', 'Number of Correction Instructions'];
-                headers.forEach(headerText => {
-                    const th = domCreate('th');
-                    th.textContent = headerText;
+                const columns = getColumns(note.CorrectionInstructions);
+                columns.forEach(column => {
+                    const th = domText('th', column.value);
                     domAppend(headerRow, th);
                 });
 
@@ -161,47 +165,38 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const row = domCreate('tr');
 
                     // Software Component
-                    const componentCell = domCreate('td');
-                    componentCell.textContent = correction.SoftwareComponent;
+                    const componentCell = domText('td', correction.SoftwareComponent);
                     domAppend(row, componentCell);
 
                     // Number of Correction Instructions (as link if URL exists)
                     const numberCell = domCreate('td');
-                    if (correction.URL) {
-                        const link = domCreate('a');
-                        link.href = `https://me.sap.com${correction.URL}`;
-                        link.textContent = correction.NumberOfCorrin;
-                        link.target = '_blank';
-                        link.rel = 'noopener noreferrer';
-                        domAppend(numberCell, link);
-                    } else {
-                        numberCell.textContent = correction.NumberOfCorrin;
-                    }
+                    const link = domLink(correction.NumberOfCorrin + ' (details)', correction.URL);
+                    domAppend(numberCell, link);
                     domAppend(row, numberCell);
 
                     domAppend(tbody, row);
                 });
 
                 domAppend(table, tbody);
-                domAppend(correctionsDiv, table);
+                domAppend(correctionsInstructionsItems, table);
+            } else {
+                domHide(correctionInstructions);
             }
 
             // Prerequisites
-            if (hasPrerequisites) {
-                const heading = domCreate('h4');
-                heading.textContent = 'Prerequisites';
-                domAppend(correctionsDiv, heading);
+            domTextId('corrections-prerequisites-label', note.Preconditions._label);
 
-                const table = domCreate('table', 'prerequisites-table');
+            const prerequisites = domId('corrections-prerequisites');
 
+            if (hasValues(note.Preconditions)) {
+                const prerequisitesItems = domId('corrections-prerequisites-items');
+                const table = domCreate('table');
                 const thead = domCreate('thead');
                 const headerRow = domCreate('tr');
 
-                const headers = ['Software Component', 'From', 'To', 'SAP Note/KBA', 'Component', 'Title'];
-                headers.forEach(headerText => {
-                    const th = domCreate('th');
-                    th.textContent = headerText;
-                    th.style.whiteSpace = 'nowrap';
+                const columns = getColumns(note.Preconditions);
+                columns.forEach(column => {
+                    const th = domText('th', column.value);
                     domAppend(headerRow, th);
                 });
 
@@ -213,51 +208,37 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const row = domCreate('tr');
 
                     // Software Component
-                    const softwareComponentCell = domCreate('td');
-                    softwareComponentCell.textContent = prerequisite.SoftwareComponent;
+                    const softwareComponentCell = domText('td', prerequisite.SoftwareComponent);
                     softwareComponentCell.style.whiteSpace = 'nowrap';
                     domAppend(row, softwareComponentCell);
 
                     // From
-                    const fromCell = domCreate('td');
-                    fromCell.textContent = prerequisite.ValidFrom;
+                    const fromCell = domText('td', prerequisite.ValidFrom);
                     fromCell.style.whiteSpace = 'nowrap';
                     domAppend(row, fromCell);
 
                     // To
-                    const toCell = domCreate('td');
-                    toCell.textContent = prerequisite.ValidTo;
+                    const toCell = domText('td', prerequisite.ValidTo);
                     toCell.style.whiteSpace = 'nowrap';
                     domAppend(row, toCell);
 
                     // Note number (as link if URL exists)
                     const noteCell = domCreate('td');
-                    if (prerequisite.URL) {
-                        const link = domCreate('a');
-                        link.href = `viewer.html?id=${prerequisite.Number.trim()}`;
-                        link.textContent = prerequisite.Number;
-                        domAppend(noteCell, link);
-                    } else {
-                        noteCell.textContent = prerequisite.Number;
-                    }
+                    const link = domLink(prerequisite.Number, prerequisite.Number);
+                    domAppend(noteCell, link);
                     noteCell.style.whiteSpace = 'nowrap';
                     domAppend(row, noteCell);
 
                     // Component
-                    const componentCell = domCreate('td');
-                    componentCell.textContent = prerequisite.Component;
+                    const componentCell = domText('td', prerequisite.Component);
                     componentCell.style.whiteSpace = 'nowrap';
                     domAppend(row, componentCell);
 
                     // Title (as link if URL exists)
                     const titleCell = domCreate('td');
                     if (prerequisite.URL) {
-                        const link = domCreate('a');
-                        link.href = `viewer.html?id=${prerequisite.Number.trim()}`;
-                        link.textContent = prerequisite.Title;
+                        const link = domLink(prerequisite.Title, prerequisite.URL);
                         domAppend(titleCell, link);
-                    } else {
-                        titleCell.textContent = prerequisite.Title;
                     }
                     domAppend(row, titleCell);
 
@@ -265,26 +246,44 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 domAppend(table, tbody);
-                domAppend(correctionsDiv, table);
+                domAppend(prerequisitesItems, table);
+            } else {
+                domHide(prerequisites);
             }
+
+            // Manual Activities
+            domTextId('corrections-manual-activities-label', note.ManualActions._label);
+
+            const manualActivities = domId('corrections-manual-activities');
+
+            if (note.ManualActions.value) {
+                const manual = domId('corrections-manual-activities-items');
+                manual.innerHTML = normalizeManualActivities(note.ManualActions.value);
+            } else {
+                domHide(manualActivities);
+            }
+
         } else {
-            correctionsSection.style.display = 'none';
+            domHide(corrections);
         }
 
         // Support packages
-        const supportPackagesDiv = domId('note-support-packages');
-        const supportPackagesSection = domId('note-support-packages-all');
+        domTextId('support-packages-label', note.SupportPackage._label);
 
-        if (note.SupportPackage && note.SupportPackage.Items && note.SupportPackage.Items.length > 0) {
-            const table = domCreate('table', 'support-packages-table');
+        const supportPackages = domId('support-packages');
 
+        if (hasValues(note.SupportPackage)) {
+            const supportPackagesItems = domId('support-packages-items');
+            const table = domCreate('table');
             const thead = domCreate('thead');
             const headerRow = domCreate('tr');
 
-            const headers = ['Software Component Version', 'Support Package'];
-            headers.forEach(headerText => {
-                const th = domCreate('th');
-                th.textContent = headerText;
+            const columns = getColumns(note.SupportPackage);
+            columns.forEach(column => {
+                const th = domText('th', column.value);
+                if (column.key === 'SoftwareComponentVersion') {
+                    th.style.width = '24em';
+                }
                 domAppend(headerRow, th);
             });
 
@@ -296,59 +295,101 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const row = domCreate('tr');
 
                 // Software Component Version
-                const componentVersionCell = domCreate('td');
-                componentVersionCell.textContent = supportPackage.SoftwareComponentVersion;
+                const componentVersionCell = domText('td', supportPackage.SoftwareComponentVersion);
                 domAppend(row, componentVersionCell);
 
                 // Support Package (as link if URL exists)
-                const supportPackageCell = domCreate('td');
-                if (supportPackage.URL) {
-                    const link = domCreate('a');
-                    link.href = `https://me.sap.com${supportPackage.URL}`;
-                    link.textContent = supportPackage.SupportPackage;
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    domAppend(supportPackageCell, link);
-                } else {
-                    supportPackageCell.textContent = supportPackage.SupportPackage;
-                }
+                const supportPackageCell = domText('td');
+                const link = domLink(supportPackage.SupportPackage, supportPackage.URL);
+                domAppend(supportPackageCell, link);
                 domAppend(row, supportPackageCell);
 
                 domAppend(tbody, row);
             });
 
             domAppend(table, tbody);
-            domAppend(supportPackagesDiv, table);
+            domAppend(supportPackagesItems, table);
         } else {
-            supportPackagesSection.style.display = 'none';
+            domHide(supportPackages);
+        }
+
+        // Support package patches
+        domTextId('support-package-patches-label', note.SupportPackagePatch._label);
+
+        const supportPackagePatches = domId('support-package-patches');
+
+        if (hasValues(note.SupportPackagePatch)) {
+            const supportPackagePatchesItems = domId('support-package-patches-items');
+            const table = domCreate('table');
+            const thead = domCreate('thead');
+            const headerRow = domCreate('tr');
+
+            const columns = getColumns(note.SupportPackagePatch);
+            columns.forEach(column => {
+                const th = domText('th', column.value);
+                if (column.key === 'SoftwareComponentVersion') {
+                    th.style.width = '24em';
+                }
+                domAppend(headerRow, th);
+            });
+
+            domAppend(thead, headerRow);
+            domAppend(table, thead);
+
+            const tbody = domCreate('tbody');
+            note.SupportPackagePatch.Items.forEach(patch => {
+                const row = domCreate('tr');
+
+                // Software Component Version
+                const componentVersionCell = domText('td', patch.SoftwareComponentVersion);
+                domAppend(row, componentVersionCell);
+
+                // Support Package
+                const supportPackageCell = domText('td', patch.SupportPackage);
+                domAppend(row, supportPackageCell);
+
+                // Support Package Patch (as link if URL exists)
+                const patchCell = domCreate('td');
+                const link = domLink('Download', patch.URL);
+                domAppend(patchCell, link);
+                domAppend(row, patchCell);
+
+                domAppend(tbody, row);
+            });
+
+            domAppend(table, tbody);
+            domAppend(supportPackagePatchesItems, table);
+        } else {
+            domHide(supportPackagePatches);
         }
 
         // References
-        const referencesDiv = domId('note-references');
-        const referencesSection = domId('note-references-all');
-        const hasReferences = (note.References.RefTo.Items.length > 0 || note.References.RefBy.Items.length > 0);
+        domTextId('references-label', note.References._label);
+
+        const references = domId('references');
+        const hasReferences = (hasValues(note.References.RefTo) || hasValues(note.References.RefBy));
 
         if (hasReferences) {
             // "Reference to"
-            if (note.References.RefTo.Items.length > 0) {
-                const subtitle = domCreate('h4');
-                subtitle.textContent = 'This document refers to';
-                domAppend(referencesDiv, subtitle);
+            domTextId('references-ref-to-label', note.References.RefTo._label);
 
-                const table = domCreate('table', 'references-table');
+            const refTo = domId('references-ref-to');
 
+            if (hasValues(note.References.RefTo)) {
+                const refToItems = domId('references-ref-to-items');
+                const table = domCreate('table');
                 const thead = domCreate('thead');
                 const headerRow = domCreate('tr');
 
-                const headers = ['SAP Note/KBA', 'Component', 'Title'];
-                headers.forEach(headerText => {
-                    const th = domCreate('th');
-                    th.textContent = headerText;
-                    th.style.whiteSpace = 'nowrap';
-                    if (headerText === 'SAP Note/KBA') {
+                const columns = getColumns(note.References.RefTo);
+                columns.forEach(column => {
+                    const th = domText('th', column.value);
+                    if (column.key === 'RefNumber') {
+                        th.style.whiteSpace = 'nowrap';
                         th.style.width = '8em';
-                    } else if (headerText === 'Component') {
-                        th.style.width = '14em'; 
+                    } else if (column.key === 'RefComponent') {
+                        th.style.whiteSpace = 'nowrap';
+                        th.style.width = '14em';
                     }
                     domAppend(headerRow, th);
                 });
@@ -362,54 +403,51 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     // Note number
                     const noteCell = domCreate('td');
-                    const noteLink = domCreate('a');
-                    noteLink.href = `viewer.html?id=${ref.RefNumber}`;
-                    noteLink.textContent = ref.RefNumber;
-                    noteCell.style.whiteSpace = 'nowrap';
+                    const noteLink = domLink(ref.RefNumber, ref.RefNumber);
                     domAppend(noteCell, noteLink);
                     domAppend(row, noteCell);
 
                     // Component
-                    const componentCell = domCreate('td');
-                    componentCell.textContent = ref.RefComponent;
+                    const componentCell = domText('td', ref.RefComponent);
                     componentCell.style.whiteSpace = 'nowrap';
                     domAppend(row, componentCell);
 
                     // Title (as link)
                     const titleCell = domCreate('td');
-                    const link = domCreate('a');
-                    link.href = `viewer.html?id=${ref.RefNumber}`;
-                    link.textContent = ref.RefTitle;
-                    domAppend(titleCell, link);
+                    const titleLink = domLink(ref.RefTitle, ref.RefUrl);
+                    domAppend(titleCell, titleLink);
                     domAppend(row, titleCell);
 
                     domAppend(tbody, row);
                 });
 
                 domAppend(table, tbody);
-                domAppend(referencesDiv, table);
+                domAppend(refToItems, table);
+            } else {
+                domHide(refTo);
             }
 
             // "Referenced by"
-            if (note.References.RefBy.Items.length > 0) {
-                const subtitle = domCreate('h4');
-                subtitle.textContent = 'This document is referenced by';
-                domAppend(referencesDiv, subtitle);
+            domTextId('references-ref-by-label', note.References.RefBy._label);
 
-                const table = domCreate('table', 'references-table');
+            const refBy = domId('references-ref-by');
 
+            if (hasValues(note.References.RefBy)) {
+                const refByItems = domId('references-ref-by-items');
+
+                const table = domCreate('table');
                 const thead = domCreate('thead');
                 const headerRow = domCreate('tr');
 
-                const headers = ['SAP Note/KBA', 'Component', 'Title'];
-                headers.forEach(headerText => {
-                    const th = domCreate('th');
-                    th.textContent = headerText;
-                    th.style.whiteSpace = 'nowrap';
-                    if (headerText === 'SAP Note/KBA') {
+                const columns = getColumns(note.References.RefBy);
+                columns.forEach(column => {
+                    const th = domText('th', column.value);
+                    if (column.key === 'RefNumber') {
+                        th.style.whiteSpace = 'nowrap';
                         th.style.width = '8em';
-                    } else if (headerText === 'Component') {
-                        th.style.width = '14em'; 
+                    } else if (column.key === 'RefComponent') {
+                        th.style.whiteSpace = 'nowrap';
+                        th.style.width = '14em';
                     }
                     domAppend(headerRow, th);
                 });
@@ -423,51 +461,48 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     // Note number
                     const noteCell = domCreate('td');
-                    const noteLink = domCreate('a');
-                    noteLink.href = `viewer.html?id=${ref.RefNumber}`;
-                    noteLink.textContent = ref.RefNumber;
-                    noteCell.style.whiteSpace = 'nowrap';
+                    const noteLink = domLink(ref.RefNumber, ref.RefNumber);
                     domAppend(noteCell, noteLink);
                     domAppend(row, noteCell);
 
                     // Component
-                    const componentCell = domCreate('td');
-                    componentCell.textContent = ref.RefComponent;
+                    const componentCell = domText('td', ref.RefComponent);
                     componentCell.style.whiteSpace = 'nowrap';
                     domAppend(row, componentCell);
 
                     // Title (as link)
                     const titleCell = domCreate('td');
-                    const link = domCreate('a');
-                    link.href = `viewer.html?id=${ref.RefNumber}`;
-                    link.textContent = ref.RefTitle;
-                    domAppend(titleCell, link);
+                    const titleLink = domLink(ref.RefTitle, ref.RefUrl);
+                    domAppend(titleCell, titleLink);
                     domAppend(row, titleCell);
 
                     domAppend(tbody, row);
                 });
 
                 domAppend(table, tbody);
-                domAppend(referencesDiv, table);
+                domAppend(refByItems, table);
+            } else {
+                domHide(refBy);
             }
         } else {
-            referencesSection.style.display = 'none';
+            domHide(references);
         }
 
         // Attachments
-        const attachmentsDiv = domId('note-attachments');
-        const attachmentsSection = domId('note-attachments-all');
+        domTextId('attachments-label', note.Attachments._label);
 
-        if (note.Attachments && note.Attachments.Items && note.Attachments.Items.length > 0) {
-            const table = domCreate('table', 'attachments-table');
+        const attachments = domId('attachments');
+
+        if (hasValues(note.Attachments)) {
+            const attachmentsItems = domId('attachments-items');
+            const table = domCreate('table');
 
             const thead = domCreate('thead');
             const headerRow = domCreate('tr');
 
-            const headers = ['File Name', 'File Size (KB)', 'Type'];
-            headers.forEach(headerText => {
-                const th = domCreate('th');
-                th.textContent = headerText;
+            const columns = getColumns(note.Attachments);
+            columns.forEach(column => {
+                const th = domText('th', column.value);
                 domAppend(headerRow, th);
             });
 
@@ -480,46 +515,40 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 // File Name (as link)
                 const fileNameCell = domCreate('td');
-                const link = domCreate('a');
-                link.href = attachment.URL;
-                link.textContent = attachment.FileName;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
+                const link = domLink(attachment.FileName, attachment.URL);
                 domAppend(fileNameCell, link);
                 domAppend(row, fileNameCell);
 
                 // File Size
-                const fileSizeCell = domCreate('td');
-                fileSizeCell.textContent = attachment.FileSize;
-                fileSizeCell.style.textAlign = 'right';
+                const fileSizeCell = domText('td', attachment.FileSize + ' KB');
                 domAppend(row, fileSizeCell);
 
                 // MIME Type
-                const mimeTypeCell = domCreate('td');
-                mimeTypeCell.textContent = attachment.MimeType;
+                const mimeTypeCell = domText('td', attachment.MimeType);
                 domAppend(row, mimeTypeCell);
 
                 domAppend(tbody, row);
             });
 
             domAppend(table, tbody);
-            domAppend(attachmentsDiv, table);
+            domAppend(attachmentsItems, table);
         } else {
-            attachmentsSection.style.display = 'none';
+            domHide(attachments);
         }
 
         // Attributes
-        const attributesDiv = domId('note-attributes');
-        const attributesSection = domId('note-attributes-all');
+        domTextId('attributes-label', note.Attributes._label);
 
-        if (note.Attributes && note.Attributes.Items && note.Attributes.Items.length > 0) {
-            const table = domCreate('table', 'attributes-table');
+        const attributes = domId('attributes');
+
+        if (hasValues(note.Attributes)) {
+            const attributesItems = domId('attributes-items');
+            const table = domCreate('table');
 
             note.Attributes.Items.forEach(attr => {
                 const row = domCreate('tr');
 
-                const keyCell = domCreate('td');
-                keyCell.textContent = attr.Key;
+                const keyCell = domText('td', attr.Key);
                 keyCell.style.fontWeight = 'bold';
                 keyCell.style.whiteSpace = 'nowrap';
                 domAppend(row, keyCell);
@@ -531,66 +560,49 @@ document.addEventListener('DOMContentLoaded', async () => {
                 domAppend(table, row);
             });
 
-            domAppend(attributesDiv, table);
+            domAppend(attributesItems, table);
         } else {
-            attributesSection.style.display = 'none';
+            domHide(attributes);
         }
 
         // Show the content after everything is loaded
-        const noteContent = domId('note-content');
-        const noteContentWide = domId('note-content-wide');
-
-        if (noteContent) {
-            noteContent.classList.add('loaded');
-        }
-        if (noteContentWide) {
-            noteContentWide.classList.add('loaded');
-        }
+        domId('content').classList.add('loaded');
+        domId('content-wide').classList.add('loaded');
 
     } catch (error) {
-        // console.error('Error details:', error); // Add debugging
-        displayErrorDisclaimer(error, noteId);
+        // console.error('Error details:', error); // Add for debugging
+        displayError(error, noteId);
     }
 });
 
-function displayErrorDisclaimer(error, noteId = '') {
+function displayError(error, noteId = '') {
     // Update title to show error
     document.title = `Error - SAP Note ${noteId}`;
-    domId('note-title').textContent = `Error Loading SAP Note ${noteId}`;
+    domTextId('title', `Error loading SAP Note ${noteId}`);
 
     const errorDisclaimer = domCreate('div');
     errorDisclaimer.id = 'DISCLAIMER';
 
-    const errorTitle = domCreate('strong');
-    errorTitle.textContent = error.code ? error.code + ': ' : '';
-
-    const errorMessage = domCreate('span');
-    errorMessage.textContent = error.message;
+    const errorTitle = domText('strong', error.code ? error.code + ': ' : '');
+    const errorMessage = domText('span', error.message);
 
     domAppend(errorDisclaimer, errorTitle);
     domAppend(errorDisclaimer, errorMessage);
 
-    const noteContent = domId('note-content');
+    const noteContent = domId('content');
     const leftColumn = noteContent.querySelector('.left-column');
     if (leftColumn) {
         domAppend(leftColumn, errorDisclaimer);
     }
 
-    const sections = [
+    [
         noteContent.querySelector('.right-column'),
-        domId('note-type-version'),
-        domId('note-date'),
-        domId('note-content-wide')
-    ];
-    sections.forEach(section => {
-        if (section) {
-            section.style.display = 'none';
-        }
-    });
+        domId('type-version'),
+        domId('date'),
+        domId('content-wide')
+    ].forEach(domHide);
 
-    if (noteContent) {
-        noteContent.classList.add('loaded');
-    }
+    noteContent.classList.add('loaded');
 }
 
 // Scroll to top functionality
@@ -599,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show/hide button based on scroll position
     window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
+        if (window.scrollY > 300) {
             scrollToTopBtn.classList.add('visible');
         } else {
             scrollToTopBtn.classList.remove('visible');
@@ -617,73 +629,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function calculateNoteStats(note) {
     const stats = {};
-    
+
     if (note.CorrectionsInfo) {
         stats.corrections = note.CorrectionsInfo.Corrections?.value || 0;
         stats.correctionsState = note.CorrectionsInfo.Corrections?.state || 'None';
-        
+
         stats.manualActivities = note.CorrectionsInfo.ManualActivities?.value || 0;
         stats.manualActivitiesState = note.CorrectionsInfo.ManualActivities?.state || 'None';
-        
+
         stats.prerequisites = note.CorrectionsInfo.Prerequisites?.value || 0;
         stats.prerequisitesState = note.CorrectionsInfo.Prerequisites?.state || 'None';
     } else {
         // Fallback to counting items if CorrectionsInfo is not available
         stats.corrections = note.CorrectionInstructions?.Items?.length || 0;
         stats.correctionsState = 'None';
-        
+
         stats.manualActivities = note.manualActivities?.Items?.length || 0;
         stats.manualActivitiesState = 'None';
-        
+
         stats.prerequisites = note.Preconditions?.Items?.length || 0;
         stats.prerequisitesState = 'None';
     }
-    
+
     stats.attachments = note.Attachments?.Items?.length || 0;
     stats.attachmentsState = 'None';
-    
+
     const totalCount = stats.corrections + stats.manualActivities + stats.prerequisites + stats.attachments;
     if (totalCount === 0) {
-        return {};
+        return null;
     } else {
         return stats;
     }
 }
 
-function renderStats(container, stats, isKBA = false) {
+function renderStats(container, note, stats, isKBA = false) {
     const statsGrid = domCreate('div', 'stats-grid');
-    
+
     const statItems = isKBA ? [
-        { label: 'Attachments', value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
+        { label: note.Attachments._label, value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
     ] : [
-        { label: 'Corrections', value: stats.corrections, highlight: stats.corrections > 0, state: stats.correctionsState },
-        { label: 'Manual Activities', value: stats.manualActivities, highlight: stats.manualActivities > 0, state: stats.manualActivitiesState },
-        { label: 'Prerequisites', value: stats.prerequisites, highlight: stats.prerequisites > 0, state: stats.prerequisitesState },
-        { label: 'Attachments', value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
+        { label: note.CorrectionsInfo.Corrections._label, value: stats.corrections, highlight: stats.corrections > 0, state: stats.correctionsState },
+        { label: note.CorrectionsInfo.ManualActivities._label, value: stats.manualActivities, highlight: stats.manualActivities > 0, state: stats.manualActivitiesState },
+        { label: note.CorrectionsInfo.Prerequisites._label, value: stats.prerequisites, highlight: stats.prerequisites > 0, state: stats.prerequisitesState },
+        { label: note.Attachments._label, value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
     ];
 
     statItems.forEach(item => {
         if (item.value > 0) {
             const statItem = domCreate('div', 'stat-item');
-            
+
             if (item.state) {
                 statItem.classList.add(`state-${item.state.toLowerCase()}`);
             }
-            
+
             const label = domCreate('div', 'stat-label');
             label.textContent = item.label;
-            
+
             const value = domCreate('div', 'stat-value');
             if (item.highlight) {
                 value.classList.add('highlight');
             }
             value.textContent = item.value;
-            
+
             domAppend(statItem, label);
             domAppend(statItem, value);
             domAppend(statsGrid, statItem);
         }
     });
-    
+
     domAppend(container, statsGrid);
+}
+
+function hasValues(sectionData) {
+    return (sectionData && sectionData.Items && sectionData.Items.length > 0)
+}
+
+function getColumns(sectionData) {
+    if (sectionData && sectionData._columnNames && typeof sectionData._columnNames === 'object') {
+        // Skip columns with URLs
+        return Object.entries(sectionData._columnNames)
+            .filter(([key]) => key !== 'URL' && key !== 'RefUrl')
+            .map(([key, value]) => ({
+                key: key,
+                value: value
+            }));
+    }
+    return [];
 } 

@@ -14,7 +14,53 @@ function domCreate(element, className = '') {
     return el;
 }
 
+function domText(element, textContent = '') {
+    const el = document.createElement(element);
+    if (textContent) {
+        el.textContent = String(textContent).trim();
+    }
+    return el;
+}
+
+function domTextId(id, textContent) {
+    const el = domId(id);
+    el.textContent = textContent;
+}
+
+function domLink(text, href) {
+    if (!href) {
+        return domText('span', text);
+    }
+    const ref = String(href).trim();
+    const link = domText('a', text);
+
+    // map to extension (same tab)
+    if (ref.startsWith('/notes/')) {
+        const noteId = ref.split('/')[2];
+        link.href = `viewer.html?id=${noteId}`;
+    } else if (ref.match(/^\d+\s*$/)) {
+        link.href = `viewer.html?id=${ref}`;
+    } else {
+        // map to website and open in new tab
+        if (ref.startsWith('/')) {
+            link.href = `https://me.sap.com${ref}`;
+        } else {
+            link.href = ref;
+        }
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+    }
+    return link;
+}
+
 function domAppend(parent, child) {
     parent.appendChild(child);
 }
 
+function domHide(element) {
+    element.style.display = 'none';
+}
+
+function domShow(element) {
+    element.style.display = 'block';
+}

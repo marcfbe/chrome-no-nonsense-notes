@@ -10,14 +10,14 @@ function normalizeDateFormat(dateString) {
 
     // Remove any extra whitespace
     const cleanDate = dateString.trim();
-    
+
     // Check for dd.mm.yyyy format (European)
     const europeanMatch = cleanDate.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
     if (europeanMatch) {
         const [, day, month, year] = europeanMatch;
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     }
-    
+
     // Check for mm/dd/yyyy format (American)
     const americanMatch = cleanDate.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
     if (americanMatch) {
@@ -38,17 +38,29 @@ function normalizeDateFormat(dateString) {
         const now = new Date();
         const diffTime = Math.abs(now - date);
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        
+
         if (diffDays === 0) return `${normalizedDate} (<span style="color: red">today</span>)`;
         if (diffDays === 1) return `${normalizedDate} (<span style="color: red">yesterday</span>)`;
         if (diffDays < 7) return `${normalizedDate} (<span style="color: orange">${diffDays} days ago</span>)`;
-        if (diffDays < 30) return `${normalizedDate} (<span style="color: #ffa07a">${Math.floor(diffDays/7)} weeks ago</span>)`;
-        if (diffDays < 365) return `${normalizedDate} (${Math.floor(diffDays/30)} months ago)`;
-        return `${normalizedDate} (${Math.floor(diffDays/365)} years ago)`;
+        if (diffDays < 30) return `${normalizedDate} (<span style="color: #ffa07a">${Math.floor(diffDays / 7)} weeks ago</span>)`;
+        if (diffDays < 365) return `${normalizedDate} (${Math.floor(diffDays / 30)} months ago)`;
+        return `${normalizedDate} (${Math.floor(diffDays / 365)} years ago)`;
     }
 
     // If already in yyyy-mm-dd format or unrecognized format, return as is
     return cleanDate;
+}
+
+/**
+ * Formats manual activities 
+ * @param {string} manualActivities - The manual activities to format
+ * @returns {string} Formatted manual activities
+ */
+function normalizeManualActivities(manualActivities) {
+    const html = manualActivities
+        .replace(' <code>   <P><br/><br/>', '<code><p>')
+        .replace('<br/></P> <br/>  </code> ', '</p></code>');
+    return html;
 }
 
 /**
@@ -109,34 +121,46 @@ function formatLongText(longText) {
         }
     );
 
-    // 5. Add target="_blank" to external links that don't already have it
+    // 5. Convert service.sap.com/sap/support/notes/ links to viewer.html
+    formattedText = formattedText.replace(
+        /<a[^>]*href=["']([^"']*service\.sap\.com\/sap\/support\/notes\/[^"']*)["'][^>]*>([^<]*)<\/a>/gi,
+        (match, url, text) => {
+            const noteId = extractNoteId(url);
+            if (noteId) {
+                return `<a href="viewer.html?id=${noteId}">${noteId}</a>`;
+            }
+            return match;
+        }
+    );
+
+    // 6. Add target="_blank" to external links that don't already have it
     formattedText = formattedText.replace(
         /<a([^>]*href=["'][^"']*(?!viewer\.html)[^"']*["'][^>]*)(?!.*target=)([^>]*)>/gi,
         '<a$1 target="_blank"$2>'
     );
 
-    // 6. Convert plain "Note \d+" references to viewer.html links
+    // 7. Convert plain "Note \d+" references to viewer.html links
     formattedText = formattedText.replace(
         /\bNote\s+(\d+)\b/gi,
         (match, noteId) => {
             // Check if this is already inside an <a> tag
             const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
             const afterMatch = formattedText.substring(formattedText.indexOf(match) + match.length);
-            
+
             // Simple check: if there's an unclosed <a> tag before this match
             const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
             const closeTags = (beforeMatch.match(/<\/a>/gi) || []).length;
             const insideLink = openTags > closeTags;
-            
+
             if (insideLink) {
                 return match; // Don't modify if already inside a link
             }
-            
+
             return `Note <a href="viewer.html?id=${noteId}">${noteId}</a>`;
         }
     );
 
-    // 7. Convert bold/italic note references to viewer.html links
+    // 8. Convert bold/italic note references to viewer.html links
     formattedText = formattedText.replace(
         /Note\s+(?:<(?:strong|b|i)>)(\d+)(?:<\/(?:strong|b|i)>)/gi,
         (match, noteId) => {
@@ -144,11 +168,11 @@ function formatLongText(longText) {
             const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
             const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
             const closeTags = (beforeMatch.match(/<\/a>/gi) || []).length;
-            
+
             if (openTags > closeTags) {
                 return match; // Don't modify if already inside a link
             }
-            
+
             return `Note <a href="viewer.html?id=${noteId}">${noteId}</a>`;
         }
     );

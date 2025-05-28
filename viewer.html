@@ -9,69 +9,91 @@
 </head>
 
 <body>
-    <div class="note-container">
-        <div class="note-header">
+    <div class="container">
+        <div class="header">
             <div style="float: right; margin: 10px;">
                 <img src="img/nnn_logo.svg" alt="No Nonsense Notes Logo" height="50">
             </div>
             <nav class="breadcrumbs" id="breadcrumbs"></nav>
-            <h1 id="note-title">Loading SAP Note...</h1>
+            <h1 id="title">Loading SAP Note...</h1>
             <div class="metadata">
-                <span id="note-type-version">&nbsp;</span>
-                <span id="note-date">&nbsp;</span>
+                <span id="type-version">&nbsp;</span>
+                <span id="date">&nbsp;</span>
             </div>
         </div>
-        <div id="note-content" class="note-content">
+        <div id="content" class="content">
             <div class="left-column">
-                <div id="note-description"></div>
+                <div id="description"></div>
             </div>
             <div class="right-column">
                 <div class="section">
-                    <h3>Component</h3>
-                    <div id="note-component"></div>
+                    <h3 id="component-label">Component</h3>
+                    <div id="component"></div>
                 </div>
                 <div class="section">
-                    <h3>Category</h3>
-                    <div id="note-category"></div>
+                    <h3 id="category-label">Category</h3>
+                    <div id="category"></div>
                 </div>
                 <div class="section">
-                    <h3>Priority</h3>
-                    <div id="note-priority"></div>
+                    <h3 id="priority-label">Priority</h3>
+                    <div id="priority"></div>
                 </div>
                 <div class="section">
-                    <h3>Release Status</h3>
-                    <div id="note-status"></div>
+                    <h3 id="status-label">Release Status</h3>
+                    <div id="status"></div>
                 </div>
-                <div class="section">
-                    <h3>Stats</h3>
-                    <div id="note-stats"></div>
+                <div id="stats" class="section">
+                    <h3 id="stats-label">Stats</h3>
+                    <div id="stats-items"></div>
                 </div>
             </div>
         </div>
-        <div id="note-content-wide" class="note-content-wide">
-            <div id="note-software-components-all" class="section">
-                <h3>Software Components</h3>
-                <div id="note-software-components"></div>
+        <div id="content-wide" class="content-wide">
+            <div id="validity" class="section">
+                <h3 id="validity-label">Software Components</h3>
+                <div id="validity-items"></div>
             </div>
-            <div id="note-corrections-all" class="section">
-                <h3>Corrections</h3>
-                <div id="note-corrections"></div>
+            <div id="corrections" class="section">
+                <h3 id="corrections-label">Corrections</h3>
+                <div id="corrections-instructions">
+                    <h4 id="corrections-instructions-label">Correction Instructions</h4>
+                    <div id="corrections-instructions-items"></div>
+                </div>
+                <div id="corrections-prerequisites">
+                    <h4 id="corrections-prerequisites-label">Prerequisites</h4>
+                    <div id="corrections-prerequisites-items"></div>
+                </div>
+                <div id="corrections-manual-activities">
+                    <h4 id="corrections-manual-activities-label">Manual Activities</h4>
+                    <div id="corrections-manual-activities-items"></div>
+                </div>
             </div>
-            <div id="note-support-packages-all" class="section">
-                <h3>Support Packages</h3>
-                <div id="note-support-packages"></div>
+            <div id="support-packages" class="section">
+                <h3 id="support-packages-label">Support Packages</h3>
+                <div id="support-packages-items"></div>
             </div>
-            <div id="note-references-all" class="section">
-                <h3>References</h3>
-                <div id="note-references"></div>
+            <div id="support-package-patches" class="section">
+                <h3 id="support-package-patches-label">Support Package Patches</h3>
+                <div id="support-package-patches-items"></div>
             </div>
-            <div id="note-attachments-all" class="section">
-                <h3>Attachments</h3>
-                <div id="note-attachments"></div>
+            <div id="references" class="section">
+                <h3 id="references-label">References</h3>
+                <div id="references-ref-to">
+                    <h4 id="references-ref-to-label">This document refers to</h4>
+                    <div id="references-ref-to-items"></div>
+                </div>
+                <div id="references-ref-by">
+                    <h4 id="references-ref-by-label">This document is referenced by</h4>
+                    <div id="references-ref-by-items"></div>
+                </div>
             </div>
-            <div id="note-attributes-all" class="section">
-                <h3>Attributes</h3>
-                <div id="note-attributes"></div>
+            <div id="attachments" class="section">
+                <h3 id="attachments-label">Attachments</h3>
+                <div id="attachments-items"></div>
+            </div>
+            <div id="attributes" class="section">
+                <h3 id="attributes-label">Attributes</h3>
+                <div id="attributes-items"></div>
             </div>
         </div>
     </div>

@@ -4,15 +4,19 @@
 
 ### SAP Notes
 
-- [ ] SupportPackagePatch
-- [ ] ManualActions
-- [ ] SideEffects
+- ManualActions
+- SideEffects
 
 ### KBAs
 
-- [ ] Rating
+- Rating
+- Products
+
+## Security
+
+- CV
 
 ## Features
 
-- [ ] Next Note Input
-- [ ] Language Switcher
+- Next Note Input
+- Language Switcher
