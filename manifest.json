@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "No Nonsense Notes for SAP",
   "version": "1.0.0",
-  "description": "Fast local viewer for SAP Notes",
+  "description": "The fastest viewer for SAP Notes",
+  "author": "Marc Bernard",
   "permissions": [],
   "host_permissions": [
     "https://me.sap.com/*"

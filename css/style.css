@@ -47,7 +47,7 @@ h3 {
 
 h4 {
     color: #808080;
-    margin: 0 0 10px 0;
+    margin: 10px 0;
     font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
@@ -90,7 +90,6 @@ table {
     top: 0;
     background: white;
     border-bottom: 1px solid grey;
-    margin-bottom: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
     z-index: 100;
@@ -161,11 +160,6 @@ table {
 
 #note-references li {
     margin-bottom: 5px;
-}
-
-.references-subtitle {
-    margin: 0 0 20px 0;
-    color: #666;
 }
 
 .references-table {

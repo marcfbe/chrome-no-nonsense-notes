@@ -14,578 +14,541 @@ document.addEventListener('DOMContentLoaded', async () => {
         // console.log('Fetched note data:', note); // Add debugging
 
         // Set breadcrumbs
-        const breadcrumbsDiv = document.getElementById('breadcrumbs');
+        const breadcrumbsDiv = domId('breadcrumbs');
         if (note.Header && note.Header.SAPComponentPath && note.Header.SAPComponentPath.length > 0) {
-            const breadcrumbsList = document.createElement('ol');
-            breadcrumbsList.className = 'breadcrumbs-list';
+            const breadcrumbsList = domCreate('ol', 'breadcrumbs-list');
 
             note.Header.SAPComponentPath.forEach((pathItem, index) => {
-                const listItem = document.createElement('li');
-                listItem.className = 'breadcrumb-item';
+                const listItem = domCreate('li', 'breadcrumb-item');
 
                 if (pathItem._url) {
-                    const link = document.createElement('a');
+                    const link = domCreate('a');
                     link.href = `https://me.sap.com${pathItem._url}`;
                     link.textContent = pathItem._label;
                     link.target = '_blank';
-                    listItem.appendChild(link);
+                    domAppend(listItem, link);
                 } else {
                     listItem.textContent = pathItem._label;
                 }
 
-                breadcrumbsList.appendChild(listItem);
+                domAppend(breadcrumbsList, listItem);
             });
 
-            breadcrumbsDiv.appendChild(breadcrumbsList);
+            domAppend(breadcrumbsDiv, breadcrumbsList);
         }
 
-        // Set title and metadata with null checks
         if (note.Title && note.Title.value) {
             document.title = note.Title.value.replace(/\.$/, '');
-            document.getElementById('note-title').textContent = document.title;
+            domId('note-title').textContent = document.title;
         }
         
         if (note.Header) {
             if (note.Header.Type && note.Header.Version) {
-                document.getElementById('note-type-version').textContent = `${note.Header.Type.value}, Version: ${note.Header.Version.value}`;
+                domId('note-type-version').textContent = `${note.Header.Type.value}, Version: ${note.Header.Version.value}`;
             }
             if (note.Header.ReleasedOn && note.Header.ReleasedOn.value) {
-                document.getElementById('note-date').textContent = `Released: ${normalizeDateFormat(note.Header.ReleasedOn.value)}`;
+                domId('note-date').textContent = `Released: ${normalizeDateFormat(note.Header.ReleasedOn.value)}`;
             }
             
-            // Set component info with null checks
             if (note.Header.SAPComponentKey) {
-                document.getElementById('note-component').textContent = note.Header.SAPComponentKey.value || '';
+                domId('note-component').textContent = note.Header.SAPComponentKey.value || '';
             }
             if (note.Header.Category) {
-                document.getElementById('note-category').textContent = note.Header.Category.value || '';
+                domId('note-category').textContent = note.Header.Category.value || '';
             }
             if (note.Header.Priority) {
-                document.getElementById('note-priority').textContent = note.Header.Priority.value || '';
+                domId('note-priority').textContent = note.Header.Priority.value || '';
             }
             if (note.Header.Status) {
-                document.getElementById('note-status').textContent = note.Header.Status.value || '';
+                domId('note-status').textContent = note.Header.Status.value || '';
             }
 
-            // Set stats
-            const statsDiv = document.getElementById('note-stats');
-            if (statsDiv) {
-                const stats = calculateNoteStats(note);
-                renderStats(statsDiv, stats);
+            // Stats
+            const statsDiv = domId('note-stats');
+            const stats = calculateNoteStats(note);
+
+            if (stats.size > 0) {
+                const isKBA = note.Header.Type.value !== 'SAP Note';
+                renderStats(statsDiv, stats, isKBA);
+            } else {
+                statsDiv.style.display = 'none';
             }
         }
 
-        // Set description (HTML content) with null check
+        // Description (HTML content)
         if (note.LongText && note.LongText.value) {
-            document.getElementById('note-description').innerHTML = formatLongText(note.LongText.value);
+            domId('note-description').innerHTML = formatLongText(note.LongText.value);
         }
 
-        // Set software components
-        const softwareComponentsDiv = document.getElementById('note-software-components');
-        const softwareComponentsSection = document.getElementById('note-software-components-all');
-        if (note.Validity && note.Validity.Items && note.Validity.Items.length > 0) {
-            // Create table
-            const table = document.createElement('table');
-            table.className = 'software-components-table';
+        // Software components
+        const softwareComponentsDiv = domId('note-software-components');
+        const softwareComponentsSection = domId('note-software-components-all');
 
-            // Create header
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
+        if (note.Validity && note.Validity.Items && note.Validity.Items.length > 0) {
+            const table = domCreate('table', 'software-components-table');
+
+            const thead = domCreate('thead');
+            const headerRow = domCreate('tr');
 
             const headers = ['Software Component', 'From', 'To'];
             headers.forEach(headerText => {
-                const th = document.createElement('th');
+                const th = domCreate('th');
                 th.textContent = headerText;
-                headerRow.appendChild(th);
+                domAppend(headerRow, th);
             });
 
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
+            domAppend(thead, headerRow);
+            domAppend(table, thead);
 
-            // Create body
-            const tbody = document.createElement('tbody');
+            const tbody = domCreate('tbody');
             note.Validity.Items.forEach(component => {
-                const row = document.createElement('tr');
+                const row = domCreate('tr');
 
                 // Software Component
-                const componentCell = document.createElement('td');
+                const componentCell = domCreate('td');
                 componentCell.textContent = component.SoftwareComponent;
-                row.appendChild(componentCell);
+                domAppend(row, componentCell);
 
                 // From
-                const fromCell = document.createElement('td');
+                const fromCell = domCreate('td');
                 fromCell.textContent = component.From;
-                row.appendChild(fromCell);
+                domAppend(row, fromCell);
 
                 // To
-                const toCell = document.createElement('td');
+                const toCell = domCreate('td');
                 toCell.textContent = component.To;
-                row.appendChild(toCell);
+                domAppend(row, toCell);
 
-                tbody.appendChild(row);
+                domAppend(tbody, row);
             });
 
-            table.appendChild(tbody);
-            softwareComponentsDiv.appendChild(table);
+            domAppend(table, tbody);
+            domAppend(softwareComponentsDiv, table);
         } else {
-            // Hide the entire software components section
             softwareComponentsSection.style.display = 'none';
         }
 
-        // Set corrections
-        const correctionsDiv = document.getElementById('note-corrections');
-        const correctionsSection = document.getElementById('note-corrections-all');
-        
+        // Corrections
+        const correctionsDiv = domId('note-corrections');
+        const correctionsSection = domId('note-corrections-all');
         const hasCorrections = note.CorrectionInstructions && note.CorrectionInstructions.Items && note.CorrectionInstructions.Items.length > 0;
         const hasPrerequisites = note.Preconditions && note.Preconditions.Items && note.Preconditions.Items.length > 0;
         
         if (hasCorrections || hasPrerequisites) {
+            // Correction Instructions
             if (hasCorrections) {
-                // Add subheading
-                const heading = document.createElement('h4');
+                const heading = domCreate('h4');
                 heading.textContent = 'Correction instructions';
-                correctionsDiv.appendChild(heading);
+                domAppend(correctionsDiv, heading);
 
-                // Create table
-                const table = document.createElement('table');
-                table.className = 'corrections-table';
+                const table = domCreate('table', 'corrections-table');
 
-                // Create header
-                const thead = document.createElement('thead');
-                const headerRow = document.createElement('tr');
+                const thead = domCreate('thead');
+                const headerRow = domCreate('tr');
 
                 const headers = ['Software Component', 'Number of Correction Instructions'];
                 headers.forEach(headerText => {
-                    const th = document.createElement('th');
+                    const th = domCreate('th');
                     th.textContent = headerText;
-                    headerRow.appendChild(th);
+                    domAppend(headerRow, th);
                 });
 
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
+                domAppend(thead, headerRow);
+                domAppend(table, thead);
 
-                // Create body
-                const tbody = document.createElement('tbody');
+                const tbody = domCreate('tbody');
                 note.CorrectionInstructions.Items.forEach(correction => {
-                    const row = document.createElement('tr');
+                    const row = domCreate('tr');
 
                     // Software Component
-                    const componentCell = document.createElement('td');
+                    const componentCell = domCreate('td');
                     componentCell.textContent = correction.SoftwareComponent;
-                    row.appendChild(componentCell);
+                    domAppend(row, componentCell);
 
                     // Number of Correction Instructions (as link if URL exists)
-                    const numberCell = document.createElement('td');
+                    const numberCell = domCreate('td');
                     if (correction.URL) {
-                        const link = document.createElement('a');
+                        const link = domCreate('a');
                         link.href = `https://me.sap.com${correction.URL}`;
                         link.textContent = correction.NumberOfCorrin;
                         link.target = '_blank';
                         link.rel = 'noopener noreferrer';
-                        numberCell.appendChild(link);
+                        domAppend(numberCell, link);
                     } else {
                         numberCell.textContent = correction.NumberOfCorrin;
                     }
-                    row.appendChild(numberCell);
+                    domAppend(row, numberCell);
 
-                    tbody.appendChild(row);
+                    domAppend(tbody, row);
                 });
 
-                table.appendChild(tbody);
-                correctionsDiv.appendChild(table);
+                domAppend(table, tbody);
+                domAppend(correctionsDiv, table);
             }
 
-            // Add prerequisites subsection
+            // Prerequisites
             if (hasPrerequisites) {
-                // Add spacing if there were corrections above
-                if (hasCorrections) {
-                    const spacing = document.createElement('div');
-                    spacing.style.marginTop = '30px';
-                    correctionsDiv.appendChild(spacing);
-                }
-
-                // Add subheading
-                const heading = document.createElement('h4');
+                const heading = domCreate('h4');
                 heading.textContent = 'Prerequisites';
-                heading.className = 'prerequisites-subtitle';
-                correctionsDiv.appendChild(heading);
+                domAppend(correctionsDiv, heading);
 
-                // Create table
-                const table = document.createElement('table');
-                table.className = 'prerequisites-table';
+                const table = domCreate('table', 'prerequisites-table');
 
-                // Create header
-                const thead = document.createElement('thead');
-                const headerRow = document.createElement('tr');
+                const thead = domCreate('thead');
+                const headerRow = domCreate('tr');
 
                 const headers = ['Software Component', 'From', 'To', 'SAP Note/KBA', 'Component', 'Title'];
                 headers.forEach(headerText => {
-                    const th = document.createElement('th');
+                    const th = domCreate('th');
                     th.textContent = headerText;
                     th.style.whiteSpace = 'nowrap';
-                    headerRow.appendChild(th);
+                    domAppend(headerRow, th);
                 });
 
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
+                domAppend(thead, headerRow);
+                domAppend(table, thead);
 
-                // Create body
-                const tbody = document.createElement('tbody');
+                const tbody = domCreate('tbody');
                 note.Preconditions.Items.forEach(prerequisite => {
-                    const row = document.createElement('tr');
+                    const row = domCreate('tr');
 
                     // Software Component
-                    const softwareComponentCell = document.createElement('td');
+                    const softwareComponentCell = domCreate('td');
                     softwareComponentCell.textContent = prerequisite.SoftwareComponent;
                     softwareComponentCell.style.whiteSpace = 'nowrap';
-                    row.appendChild(softwareComponentCell);
+                    domAppend(row, softwareComponentCell);
 
                     // From
-                    const fromCell = document.createElement('td');
+                    const fromCell = domCreate('td');
                     fromCell.textContent = prerequisite.ValidFrom;
                     fromCell.style.whiteSpace = 'nowrap';
-                    row.appendChild(fromCell);
+                    domAppend(row, fromCell);
 
                     // To
-                    const toCell = document.createElement('td');
+                    const toCell = domCreate('td');
                     toCell.textContent = prerequisite.ValidTo;
                     toCell.style.whiteSpace = 'nowrap';
-                    row.appendChild(toCell);
+                    domAppend(row, toCell);
 
                     // Note number (as link if URL exists)
-                    const noteCell = document.createElement('td');
+                    const noteCell = domCreate('td');
                     if (prerequisite.URL) {
-                        const link = document.createElement('a');
+                        const link = domCreate('a');
                         link.href = `viewer.html?id=${prerequisite.Number.trim()}`;
                         link.textContent = prerequisite.Number;
-                        noteCell.appendChild(link);
+                        domAppend(noteCell, link);
                     } else {
                         noteCell.textContent = prerequisite.Number;
                     }
                     noteCell.style.whiteSpace = 'nowrap';
-                    row.appendChild(noteCell);
+                    domAppend(row, noteCell);
 
                     // Component
-                    const componentCell = document.createElement('td');
+                    const componentCell = domCreate('td');
                     componentCell.textContent = prerequisite.Component;
                     componentCell.style.whiteSpace = 'nowrap';
-                    row.appendChild(componentCell);
+                    domAppend(row, componentCell);
 
                     // Title (as link if URL exists)
-                    const titleCell = document.createElement('td');
+                    const titleCell = domCreate('td');
                     if (prerequisite.URL) {
-                        const link = document.createElement('a');
+                        const link = domCreate('a');
                         link.href = `viewer.html?id=${prerequisite.Number.trim()}`;
                         link.textContent = prerequisite.Title;
-                        titleCell.appendChild(link);
+                        domAppend(titleCell, link);
                     } else {
                         titleCell.textContent = prerequisite.Title;
                     }
-                    row.appendChild(titleCell);
+                    domAppend(row, titleCell);
 
-                    tbody.appendChild(row);
+                    domAppend(tbody, row);
                 });
 
-                table.appendChild(tbody);
-                correctionsDiv.appendChild(table);
+                domAppend(table, tbody);
+                domAppend(correctionsDiv, table);
             }
         } else {
-            // Hide the entire corrections section
             correctionsSection.style.display = 'none';
         }
 
-        // Set support packages
-        const supportPackagesDiv = document.getElementById('note-support-packages');
-        const supportPackagesSection = document.getElementById('note-support-packages-all');
-        if (note.SupportPackage && note.SupportPackage.Items && note.SupportPackage.Items.length > 0) {
-            // Create table
-            const table = document.createElement('table');
-            table.className = 'support-packages-table';
+        // Support packages
+        const supportPackagesDiv = domId('note-support-packages');
+        const supportPackagesSection = domId('note-support-packages-all');
 
-            // Create header
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
+        if (note.SupportPackage && note.SupportPackage.Items && note.SupportPackage.Items.length > 0) {
+            const table = domCreate('table', 'support-packages-table');
+
+            const thead = domCreate('thead');
+            const headerRow = domCreate('tr');
 
             const headers = ['Software Component Version', 'Support Package'];
             headers.forEach(headerText => {
-                const th = document.createElement('th');
+                const th = domCreate('th');
                 th.textContent = headerText;
-                headerRow.appendChild(th);
+                domAppend(headerRow, th);
             });
 
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
+            domAppend(thead, headerRow);
+            domAppend(table, thead);
 
-            // Create body
-            const tbody = document.createElement('tbody');
+            const tbody = domCreate('tbody');
             note.SupportPackage.Items.forEach(supportPackage => {
-                const row = document.createElement('tr');
+                const row = domCreate('tr');
 
                 // Software Component Version
-                const componentVersionCell = document.createElement('td');
+                const componentVersionCell = domCreate('td');
                 componentVersionCell.textContent = supportPackage.SoftwareComponentVersion;
-                row.appendChild(componentVersionCell);
+                domAppend(row, componentVersionCell);
 
                 // Support Package (as link if URL exists)
-                const supportPackageCell = document.createElement('td');
+                const supportPackageCell = domCreate('td');
                 if (supportPackage.URL) {
-                    const link = document.createElement('a');
+                    const link = domCreate('a');
                     link.href = `https://me.sap.com${supportPackage.URL}`;
                     link.textContent = supportPackage.SupportPackage;
                     link.target = '_blank';
                     link.rel = 'noopener noreferrer';
-                    supportPackageCell.appendChild(link);
+                    domAppend(supportPackageCell, link);
                 } else {
                     supportPackageCell.textContent = supportPackage.SupportPackage;
                 }
-                row.appendChild(supportPackageCell);
+                domAppend(row, supportPackageCell);
 
-                tbody.appendChild(row);
+                domAppend(tbody, row);
             });
 
-            table.appendChild(tbody);
-            supportPackagesDiv.appendChild(table);
+            domAppend(table, tbody);
+            domAppend(supportPackagesDiv, table);
         } else {
-            // Hide the entire support packages section
             supportPackagesSection.style.display = 'none';
         }
 
-        // Set references
-        const referencesDiv = document.getElementById('note-references');
-        const referencesSection = document.getElementById('note-references-all');
+        // References
+        const referencesDiv = domId('note-references');
+        const referencesSection = domId('note-references-all');
         const hasReferences = (note.References.RefTo.Items.length > 0 || note.References.RefBy.Items.length > 0);
 
         if (hasReferences) {
+            // "Reference to"
             if (note.References.RefTo.Items.length > 0) {
-                // Add subtitle
-                const subtitle = document.createElement('h4');
+                const subtitle = domCreate('h4');
                 subtitle.textContent = 'This document refers to';
-                subtitle.className = 'references-subtitle';
-                referencesDiv.appendChild(subtitle);
+                domAppend(referencesDiv, subtitle);
 
-                // Create table
-                const table = document.createElement('table');
-                table.className = 'references-table';
+                const table = domCreate('table', 'references-table');
 
-                // Create header
-                const thead = document.createElement('thead');
-                const headerRow = document.createElement('tr');
+                const thead = domCreate('thead');
+                const headerRow = domCreate('tr');
 
                 const headers = ['SAP Note/KBA', 'Component', 'Title'];
                 headers.forEach(headerText => {
-                    const th = document.createElement('th');
+                    const th = domCreate('th');
                     th.textContent = headerText;
                     th.style.whiteSpace = 'nowrap';
-                    headerRow.appendChild(th);
+                    if (headerText === 'SAP Note/KBA') {
+                        th.style.width = '8em';
+                    } else if (headerText === 'Component') {
+                        th.style.width = '14em'; 
+                    }
+                    domAppend(headerRow, th);
                 });
 
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
+                domAppend(thead, headerRow);
+                domAppend(table, thead);
 
-                // Create body
-                const tbody = document.createElement('tbody');
+                const tbody = domCreate('tbody');
                 note.References.RefTo.Items.forEach(ref => {
-                    const row = document.createElement('tr');
+                    const row = domCreate('tr');
 
                     // Note number
-                    const noteCell = document.createElement('td');
-                    const noteLink = document.createElement('a');
+                    const noteCell = domCreate('td');
+                    const noteLink = domCreate('a');
                     noteLink.href = `viewer.html?id=${ref.RefNumber}`;
                     noteLink.textContent = ref.RefNumber;
                     noteCell.style.whiteSpace = 'nowrap';
-                    noteCell.appendChild(noteLink);
-                    row.appendChild(noteCell);
+                    domAppend(noteCell, noteLink);
+                    domAppend(row, noteCell);
 
                     // Component
-                    const componentCell = document.createElement('td');
+                    const componentCell = domCreate('td');
                     componentCell.textContent = ref.RefComponent;
                     componentCell.style.whiteSpace = 'nowrap';
-                    row.appendChild(componentCell);
+                    domAppend(row, componentCell);
 
                     // Title (as link)
-                    const titleCell = document.createElement('td');
-                    const link = document.createElement('a');
+                    const titleCell = domCreate('td');
+                    const link = domCreate('a');
                     link.href = `viewer.html?id=${ref.RefNumber}`;
                     link.textContent = ref.RefTitle;
-                    titleCell.appendChild(link);
-                    row.appendChild(titleCell);
+                    domAppend(titleCell, link);
+                    domAppend(row, titleCell);
 
-                    tbody.appendChild(row);
+                    domAppend(tbody, row);
                 });
 
-                table.appendChild(tbody);
-                referencesDiv.appendChild(table);
+                domAppend(table, tbody);
+                domAppend(referencesDiv, table);
             }
 
-            // Add "Referenced by" section
+            // "Referenced by"
             if (note.References.RefBy.Items.length > 0) {
-                // Add spacing
-                const spacing = document.createElement('div');
-                spacing.style.marginTop = '30px';
-                referencesDiv.appendChild(spacing);
-
-                // Add subtitle
-                const subtitle = document.createElement('h4');
+                const subtitle = domCreate('h4');
                 subtitle.textContent = 'This document is referenced by';
-                subtitle.className = 'references-subtitle';
-                referencesDiv.appendChild(subtitle);
+                domAppend(referencesDiv, subtitle);
 
-                // Create table
-                const table = document.createElement('table');
-                table.className = 'references-table';
+                const table = domCreate('table', 'references-table');
 
-                // Create header
-                const thead = document.createElement('thead');
-                const headerRow = document.createElement('tr');
+                const thead = domCreate('thead');
+                const headerRow = domCreate('tr');
 
                 const headers = ['SAP Note/KBA', 'Component', 'Title'];
                 headers.forEach(headerText => {
-                    const th = document.createElement('th');
+                    const th = domCreate('th');
                     th.textContent = headerText;
                     th.style.whiteSpace = 'nowrap';
-                    headerRow.appendChild(th);
+                    if (headerText === 'SAP Note/KBA') {
+                        th.style.width = '8em';
+                    } else if (headerText === 'Component') {
+                        th.style.width = '14em'; 
+                    }
+                    domAppend(headerRow, th);
                 });
 
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
+                domAppend(thead, headerRow);
+                domAppend(table, thead);
 
-                // Create body
-                const tbody = document.createElement('tbody');
+                const tbody = domCreate('tbody');
                 note.References.RefBy.Items.forEach(ref => {
-                    const row = document.createElement('tr');
+                    const row = domCreate('tr');
 
                     // Note number
-                    const noteCell = document.createElement('td');
-                    const noteLink = document.createElement('a');
+                    const noteCell = domCreate('td');
+                    const noteLink = domCreate('a');
                     noteLink.href = `viewer.html?id=${ref.RefNumber}`;
                     noteLink.textContent = ref.RefNumber;
                     noteCell.style.whiteSpace = 'nowrap';
-                    noteCell.appendChild(noteLink);
-                    row.appendChild(noteCell);
+                    domAppend(noteCell, noteLink);
+                    domAppend(row, noteCell);
 
                     // Component
-                    const componentCell = document.createElement('td');
+                    const componentCell = domCreate('td');
                     componentCell.textContent = ref.RefComponent;
                     componentCell.style.whiteSpace = 'nowrap';
-                    row.appendChild(componentCell);
+                    domAppend(row, componentCell);
 
                     // Title (as link)
-                    const titleCell = document.createElement('td');
-                    const link = document.createElement('a');
+                    const titleCell = domCreate('td');
+                    const link = domCreate('a');
                     link.href = `viewer.html?id=${ref.RefNumber}`;
                     link.textContent = ref.RefTitle;
-                    titleCell.appendChild(link);
-                    row.appendChild(titleCell);
+                    domAppend(titleCell, link);
+                    domAppend(row, titleCell);
 
-                    tbody.appendChild(row);
+                    domAppend(tbody, row);
                 });
 
-                table.appendChild(tbody);
-                referencesDiv.appendChild(table);
+                domAppend(table, tbody);
+                domAppend(referencesDiv, table);
             }
         } else {
-            // Hide the entire references section
             referencesSection.style.display = 'none';
         }
 
-        // Set attachments
-        const attachmentsDiv = document.getElementById('note-attachments');
-        const attachmentsSection = document.getElementById('note-attachments-all');
-        if (note.Attachments && note.Attachments.Items && note.Attachments.Items.length > 0) {
-            // Create table
-            const table = document.createElement('table');
-            table.className = 'attachments-table';
+        // Attachments
+        const attachmentsDiv = domId('note-attachments');
+        const attachmentsSection = domId('note-attachments-all');
 
-            // Create header
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
+        if (note.Attachments && note.Attachments.Items && note.Attachments.Items.length > 0) {
+            const table = domCreate('table', 'attachments-table');
+
+            const thead = domCreate('thead');
+            const headerRow = domCreate('tr');
 
             const headers = ['File Name', 'File Size (KB)', 'Type'];
             headers.forEach(headerText => {
-                const th = document.createElement('th');
+                const th = domCreate('th');
                 th.textContent = headerText;
-                headerRow.appendChild(th);
+                domAppend(headerRow, th);
             });
 
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
+            domAppend(thead, headerRow);
+            domAppend(table, thead);
 
-            // Create body
-            const tbody = document.createElement('tbody');
+            const tbody = domCreate('tbody');
             note.Attachments.Items.forEach(attachment => {
-                const row = document.createElement('tr');
+                const row = domCreate('tr');
 
                 // File Name (as link)
-                const fileNameCell = document.createElement('td');
-                const link = document.createElement('a');
+                const fileNameCell = domCreate('td');
+                const link = domCreate('a');
                 link.href = attachment.URL;
                 link.textContent = attachment.FileName;
                 link.target = '_blank';
                 link.rel = 'noopener noreferrer';
-                fileNameCell.appendChild(link);
-                row.appendChild(fileNameCell);
+                domAppend(fileNameCell, link);
+                domAppend(row, fileNameCell);
 
                 // File Size
-                const fileSizeCell = document.createElement('td');
+                const fileSizeCell = domCreate('td');
                 fileSizeCell.textContent = attachment.FileSize;
                 fileSizeCell.style.textAlign = 'right';
-                row.appendChild(fileSizeCell);
+                domAppend(row, fileSizeCell);
 
                 // MIME Type
-                const mimeTypeCell = document.createElement('td');
+                const mimeTypeCell = domCreate('td');
                 mimeTypeCell.textContent = attachment.MimeType;
-                row.appendChild(mimeTypeCell);
+                domAppend(row, mimeTypeCell);
 
-                tbody.appendChild(row);
+                domAppend(tbody, row);
             });
 
-            table.appendChild(tbody);
-            attachmentsDiv.appendChild(table);
+            domAppend(table, tbody);
+            domAppend(attachmentsDiv, table);
         } else {
-            // Hide the entire attachments section
             attachmentsSection.style.display = 'none';
         }
 
-        // Set attributes
-        const attributesDiv = document.getElementById('note-attributes');
-        const attributesSection = document.getElementById('note-attributes-all');
+        // Attributes
+        const attributesDiv = domId('note-attributes');
+        const attributesSection = domId('note-attributes-all');
+
         if (note.Attributes && note.Attributes.Items && note.Attributes.Items.length > 0) {
-            const table = document.createElement('table');
-            table.className = 'attributes-table';
+            const table = domCreate('table', 'attributes-table');
 
             note.Attributes.Items.forEach(attr => {
-                const row = document.createElement('tr');
+                const row = domCreate('tr');
 
-                const keyCell = document.createElement('td');
+                const keyCell = domCreate('td');
                 keyCell.textContent = attr.Key;
                 keyCell.style.fontWeight = 'bold';
                 keyCell.style.whiteSpace = 'nowrap';
-                row.appendChild(keyCell);
+                domAppend(row, keyCell);
 
-                const valueCell = document.createElement('td');
+                const valueCell = domCreate('td');
                 valueCell.textContent = attr.Value;
-                row.appendChild(valueCell);
+                domAppend(row, valueCell);
 
-                table.appendChild(row);
+                domAppend(table, row);
             });
 
-            attributesDiv.appendChild(table);
+            domAppend(attributesDiv, table);
         } else {
-            // Hide the entire attributes section
             attributesSection.style.display = 'none';
         }
 
         // Show the content after everything is loaded
-        const noteContent = document.getElementById('note-content');
-        const noteContentWide = document.getElementById('note-content-wide');
+        const noteContent = domId('note-content');
+        const noteContentWide = domId('note-content-wide');
+
         if (noteContent) {
             noteContent.classList.add('loaded');
         }
         if (noteContentWide) {
             noteContentWide.classList.add('loaded');
         }
+
     } catch (error) {
-        console.error('Error details:', error); // Add debugging
+        // console.error('Error details:', error); // Add debugging
         displayErrorDisclaimer(error, noteId);
     }
 });
@@ -593,33 +556,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 function displayErrorDisclaimer(error, noteId = '') {
     // Update title to show error
     document.title = `Error - SAP Note ${noteId}`;
-    document.getElementById('note-title').textContent = `Error Loading SAP Note ${noteId}`;
+    domId('note-title').textContent = `Error Loading SAP Note ${noteId}`;
 
-    // Create error disclaimer
-    const errorDisclaimer = document.createElement('div');
+    const errorDisclaimer = domCreate('div');
     errorDisclaimer.id = 'DISCLAIMER';
 
-    const errorTitle = document.createElement('strong');
+    const errorTitle = domCreate('strong');
     errorTitle.textContent = error.code ? error.code + ': ' : '';
 
-    const errorMessage = document.createElement('span');
+    const errorMessage = domCreate('span');
     errorMessage.textContent = error.message;
 
-    errorDisclaimer.appendChild(errorTitle);
-    errorDisclaimer.appendChild(errorMessage);
+    domAppend(errorDisclaimer, errorTitle);
+    domAppend(errorDisclaimer, errorMessage);
 
-    // Insert the disclaimer into the DOM
-    const noteContent = document.getElementById('note-content');
+    const noteContent = domId('note-content');
     const leftColumn = noteContent.querySelector('.left-column');
     if (leftColumn) {
-        leftColumn.appendChild(errorDisclaimer);
+        domAppend(leftColumn, errorDisclaimer);
     }
 
     const sections = [
-        document.querySelector('.right-column'),
-        document.getElementById('note-type-version'),
-        document.getElementById('note-date'),
-        document.getElementById('note-content-wide')
+        noteContent.querySelector('.right-column'),
+        domId('note-type-version'),
+        domId('note-date'),
+        domId('note-content-wide')
     ];
     sections.forEach(section => {
         if (section) {
@@ -627,7 +588,6 @@ function displayErrorDisclaimer(error, noteId = '') {
         }
     });
 
-    // Show the content
     if (noteContent) {
         noteContent.classList.add('loaded');
     }
@@ -635,7 +595,7 @@ function displayErrorDisclaimer(error, noteId = '') {
 
 // Scroll to top functionality
 document.addEventListener('DOMContentLoaded', () => {
-    const scrollToTopBtn = document.getElementById('scrollToTop');
+    const scrollToTopBtn = domId('scrollToTop');
 
     // Show/hide button based on scroll position
     window.addEventListener('scroll', () => {
@@ -658,7 +618,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function calculateNoteStats(note) {
     const stats = {};
     
-    // Use CorrectionsInfo data if available
     if (note.CorrectionsInfo) {
         stats.corrections = note.CorrectionsInfo.Corrections?.value || 0;
         stats.correctionsState = note.CorrectionsInfo.Corrections?.state || 'None';
@@ -680,47 +639,51 @@ function calculateNoteStats(note) {
         stats.prerequisitesState = 'None';
     }
     
-    // Keep attachments if they exist
     stats.attachments = note.Attachments?.Items?.length || 0;
     stats.attachmentsState = 'None';
     
-    return stats;
+    const totalCount = stats.corrections + stats.manualActivities + stats.prerequisites + stats.attachments;
+    if (totalCount === 0) {
+        return {};
+    } else {
+        return stats;
+    }
 }
 
-function renderStats(container, stats) {
-    const statsGrid = document.createElement('div');
-    statsGrid.className = 'stats-grid';
+function renderStats(container, stats, isKBA = false) {
+    const statsGrid = domCreate('div', 'stats-grid');
     
-    const statItems = [
+    const statItems = isKBA ? [
+        { label: 'Attachments', value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
+    ] : [
         { label: 'Corrections', value: stats.corrections, highlight: stats.corrections > 0, state: stats.correctionsState },
         { label: 'Manual Activities', value: stats.manualActivities, highlight: stats.manualActivities > 0, state: stats.manualActivitiesState },
         { label: 'Prerequisites', value: stats.prerequisites, highlight: stats.prerequisites > 0, state: stats.prerequisitesState },
         { label: 'Attachments', value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
     ];
+
     statItems.forEach(item => {
-        const statItem = document.createElement('div');
-        statItem.className = 'stat-item';
-        
-        // Add state-based styling if state exists
-        if (item.state) {
-            statItem.classList.add(`state-${item.state.toLowerCase()}`);
+        if (item.value > 0) {
+            const statItem = domCreate('div', 'stat-item');
+            
+            if (item.state) {
+                statItem.classList.add(`state-${item.state.toLowerCase()}`);
+            }
+            
+            const label = domCreate('div', 'stat-label');
+            label.textContent = item.label;
+            
+            const value = domCreate('div', 'stat-value');
+            if (item.highlight) {
+                value.classList.add('highlight');
+            }
+            value.textContent = item.value;
+            
+            domAppend(statItem, label);
+            domAppend(statItem, value);
+            domAppend(statsGrid, statItem);
         }
-        
-        const label = document.createElement('div');
-        label.className = 'stat-label';
-        label.textContent = item.label;
-        
-        const value = document.createElement('div');
-        value.className = 'stat-value';
-        if (item.highlight) {
-            value.classList.add('highlight');
-        }
-        value.textContent = item.value;
-        
-        statItem.appendChild(label);
-        statItem.appendChild(value);
-        statsGrid.appendChild(statItem);
     });
     
-    container.appendChild(statsGrid);
+    domAppend(container, statsGrid);
 } 
