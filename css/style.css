@@ -64,7 +64,7 @@ h3 {
 h4 {
     color: #808080;
     margin: 10px 0;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 400;
     line-height: 1.5;
 }
@@ -137,6 +137,31 @@ table tr:hover {
     z-index: 100;
 }
 
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.logo {
+    /* Logo positioning handled by flexbox */
+}
+
+.language-selector {
+    /* Language selector positioning handled by flexbox */
+}
+
+.language-selector select {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    color: #333;
+    min-width: 150px;
+}
+
 .metadata {
     color: #666;
     font-size: 14px;
@@ -148,7 +173,7 @@ table tr:hover {
 
 .content {
     display: none;
-    gap: 30px;
+    /* gap: 30px; */
 }
 
 .content.loaded {
@@ -172,6 +197,9 @@ table tr:hover {
 .right-column {
     flex: 0 0 250px;
     padding-top: 20px;
+    padding-left: 20px;
+    margin-left: 20px;
+    border-left: 1px dashed lightgray;
 }
 
 .section {
@@ -306,33 +334,14 @@ table tr:hover {
 
 /* CVSS */
 
-#cvss-score {
+#cvss-score-value {
     margin-bottom: 20px;
     padding: 15px;
     background-color: #f8f9fa;
     border-radius: 4px;
-    border-left: 4px solid #0070f2;
-}
-
-#cvss-score-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #2f3c48;
-}
-
-#cvss-score-value {
+    border-left: 3px solid #6c757d;
     font-size: 24px;
     font-weight: bold;
-}
-
-#cvss-vector {
-    margin-top: 20px;
-}
-
-#cvss-vector-label {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #2f3c48;
 }
 
 #cvss-vector-value {
@@ -347,5 +356,5 @@ table tr:hover {
 
 #cvss-disclaimer {
     margin: 20px 0;
-    font-size: 12px;
+    font-size: 11px;
 }

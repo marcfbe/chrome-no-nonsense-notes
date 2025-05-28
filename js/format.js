@@ -1,6 +1,6 @@
 /**
  * Normalizes date strings to yyyy-mm-dd format
- * @param {string} dateString - Date in format dd.mm.yyyy or mm/dd/yyyy
+ * @param {string} dateString - Various date formats
  * @returns {string} Date in yyyy-mm-dd format
  */
 function normalizeDateFormat(dateString) {
@@ -9,45 +9,53 @@ function normalizeDateFormat(dateString) {
     }
 
     // Remove any extra whitespace
-    const cleanDate = dateString.trim();
+    let cleanDate = dateString.trim();
 
     // Check for dd.mm.yyyy format (European)
     const europeanMatch = cleanDate.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
     if (europeanMatch) {
         const [, day, month, year] = europeanMatch;
-        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    }
-
-    // Check for mm/dd/yyyy format (American)
-    const americanMatch = cleanDate.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (americanMatch) {
-        const [, month, day, year] = americanMatch;
-        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    }
-    // Check for yyyy.mm.dd format
-    const dotMatch = cleanDate.match(/^(\d{4})\.(\d{1,2})\.(\d{1,2})$/);
-    if (dotMatch) {
-        const [, year, month, day] = dotMatch;
-        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        cleanDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    } else {
+        // Check for mm/dd/yyyy format (American)
+        const americanMatch = cleanDate.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+        if (americanMatch) {
+            const [, month, day, year] = americanMatch;
+            cleanDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        } else {
+            // Check for yyyy.mm.dd format
+            const dotMatch = cleanDate.match(/^(\d{4})\.(\d{1,2})\.(\d{1,2})$/);
+            if (dotMatch) {
+                const [, year, month, day] = dotMatch;
+                cleanDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            }
+        }
     }
 
     // Add "time ago" information to the normalized date
-    const normalizedDate = cleanDate.match(/^\d{4}-\d{2}-\d{2}$/) ? cleanDate : cleanDate;
-    if (normalizedDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-        const date = new Date(normalizedDate);
+    if (cleanDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        const date = new Date(cleanDate);
         const now = new Date();
-        const diffTime = Math.abs(now - date);
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const diffDays = Math.floor(Math.abs(now - date) / (1000 * 60 * 60 * 24));
 
-        if (diffDays === 0) return `${normalizedDate} (<span style="color: red">today</span>)`;
-        if (diffDays === 1) return `${normalizedDate} (<span style="color: red">yesterday</span>)`;
-        if (diffDays < 7) return `${normalizedDate} (<span style="color: orange">${diffDays} days ago</span>)`;
-        if (diffDays < 30) return `${normalizedDate} (<span style="color: #ffa07a">${Math.floor(diffDays / 7)} weeks ago</span>)`;
-        if (diffDays < 365) return `${normalizedDate} (${Math.floor(diffDays / 30)} months ago)`;
-        return `${normalizedDate} (${Math.floor(diffDays / 365)} years ago)`;
+        let timeAgo;
+        if (diffDays === 0) {
+            timeAgo = '<span style="color: red">today</span>';
+        } else if (diffDays === 1) {
+            timeAgo = '<span style="color: red">yesterday</span>';
+        } else if (diffDays < 7) {
+            timeAgo = `<span style="color: orange">${diffDays} days ago</span>`;
+        } else if (diffDays < 30) {
+            timeAgo = `<span style="color: #ffa07a">${Math.floor(diffDays / 7)} weeks ago</span>`;
+        } else if (diffDays < 365) {
+            timeAgo = `${Math.floor(diffDays / 30)} months ago`;
+        } else {
+            timeAgo = `${Math.floor(diffDays / 365)} years ago`;
+        }
+
+        cleanDate = `${cleanDate}, ${timeAgo}`;
     }
 
-    // If already in yyyy-mm-dd format or unrecognized format, return as is
     return cleanDate;
 }
 

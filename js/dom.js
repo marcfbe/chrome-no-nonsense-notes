@@ -24,22 +24,27 @@ function domText(element, textContent = '') {
 
 function domTextId(id, textContent) {
     const el = domId(id);
-    el.textContent = textContent;
+    if (textContent && textContent.includes('<') && textContent.includes('>')) {
+        el.innerHTML = textContent;
+    } else {
+        el.textContent = textContent;
+    }
 }
 
-function domLink(text, href) {
+function domLink(text, href, language = '') {
     if (!href) {
         return domText('span', text);
     }
     const ref = String(href).trim();
     const link = domText('a', text);
+    const lang = (language) ? `&t=${language}` : '';
 
     // map to extension (same tab)
     if (ref.startsWith('/notes/')) {
         const noteId = ref.split('/')[2];
-        link.href = `viewer.html?id=${noteId}`;
+        link.href = `viewer.html?id=${noteId}${lang}`;
     } else if (ref.match(/^\d+\s*$/)) {
-        link.href = `viewer.html?id=${ref}`;
+        link.href = `viewer.html?id=${ref}${lang}`;
     } else {
         // map to website and open in new tab
         if (ref.startsWith('/')) {

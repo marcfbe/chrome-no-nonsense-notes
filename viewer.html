@@ -11,8 +11,11 @@
 <body>
     <div class="container">
         <div class="header">
-            <div style="float: right; margin: 10px;">
-                <img src="img/nnn_logo.svg" alt="No Nonsense Notes Logo" height="50">
+            <div class="header-top">
+                <div id="language-selector" class="language-selector"></div>
+                <div class="logo">
+                    <img src="img/nnn_logo.svg" alt="No Nonsense Notes Logo" height="50">
+                </div>
             </div>
             <nav class="breadcrumbs" id="breadcrumbs"></nav>
             <h1 id="title">Loading SAP Note...</h1>
@@ -22,10 +25,11 @@
             </div>
         </div>
         <div id="content" class="content">
-            <div class="left-column">
+            <div id="error-banner"></div>
+            <div id="left-column" class="left-column">
                 <div id="description"></div>
             </div>
-            <div class="right-column">
+            <div id="right-column" class="right-column">
                 <div class="section">
                     <h3 id="component-label">Component</h3>
                     <div id="component"></div>
@@ -42,8 +46,12 @@
                     <h3 id="status-label">Release Status</h3>
                     <div id="status"></div>
                 </div>
+                <div id="cvss-score" class="section">
+                    <h3 id="cvss-score-label">CVSS Score</h3>
+                    <div id="cvss-score-value"></div>
+                </div>
                 <div id="stats" class="section">
-                    <h3 id="stats-label">Stats</h3>
+                    <h3 id="stats-label">Counts</h3>
                     <div id="stats-items"></div>
                 </div>
             </div>
@@ -52,16 +60,17 @@
             <div id="cvss" class="section">
                 <h3 id="cvss-label">CVSS</h3>
                 <div id="cvss-items">
-                    <div id="cvss-score">
-                        <div id="cvss-score-label"></div>
-                        <div id="cvss-score-value"></div>
-                    </div>
                     <div id="cvss-vector">
-                        <div id="cvss-vector-label"></div>
+                        <h4 id="cvss-vector-label"></h4>
                         <div id="cvss-vector-value"></div>
                     </div>
                 </div>
-                <div id="cvss-disclaimer">SAP provides this CVSS v3.0 base score as an estimate of the risk posed by the issue reported in this note. This estimate does not take into account your own system configuration or operational environment. It is not intended to replace any risk assessments you are advised to conduct when deciding on the applicability or priority of this SAP security note. For more information, see the FAQ section at <a href="https://support.sap.com/securitynotes">https://support.sap.com/securitynotes</a>.</div>
+                <div id="cvss-disclaimer">SAP provides this CVSS v3.0 base score as an estimate of the risk posed by the
+                    issue reported in this note. This estimate does not take into account your own system configuration
+                    or operational environment. It is not intended to replace any risk assessments you are advised to
+                    conduct when deciding on the applicability or priority of this SAP security note. For more
+                    information, see the FAQ section at <a
+                        href="https://support.sap.com/securitynotes">https://support.sap.com/securitynotes</a>.</div>
             </div>
             <div id="validity" class="section">
                 <h3 id="validity-label">Software Components</h3>
@@ -112,10 +121,12 @@
         </div>
     </div>
     <button id="scrollToTop" class="scroll-to-top" title="Scroll to top"></button>
-    <script src="js/dom.js"></script>
     <script src="js/fetch.js"></script>
+    <script src="js/dom.js"></script>
     <script src="js/format.js"></script>
+    <script src="js/helpers.js"></script>
     <script src="js/viewer.js"></script>
+    <script src="js/scroll-to-top.js"></script>
 </body>
 
 </html>
