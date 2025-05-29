@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const noteId = urlParams.get('id');
-    const noteLanguage = urlParams.get('t');
+    const noteLanguage = urlParams.get('t') || 'E';
 
     if (!noteId) {
         const error = new Error('Invalid SAP Note');
@@ -36,32 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             domTextId('title', document.title);
         }
 
-        if (note.Translations) {
-            const languageSelector = domId('language-selector');
-
-            const select = domCreate('select');
-            select.addEventListener('change', (e) => {
-                const code = e.target.value;
-                if (code) {
-                    window.location.href = `viewer.html?id=${noteId}&t=${code}`;
-                }
-            });
-
-            const currentTranslation = note.Translations.Items.find(t => t.TranslationLanguageCode === noteLanguage);
-            const defaultOption = domText('option', currentTranslation ? currentTranslation.TranslationLanguage : 'Select language...');
-            defaultOption.value = noteLanguage;
-            domAppend(select, defaultOption);
-
-            note.Translations.Items.forEach(translation => {
-                if (translation.TranslationLanguageCode !== noteLanguage) {
-                    const option = domText('option', translation.TranslationLanguage);
-                    option.value = translation.TranslationLanguageCode;
-                    domAppend(select, option);
-                }
-            });
-
-            domAppend(languageSelector, select);
-        }
+        // *** Header ***
 
         if (note.Header) {
             if (note.Header.Type && note.Header.Version) {
@@ -99,12 +74,43 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // Description (HTML content)
-        if (note.LongText && note.LongText.value) {
-            domTextId('description', formatLongText(note.LongText.value));
+        // *** Language Selector ***
+
+        if (note.Translations) {
+            domTextId('language-selector-label', note.Translations._label);
+            const languageSelector = domId('language-selector-content');
+
+            const select = domCreate('select');
+            select.addEventListener('change', (e) => {
+                const code = e.target.value;
+                if (code) {
+                    window.location.href = `viewer.html?id=${noteId}&t=${code}`;
+                }
+            });
+
+            const defaultOption = domText('option', getLanguageFromHeader(note));
+            defaultOption.value = noteLanguage;
+            domAppend(select, defaultOption);
+
+            note.Translations.Items.forEach(translation => {
+                const option = domText('option', translation.TranslationLanguage);
+                option.value = translation.TranslationLanguageCode;
+                domAppend(select, option);
+            });
+
+            domAppend(languageSelector, select);
+        } else {
+            domHide(domId('language-selector'));
         }
 
-        // CVSS
+        // *** Description (HTML content) ***
+
+        if (note.LongText && note.LongText.value) {
+            domTextId('description', formatLongText(note.LongText.value, noteLanguage));
+        }
+
+        // *** CVSS ***
+
         const cvss = domId('cvss');
 
         if (note.CVSS) {
@@ -170,7 +176,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             domHide(domId('cvss-score'));
         }
 
-        // Validity (Software Components / Products)        
+        // *** Validity (Software Components / Products) ***
+
         const validity = domId('validity');
 
         if (hasValues(note.Validity)) {
@@ -225,7 +232,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             domHide(validity);
         }
 
-        // Corrections        
+        // *** Corrections ***
+
         const corrections = domId('corrections');
         const hasCorrections = (hasValues(note.CorrectionInstructions) || hasValues(note.Preconditions) || note.ManualActions?.value);
 
@@ -318,7 +326,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     // Note number (as link if URL exists)
                     const noteCell = domCreate('td');
-                    const link = domLink(prerequisite.Number, prerequisite.Number);
+                    const link = domLink(prerequisite.Number, prerequisite.Number, noteLanguage);
                     domAppend(noteCell, link);
                     noteCell.style.whiteSpace = 'nowrap';
                     domAppend(row, noteCell);
@@ -331,7 +339,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Title (as link if URL exists)
                     const titleCell = domCreate('td');
                     if (prerequisite.URL) {
-                        const link = domLink(prerequisite.Title, prerequisite.URL);
+                        const link = domLink(prerequisite.Title, prerequisite.URL, noteLanguage);
                         domAppend(titleCell, link);
                     }
                     domAppend(row, titleCell);
@@ -360,7 +368,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             domHide(corrections);
         }
 
-        // Support packages        
+        // *** Support packages ***
+
         const supportPackages = domId('support-packages');
 
         if (hasValues(note.SupportPackage)) {
@@ -405,7 +414,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             domHide(supportPackages);
         }
 
-        // Support package patches        
+        // *** Support package patches ***
+
         const supportPackagePatches = domId('support-package-patches');
 
         if (hasValues(note.SupportPackagePatch)) {
@@ -454,7 +464,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             domHide(supportPackagePatches);
         }
 
-        // References        
+        // *** References ***
+
         const references = domId('references');
         const hasReferences = (hasValues(note.References.RefTo) || hasValues(note.References.RefBy));
 
@@ -493,7 +504,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     // Note number
                     const noteCell = domCreate('td');
-                    const noteLink = domLink(ref.RefNumber, ref.RefNumber);
+                    const noteLink = domLink(ref.RefNumber, ref.RefNumber, noteLanguage);
                     domAppend(noteCell, noteLink);
                     domAppend(row, noteCell);
 
@@ -504,7 +515,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     // Title (as link)
                     const titleCell = domCreate('td');
-                    const titleLink = domLink(ref.RefTitle, ref.RefUrl);
+                    const titleLink = domLink(ref.RefTitle, ref.RefUrl, noteLanguage);
                     domAppend(titleCell, titleLink);
                     domAppend(row, titleCell);
 
@@ -551,7 +562,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     // Note number
                     const noteCell = domCreate('td');
-                    const noteLink = domLink(ref.RefNumber, ref.RefNumber);
+                    const noteLink = domLink(ref.RefNumber, ref.RefNumber, noteLanguage);
                     domAppend(noteCell, noteLink);
                     domAppend(row, noteCell);
 
@@ -562,7 +573,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     // Title (as link)
                     const titleCell = domCreate('td');
-                    const titleLink = domLink(ref.RefTitle, ref.RefUrl);
+                    const titleLink = domLink(ref.RefTitle, ref.RefUrl, noteLanguage);
                     domAppend(titleCell, titleLink);
                     domAppend(row, titleCell);
 
@@ -578,7 +589,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             domHide(references);
         }
 
-        // Attachments        
+        // *** Attachments ***
+
         const attachments = domId('attachments');
 
         if (hasValues(note.Attachments)) {
@@ -625,7 +637,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             domHide(attachments);
         }
 
-        // Attributes        
+        // *** Attributes ***
+
         const attributes = domId('attributes');
 
         if (hasValues(note.Attributes)) {
@@ -662,73 +675,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     domId('content-wide').classList.add('loaded');
 });
 
-function calculateNoteStats(note) {
-    const stats = {};
-
-    if (note.CorrectionsInfo) {
-        stats.corrections = note.CorrectionsInfo.Corrections?.value || 0;
-        stats.correctionsState = note.CorrectionsInfo.Corrections?.state || 'None';
-
-        stats.manualActivities = note.CorrectionsInfo.ManualActivities?.value || 0;
-        stats.manualActivitiesState = note.CorrectionsInfo.ManualActivities?.state || 'None';
-
-        stats.prerequisites = note.CorrectionsInfo.Prerequisites?.value || 0;
-        stats.prerequisitesState = note.CorrectionsInfo.Prerequisites?.state || 'None';
-    } else {
-        // Fallback to counting items if CorrectionsInfo is not available
-        stats.corrections = note.CorrectionInstructions?.Items?.length || 0;
-        stats.correctionsState = 'None';
-
-        stats.manualActivities = note.manualActivities?.Items?.length || 0;
-        stats.manualActivitiesState = 'None';
-
-        stats.prerequisites = note.Preconditions?.Items?.length || 0;
-        stats.prerequisitesState = 'None';
-    }
-
-    stats.attachments = note.Attachments?.Items?.length || 0;
-    stats.attachmentsState = 'None';
-
-    stats.totalCount = stats.corrections + stats.manualActivities + stats.prerequisites + stats.attachments;
-
-    return stats;
-}
-
-function renderStats(note, stats) {
-    const statsItems = domId('stats-items');
-    const statsGrid = domCreate('div', 'stats-grid');
-
-    const statItems = (note.Header.Type.value === 'SAP Knowledge Base Article') ? [
-        { label: note.Attachments?._label || 'Attachments', value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
-    ] : [
-        { label: note.CorrectionsInfo.Corrections?._label || 'Corrections', value: stats.corrections, highlight: stats.corrections > 0, state: stats.correctionsState },
-        { label: note.CorrectionsInfo.ManualActivities?._label || 'Manual Activities', value: stats.manualActivities, highlight: stats.manualActivities > 0, state: stats.manualActivitiesState },
-        { label: note.CorrectionsInfo.Prerequisites?._label || 'Prerequisites', value: stats.prerequisites, highlight: stats.prerequisites > 0, state: stats.prerequisitesState },
-        { label: note.Attachments?._label || 'Attachments', value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
-    ];
-
-    statItems.forEach(item => {
-        if (item.value > 0) {
-            const statItem = domCreate('div', 'stat-item');
-
-            if (item.state) {
-                statItem.classList.add(`state-${item.state.toLowerCase()}`);
-            }
-
-            const label = domCreate('div', 'stat-label');
-            label.textContent = item.label;
-
-            const value = domCreate('div', 'stat-value');
-            if (item.highlight) {
-                value.classList.add('highlight');
-            }
-            value.textContent = item.value;
-
-            domAppend(statItem, label);
-            domAppend(statItem, value);
-            domAppend(statsGrid, statItem);
-        }
-    });
-
-    domAppend(statsItems, statsGrid);
-}

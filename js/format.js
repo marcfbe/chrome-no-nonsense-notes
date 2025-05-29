@@ -34,29 +34,42 @@ function normalizeDateFormat(dateString) {
 
     // Add "time ago" information to the normalized date
     if (cleanDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-        const date = new Date(cleanDate);
-        const now = new Date();
-        const diffDays = Math.floor(Math.abs(now - date) / (1000 * 60 * 60 * 24));
+        const timeAgo = getTimeAgoString(cleanDate);
 
-        let timeAgo;
-        if (diffDays === 0) {
-            timeAgo = '<span style="color: red">today</span>';
-        } else if (diffDays === 1) {
-            timeAgo = '<span style="color: red">yesterday</span>';
-        } else if (diffDays < 7) {
-            timeAgo = `<span style="color: orange">${diffDays} days ago</span>`;
-        } else if (diffDays < 30) {
-            timeAgo = `<span style="color: #ffa07a">${Math.floor(diffDays / 7)} weeks ago</span>`;
-        } else if (diffDays < 365) {
-            timeAgo = `${Math.floor(diffDays / 30)} months ago`;
-        } else {
-            timeAgo = `${Math.floor(diffDays / 365)} years ago`;
-        }
 
         cleanDate = `${cleanDate}, ${timeAgo}`;
     }
 
     return cleanDate;
+}
+
+/**
+ * Formats date strings to include "time ago" information
+ * @param {string} dateString - The date string to format
+ * @returns {string} Formatted date string with time ago information
+ */
+function getTimeAgoString(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffDays = Math.floor(Math.abs(now - date) / (1000 * 60 * 60 * 24));
+
+    // TODO: i18n
+    if (diffDays === 0) {
+        return '<span style="color: red">today</span>';
+    } else if (diffDays === 1) {
+        return '<span style="color: red">yesterday</span>';
+    } else if (diffDays < 7) {
+        return `<span style="color: orange">${diffDays} days ago</span>`;
+    } else if (diffDays < 30) {
+        const weeks = Math.floor(diffDays / 7);
+        return `<span style="color: #ffa07a">${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago</span>`;
+    } else if (diffDays < 365) {
+        const months = Math.floor(diffDays / 30);
+        return `<span style="color: #ffa07a">${months} ${months === 1 ? 'month' : 'months'} ago</span>`;
+    } else {
+        const years = Math.floor(diffDays / 365);
+        return `<span style="color: #ffa07a">${years} ${years === 1 ? 'year' : 'years'} ago</span>`;
+    }
 }
 
 /**
@@ -76,81 +89,78 @@ function normalizeManualActivities(manualActivities) {
  * @param {string} longText - The HTML content to format
  * @returns {string} Formatted HTML content with proper links
  */
-function formatLongText(longText) {
+function formatLongText(longText, language) {
     if (!longText || typeof longText !== 'string') {
         return longText;
     }
 
     let formattedText = longText;
 
-    // 1. Convert relative /notes/ URLs to viewer.html links
+    // Fix some messy data preventing pattern recognition below
+    formattedText = formattedText
+      .replace(/&nbsp;\<\/(strong|b|i)\>/gi, '</$1> ')
+      .replace(/(?:&nbsp;)+(\d{5,7})/gi, ' $1')
+
+    // Convert relative /notes/ URLs to NNN links
     formattedText = formattedText.replace(
         /href=["']\/notes\/(\d+)[^"']*["']/gi,
-        'href="viewer.html?id=$1"'
+        'href="viewer.html?id=$1&t=' + language + '"'
     );
 
-    // 2. Convert plain HTTP/HTTPS URLs to links (but not if they're already in <a> tags)
+    // Convert plain HTTP/HTTPS URLs to links (but not if they're already in <a> tags)
     formattedText = formattedText.replace(
         /(?<!<a[^>]*>.*?)(?<!href=["'])https?:\/\/[^\s<>"]+(?![^<]*<\/a>)/gi,
         (match) => {
-            // Check if this URL should be converted to viewer.html
-            if (match.includes('me.sap.com/notes/') || match.includes('launchpad.support.sap.com/#/notes/')) {
-                const noteId = extractNoteId(match);
-                if (noteId) {
-                    return `<a href="viewer.html?id=${noteId}">${noteId}</a>`;
-                }
-            }
-            // Open other links in new tab
-            return `<a href="${match}" target="_blank">${match}</a>`;
+            return `<a href="${match}">${match}</a>`;
         }
     );
 
-    // 3. Convert me.sap.com/notes/ links to viewer.html (if not already processed above)
+    // Convert me.sap.com/notes/ links to NNN
     formattedText = formattedText.replace(
         /<a[^>]*href=["']([^"']*me\.sap\.com\/notes\/[^"']*)["'][^>]*>([^<]*)<\/a>/gi,
         (match, url, text) => {
             const noteId = extractNoteId(url);
             if (noteId) {
-                return `<a href="viewer.html?id=${noteId}">${noteId}</a>`;
+                return `<a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
             }
             return match;
         }
     );
 
-    // 4. Convert launchpad.support.sap.com/#/notes/ links to viewer.html
+    // Convert launchpad.support.sap.com/#/notes/ links to NNN
     formattedText = formattedText.replace(
         /<a[^>]*href=["']([^"']*launchpad\.support\.sap\.com\/#\/notes\/[^"']*)["'][^>]*>([^<]*)<\/a>/gi,
         (match, url, text) => {
             const noteId = extractNoteId(url);
             if (noteId) {
-                return `<a href="viewer.html?id=${noteId}">${noteId}</a>`;
+                return `<a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
             }
             return match;
         }
     );
 
-    // 5. Convert service.sap.com/sap/support/notes/ links to viewer.html
+    // Convert service.sap.com/sap/support/notes/ links to NNN
     formattedText = formattedText.replace(
         /<a[^>]*href=["']([^"']*service\.sap\.com\/sap\/support\/notes\/[^"']*)["'][^>]*>([^<]*)<\/a>/gi,
         (match, url, text) => {
             const noteId = extractNoteId(url);
             if (noteId) {
-                return `<a href="viewer.html?id=${noteId}">${noteId}</a>`;
+                return `<a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
             }
             return match;
         }
     );
 
-    // 6. Add target="_blank" to external links that don't already have it
+    // Add target="_blank" to external links that don't already have it
     formattedText = formattedText.replace(
         /<a([^>]*href=["'][^"']*(?!viewer\.html)[^"']*["'][^>]*)(?!.*target=)([^>]*)>/gi,
         '<a$1 target="_blank"$2>'
     );
 
-    // 7. Convert plain "Note \d+" references to viewer.html links
+    // Convert plain "Note XYZ" references to NNN links
     formattedText = formattedText.replace(
-        /\bNote\s+(\d+)\b/gi,
-        (match, noteId) => {
+        /\b(Note|Hinweis|nota|SAP)\s+(\d+)\b/gi,
+        (match, text, noteId) => {
             // Check if this is already inside an <a> tag
             const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
             const afterMatch = formattedText.substring(formattedText.indexOf(match) + match.length);
@@ -164,14 +174,14 @@ function formatLongText(longText) {
                 return match; // Don't modify if already inside a link
             }
 
-            return `Note <a href="viewer.html?id=${noteId}">${noteId}</a>`;
+            return `${text} <a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
         }
     );
 
-    // 8. Convert bold/italic note references to viewer.html links
+    // Convert bold/italic note references to viewer.html links
     formattedText = formattedText.replace(
-        /Note\s+(?:<(?:strong|b|i)>)(\d+)(?:<\/(?:strong|b|i)>)/gi,
-        (match, noteId) => {
+        /(Note|Hinweis|nota|SAP)\s+(?:<(?:strong|b|i)>)(\d+)(?:<\/(?:strong|b|i)>)/gi,
+        (match, text, noteId) => {
             // Check if this is already inside an <a> tag
             const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
             const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
@@ -181,7 +191,7 @@ function formatLongText(longText) {
                 return match; // Don't modify if already inside a link
             }
 
-            return `Note <a href="viewer.html?id=${noteId}">${noteId}</a>`;
+            return `${text} <a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
         }
     );
 
@@ -204,6 +214,12 @@ function extractNoteId(url) {
     const launchpadMatch = url.match(/launchpad\.support\.sap\.com\/#\/notes\/(\d+)/i);
     if (launchpadMatch) {
         return launchpadMatch[1];
+    }
+
+    // Match service.sap.com/sap/support/notes/XXXXXX
+    const supportPortalMatch = url.match(/service\.sap\.com\/sap\/support\/notes\/(\d+)/i);
+    if (supportPortalMatch) {
+        return supportPortalMatch[1];
     }
 
     return null;

@@ -8,15 +8,23 @@
 
 # No Nonsense Notes for SAP (NNN)
 
-A Chrome extension for displaying SAP Notes and Knowledge Base Articles at an incredible speed (compared to SAP for Me)
+The fastest and best way to browse SAP Notes and Knowledge Base Articles. Period.
+
+Welcome to my vibe coding project with purpose! This is a Chrome Extension that makes "life with SAP" just a tiny bit better. Over the course of your career, No Nonsense Notes might save you many seconds that you should spend offline with friends and family.
+
+Enjoy,
+
+Marc
 
 NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes/blob/main/LICENSE)
 
 ## Features
 
-- Show the SAP Note in 1 to 2 seconds
+- Show any SAP Note or KBA in 2 seconds, max
+- Smart language switcher keeps setting also when navigating to other SAP Notes
 - Autolink other SAP Notes to NNN including old Support Portal and Launchpad links
-- No paging of long list (you won't have to click "More..." again and again)
+- Change plain text URLs to clickable links
+- No paging of long list so you won't have to click "More..." again and again
 - Convert "Release Date" to ISO format and add "time ago" with highlighting of recently released SAP Notes
 - Highlight of CVSS Score and link of CVSS Vector to https://first.org
 - Display attachment counter

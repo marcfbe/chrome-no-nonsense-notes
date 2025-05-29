@@ -145,11 +145,7 @@ table tr:hover {
 }
 
 .logo {
-    /* Logo positioning handled by flexbox */
-}
-
-.language-selector {
-    /* Language selector positioning handled by flexbox */
+    float: right;
 }
 
 .language-selector select {
@@ -159,7 +155,7 @@ table tr:hover {
     background-color: white;
     font-size: 14px;
     color: #333;
-    min-width: 150px;
+    width: 100%;
 }
 
 .metadata {
