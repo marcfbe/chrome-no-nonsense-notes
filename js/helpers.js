@@ -7,14 +7,16 @@ function displayError(error, noteId = '') {
     errorDisclaimer.id = 'DISCLAIMER';
 
     const errorTitle = domText('strong', error.code ? error.code + ': ' : '');
-    const errorMessage = domText('span', error.message);
+    const errorMessage = domText('div', error.message);
 
     domAppend(errorDisclaimer, errorTitle);
     domAppend(errorDisclaimer, errorMessage);
 
     // Add for debugging
-    const errorStack = domText('div', error.stack);
-    domAppend(errorDisclaimer, errorStack);
+    if (error.code && (error.code < 400 || error.code >= 500)) {
+        const errorStack = domText('div', error.stack);
+        domAppend(errorDisclaimer, errorStack);
+    }
 
     [
         domId('type-version'),

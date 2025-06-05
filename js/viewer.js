@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const noteLanguage = urlParams.get('t') || 'E';
 
     if (!noteId) {
-        const error = new Error('Invalid SAP Note');
+        const error = new Error('Invalid SAP Note parameter');
         displayError(error);
         return;
     }
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             select.addEventListener('change', (e) => {
                 const code = e.target.value;
                 if (code) {
-                    window.location.href = `viewer.html?id=${noteId}&t=${code}`;
+                    window.location.href = `${nnnPage}?id=${noteId}&t=${code}`;
                 }
             });
 
@@ -499,7 +499,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 domAppend(table, thead);
 
                 const tbody = domCreate('tbody');
-                note.References.RefTo.Items.forEach(ref => {
+                const refTos = note.References.RefTo.Items.sort((a, b) => {
+                    const aNum = parseInt(a.RefNumber);
+                    const bNum = parseInt(b.RefNumber);
+                    return (isNaN(aNum) || isNaN(bNum)) ? 
+                        a.RefNumber.localeCompare(b.RefNumber) ||
+                        a.RefComponent.localeCompare(b.RefComponent) ||
+                        a.RefTitle.localeCompare(b.RefTitle) :
+                        aNum - bNum ||
+                        a.RefComponent.localeCompare(b.RefComponent) ||
+                        a.RefTitle.localeCompare(b.RefTitle);
+                })
+                refTos.forEach(ref => {
                     const row = domCreate('tr');
 
                     // Note number
@@ -557,7 +568,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 domAppend(table, thead);
 
                 const tbody = domCreate('tbody');
-                note.References.RefBy.Items.forEach(ref => {
+                const refBys = note.References.RefBy.Items.sort((a, b) => {
+                    const aNum = parseInt(a.RefNumber);
+                    const bNum = parseInt(b.RefNumber);
+                    return (isNaN(aNum) || isNaN(bNum)) ? 
+                        a.RefNumber.localeCompare(b.RefNumber) ||
+                        a.RefComponent.localeCompare(b.RefComponent) ||
+                        a.RefTitle.localeCompare(b.RefTitle) :
+                        aNum - bNum ||
+                        a.RefComponent.localeCompare(b.RefComponent) ||
+                        a.RefTitle.localeCompare(b.RefTitle);
+                })
+                refBys.forEach(ref => {
                     const row = domCreate('tr');
 
                     // Note number

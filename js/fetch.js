@@ -1,4 +1,20 @@
 async function fetchSAPNote(noteId, language) {
+    // Use demo data for noteId 42424242
+    if (noteId === '42424242') {
+        try {
+            const response = await fetch('./tests/demo-entertainment.json');
+            if (!response.ok) {
+                throw new Error(`Failed to load demo data: ${response.status}`);
+            }
+            const demoData = await response.json();
+            const sapNote = { ...demoData.Response.SAPNote };
+            return sapNote;
+        } catch (error) {
+            throw new Error(`Failed to load demo data: ${error.message}`);
+        }
+    }
+
+    // This fetch requires a valid SAP session cookie to be available in the browser
     const lang = language ? `&t=${language}` : '';
     const response = await fetch(`https://me.sap.com/backend/raw/sapnotes/Detail?q=${noteId}&isVTEnabled=true${lang}`, {
         method: 'GET',
@@ -18,7 +34,27 @@ async function fetchSAPNote(noteId, language) {
     });
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        let message;
+        switch (response.status) {
+            case 401:
+                message = 'You are not authorized to access this note.<br>Please logon to <a href="https://me.sap.com/">https://me.sap.com/</a>';
+                break;
+            case 403:
+                message = 'Access denied';
+                break;
+            case 404:
+                message = 'Note not found';
+                break;
+            case 429:
+                message = 'Too many requests';
+                break;
+            case 500:
+                message = 'Internal server error';
+                break;
+            default:
+                message = response.statusText;
+        }
+        throw new Error(`HTTP error ${response.status}<br>${message}`, { code: response.status });
     }
 
     const contentType = response.headers.get('content-type');
@@ -26,9 +62,9 @@ async function fetchSAPNote(noteId, language) {
         const text = await response.text();
         throw new Error('Expected JSON, got: ' + text.slice(0, 100));
     }
-    
+
     const data = await response.json();
-    
+
     if (!data.Response) {
         throw new Error('Invalid response format');
     }

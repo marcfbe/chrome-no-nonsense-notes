@@ -16,18 +16,20 @@ function domCreate(element, className = '') {
 
 function domText(element, textContent = '') {
     const el = document.createElement(element);
-    if (textContent) {
+    if (textContent && textContent.includes('<') && textContent.includes('>')) {
+        el.innerHTML = String(textContent).trim();
+    } else {
         el.textContent = String(textContent).trim();
     }
     return el;
 }
 
-function domTextId(id, textContent) {
+function domTextId(id, textContent = '') {
     const el = domId(id);
     if (textContent && textContent.includes('<') && textContent.includes('>')) {
-        el.innerHTML = textContent;
+        el.innerHTML = String(textContent).trim();
     } else {
-        el.textContent = textContent;
+        el.textContent = String(textContent).trim();
     }
 }
 
@@ -42,9 +44,9 @@ function domLink(text, href, language = '') {
     // map to extension (same tab)
     if (ref.startsWith('/notes/')) {
         const noteId = ref.split('/')[2];
-        link.href = `viewer.html?id=${noteId}${lang}`;
+        link.href = `${nnnPage}?id=${noteId}${lang}`;
     } else if (ref.match(/^\d+\s*$/)) {
-        link.href = `viewer.html?id=${ref}${lang}`;
+        link.href = `${nnnPage}?id=${ref}${lang}`;
     } else {
         // map to website and open in new tab
         if (ref.startsWith('/')) {

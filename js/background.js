@@ -9,7 +9,7 @@ chrome.omnibox.onInputEntered.addListener((text, disposition) => {
   const noteId = text.replace(/\D/g, '');
   if (noteId) {
     // Open the viewer in a new tab
-    const viewerUrl = chrome.runtime.getURL(`viewer.html?id=${noteId}`);
+    const viewerUrl = chrome.runtime.getURL(`nnn.html?id=${noteId}`);
     // Force chrome-extension:// protocol to prevent search
     if (!viewerUrl.startsWith('chrome-extension://')) {
       return;
@@ -26,4 +26,4 @@ chrome.omnibox.onInputEntered.addListener((text, disposition) => {
         break;
     }
   }
-}); 
+});

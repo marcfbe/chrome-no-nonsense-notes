@@ -104,7 +104,7 @@ function formatLongText(longText, language) {
     // Convert relative /notes/ URLs to NNN links
     formattedText = formattedText.replace(
         /href=["']\/notes\/(\d+)[^"']*["']/gi,
-        'href="viewer.html?id=$1&t=' + language + '"'
+        `href="${nnnPage}?id=$1&t=${language}"`
     );
 
     // Convert plain HTTP/HTTPS URLs to links (but not if they're already in <a> tags)
@@ -121,7 +121,7 @@ function formatLongText(longText, language) {
         (match, url, text) => {
             const noteId = extractNoteId(url);
             if (noteId) {
-                return `<a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
+                return `<a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
             }
             return match;
         }
@@ -133,7 +133,7 @@ function formatLongText(longText, language) {
         (match, url, text) => {
             const noteId = extractNoteId(url);
             if (noteId) {
-                return `<a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
+                return `<a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
             }
             return match;
         }
@@ -145,7 +145,7 @@ function formatLongText(longText, language) {
         (match, url, text) => {
             const noteId = extractNoteId(url);
             if (noteId) {
-                return `<a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
+                return `<a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
             }
             return match;
         }
@@ -153,37 +153,18 @@ function formatLongText(longText, language) {
 
     // Add target="_blank" to external links that don't already have it
     formattedText = formattedText.replace(
-        /<a([^>]*href=["'][^"']*(?!viewer\.html)[^"']*["'][^>]*)(?!.*target=)([^>]*)>/gi,
+        /<a([^>]*href=["'][^"']*(?!nnn\.html)[^"']*["'][^>]*)(?!.*target=)([^>]*)>/gi,
         '<a$1 target="_blank"$2>'
     );
 
     // Convert plain "Note XYZ" references to NNN links
+    // TODO: i18n (Japanese, Russian, Chinese)
     formattedText = formattedText.replace(
         /\b(Note|Hinweis|nota|SAP)\s+(\d+)\b/gi,
         (match, text, noteId) => {
             // Check if this is already inside an <a> tag
             const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
-            const afterMatch = formattedText.substring(formattedText.indexOf(match) + match.length);
-
             // Simple check: if there's an unclosed <a> tag before this match
-            const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
-            const closeTags = (beforeMatch.match(/<\/a>/gi) || []).length;
-            const insideLink = openTags > closeTags;
-
-            if (insideLink) {
-                return match; // Don't modify if already inside a link
-            }
-
-            return `${text} <a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
-        }
-    );
-
-    // Convert bold/italic note references to viewer.html links
-    formattedText = formattedText.replace(
-        /(Note|Hinweis|nota|SAP)\s+(?:<(?:strong|b|i)>)(\d+)(?:<\/(?:strong|b|i)>)/gi,
-        (match, text, noteId) => {
-            // Check if this is already inside an <a> tag
-            const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
             const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
             const closeTags = (beforeMatch.match(/<\/a>/gi) || []).length;
 
@@ -191,7 +172,45 @@ function formatLongText(longText, language) {
                 return match; // Don't modify if already inside a link
             }
 
-            return `${text} <a href="viewer.html?id=${noteId}&t=${language}">${noteId}</a>`;
+            return `${text} <a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
+        }
+    );
+
+    // Convert plain "Notes XYZ and ABC" references to NNN links
+    // TODO: i18n (Japanese, Russian, Chinese)
+    formattedText = formattedText.replace(
+        /\b(Notes?|Hinweise?|notas?|SAP)\s+(\d+)\s+(and|und|et|e|y)\s+(\d+)\b/gi,
+        (match, text, noteId1, textAnd, noteId2) => {
+            // Check if this is already inside an <a> tag
+            const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
+            // Simple check: if there's an unclosed <a> tag before this match
+            const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
+            const closeTags = (beforeMatch.match(/<\/a>/gi) || []).length;
+
+            if (openTags > closeTags) {
+                return match; // Don't modify if already inside a link
+            }
+
+            return `${text} <a href="${nnnPage}?id=${noteId1}&t=${language}">${noteId1}</a> `
+              + `${textAnd} <a href="${nnnPage}?id=${noteId2}&t=${language}">${noteId2}</a>`;
+        }
+    );
+
+    // Convert bold/italic note references to NNN links
+    formattedText = formattedText.replace(
+        /(Note|Hinweis|nota|SAP)\s+(?:<(?:strong|b|i)>)(\d+)(?:<\/(?:strong|b|i)>)/gi,
+        (match, text, noteId) => {
+            // Check if this is already inside an <a> tag
+            const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
+            // Simple check: if there's an unclosed <a> tag before this match
+            const openTags = (beforeMatch.match(/<a\b[^>]*>/gi) || []).length;
+            const closeTags = (beforeMatch.match(/<\/a>/gi) || []).length;
+
+            if (openTags > closeTags) {
+                return match; // Don't modify if already inside a link
+            }
+
+            return `${text} <a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
         }
     );
 

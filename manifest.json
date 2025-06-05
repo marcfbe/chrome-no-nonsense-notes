@@ -5,11 +5,12 @@
   "description": "The fastest viewer for SAP Notes",
   "author": "Marc Bernard",
   "permissions": [],
+  "minimum_chrome_version": "101",
   "host_permissions": [
     "https://me.sap.com/*"
   ],
   "web_accessible_resources": [{
-    "resources": ["viewer.html", "css/*", "fonts/*", "js/*", "favicon.ico"],
+    "resources": ["nnn.html", "css/*", "fonts/*", "js/*", "favicon.ico"],
     "matches": ["<all_urls>"]
   }],
   "content_security_policy": {
@@ -23,5 +24,6 @@
   },
   "icons": {
     "128": "img/nnn_logo.png"
-  }
+  },
+  "options_page": "about.html"
 }
