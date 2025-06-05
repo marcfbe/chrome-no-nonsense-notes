@@ -31,17 +31,22 @@ NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes
 - Display attachment counter
 - Scroll-to-top button
 
+## How to use
+
+1. Type <kbd>note</kbd> followed by <kbd>TAB</kbd> into the browser address bar.
+2. Type the SAP Note number you want to view followed by <kdb>ENTER</kbd>.
+3. Don't blink or you might miss loading the SAP Note.
+4. Enjoy reading the SAP Note or navigating to other SAP Notes
+
+## Security
+
+The extension requires a valid session cookie for me.sap.com. If you get an authentication error, simply log on to https://me.sap.com, once. Then you can use the extension, freely.
+
 ## Installation
 
 Currently, installation is manual: unpack to local folder, load unpackaged in Google Chrome (chrome://extensions/).
 
 Google Chrome Store is planned
-
-## Usage
-
-In the browser address bar, enter "note", then <kbd>TAB</kbd> followed by the SAP Note number, and press <kdb>ENTER</kbd>.
-
-The SAP Note will be shown in a second or two max :party:
 
 ## About
 
