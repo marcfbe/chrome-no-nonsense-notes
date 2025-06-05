@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "No Nonsense Notes for SAP",
-  "version": "1.0.0",
-  "description": "The fastest viewer for SAP Notes",
+  "version": "1.0.1",
+  "description": "The fastest way to browse SAP Notes and Knowledge Base Articles",
   "author": "Marc Bernard",
   "permissions": [],
   "minimum_chrome_version": "101",
