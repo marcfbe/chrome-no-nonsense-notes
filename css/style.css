@@ -557,8 +557,9 @@ table tr:hover {
   position: absolute;
   top: 20px;
   right: -500px;
-  padding: 20px;
+  padding: 0 20px;
   border: 1px solid #0070f2;
+  border-radius: 4px;
   opacity: 0%;
 }
 

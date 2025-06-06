@@ -1,14 +1,22 @@
 // Helper function to display messages with optional auto-clear
-function displayMessage(content, className, autoClear = false, clearDelay = 3000) {
-    const toast = domId("toast");
-    toast.classList.add("toast-active");
+function displayMessage(content, className, autoClear = false, clearDelay = 4000) {
+    const toast = domId('toast');
+    toast.classList.remove('toast-warning');
+    toast.classList.remove('toast-success');
+    toast.classList.remove('toast-info');
+    toast.classList.remove('toast-error');
     toast.classList.add(className);
+    toast.classList.add('toast-active');
 
     domTextId('toast-message',content);
 
     if (autoClear) {
         setTimeout(() => {
-            toast.classList.remove("toast-active");
+            toast.classList.remove('toast-active');
+            toast.classList.remove('toast-warning');
+            toast.classList.remove('toast-success');
+            toast.classList.remove('toast-info');
+            toast.classList.remove('toast-error');
         }, clearDelay);
     }
 }
@@ -153,6 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     domId('donate-button').addEventListener('click', () => {
-        window.open('https://github.com/sponsors/mbtools', '_blank');
+        window.open('https://github.com/sponsors/mbtools?frequency=one-time&sponsor=mbtools', '_blank');
     });
 }); 
