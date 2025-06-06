@@ -107,9 +107,9 @@ function formatLongText(longText, language) {
         `href="${nnnPage}?id=$1&t=${language}"`
     );
 
-    // Convert plain HTTP/HTTPS URLs to links (but not if they're already in <a> tags)
+    // Convert plain HTTP/HTTPS URLs to links (but not if they're already in <a> tags or src attributes)
     formattedText = formattedText.replace(
-        /(?<!<a[^>]*>.*?)(?<!href=["'])https?:\/\/[^\s<>"]+(?![^<]*<\/a>)/gi,
+        /(?<!<a[^>]*>.*?)(?<!(?:href|src)=["'])https?:\/\/[^\s<>"]+(?![^<]*<\/a>)/gi,
         (match) => {
             return `<a href="${match}">${match}</a>`;
         }

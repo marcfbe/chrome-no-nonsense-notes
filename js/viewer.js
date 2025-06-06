@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderNote(noteId, noteLanguage);
 });
 
+
+
 async function renderNote(noteId, noteLanguage) {
     if (!noteId) {
         const error = new Error('Invalid SAP Note parameter');
@@ -18,10 +20,13 @@ async function renderNote(noteId, noteLanguage) {
 
         // console.log('Fetched note data:', note); // Add for debugging
 
+        // Load breadcrumbs setting
+        const showBreadcrumbs = await loadBreadcrumbsSetting();
+
         // Set breadcrumbs
         const breadcrumbs = domId('breadcrumbs');
 
-        if (note.Header.SAPComponentPath && Array.isArray(note.Header.SAPComponentPath) && note.Header.SAPComponentPath.length > 0) {
+        if (showBreadcrumbs && note.Header.SAPComponentPath && Array.isArray(note.Header.SAPComponentPath) && note.Header.SAPComponentPath.length > 0) {
             const breadcrumbsList = domCreate('ol', 'breadcrumbs-list');
 
             note.Header.SAPComponentPath.forEach((pathItem) => {
@@ -32,6 +37,8 @@ async function renderNote(noteId, noteLanguage) {
             });
 
             domAppend(breadcrumbs, breadcrumbsList);
+        } else {
+            domHide(breadcrumbs);
         }
 
         if (note.Title && note.Title.value) {
@@ -77,6 +84,18 @@ async function renderNote(noteId, noteLanguage) {
             }
         }
 
+        // *** Next Note Input ***
+
+        const nextNoteInput = domId('next-note-id');
+        nextNoteInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const nextNoteId = e.target.value.trim();
+                if (nextNoteId) {
+                    window.location.href = `${nnnPage}?id=${nextNoteId}&t=${noteLanguage}`;
+                }
+            }
+        });
+
         // *** Language Selector ***
 
         if (note.Translations) {
@@ -108,66 +127,61 @@ async function renderNote(noteId, noteLanguage) {
 
         // *** Ratings ***
 
-        const ratings = domId('ratings');
+        // Helpful Rating
+        if (note.Rating.RatingHelpful && !note.Rating.RatingHelpful['Helpful-Yes'].startsWith('0')) {
+            domTextId('ratings-helpful-label', note.Rating.RatingHelpful._label);
+            domTextId('ratings-helpful-value', note.Rating.RatingHelpful['Helpful-Yes']);
+        } else {
+            domHide(domId('ratings-helpful'));
+        }
 
-        if (note.Rating) {
-            domTextId('ratings-label', note.Rating._label);
+        // Quality Rating
+        if (note.Rating.RatingQuality && !note.Rating['Quality-AVG'] == 0) {
+            domTextId('ratings-quality-label', note.Rating.RatingQuality._label);
 
-            // Helpful Rating
-            if (note.Rating.RatingHelpful && note.Rating.RatingHelpful['Helpful-Yes']) {
-                domTextId('ratings-helpful-label', note.Rating.RatingHelpful._label);
-                domTextId('ratings-helpful-value', note.Rating.RatingHelpful['Helpful-Yes']);
-            } else {
-                domHide(domId('ratings-helpful'));
-            }
+            const qualityAverage = domId('ratings-quality-average');
+            const avgScore = parseFloat(note.Rating['Quality-AVG']);
+            const totalVotes = note.Rating['Quality-Votes'] || 0;
 
-            // Quality Rating
-            if (note.Rating.RatingQuality && note.Rating['Quality-AVG'] !== undefined) {
-                domTextId('ratings-quality-label', note.Rating.RatingQuality._label);
-                
-                const qualityAverage = domId('ratings-quality-average');
-                const avgScore = parseFloat(note.Rating['Quality-AVG']);
-                const totalVotes = note.Rating['Quality-Votes'] || 0;
-                
-                qualityAverage.innerHTML = `
-                    <div class="rating-average">
-                        <span class="rating-score">${avgScore.toFixed(2)}</span>
-                        <span class="rating-stars">${generateStars(avgScore)}</span>
-                        <span class="rating-votes">(${totalVotes} ${totalVotes === 1 ? 'vote' : 'votes'})</span>
-                    </div>
+            qualityAverage.innerHTML = `
+                    <span class="rating-score">${avgScore.toFixed(2)}</span>
+                    <span class="rating-stars">${generateStars(avgScore)}</span>
+                    <span class="rating-votes">(${totalVotes} ${totalVotes === 1 ? 'vote' : 'votes'})</span>
                 `;
 
-                // Quality Rating Details (star breakdown)
-                if (note.Rating.RatingQualityDetails) {
-                    const details = note.Rating.RatingQualityDetails;
-                    const qualityDetails = domId('ratings-quality-details');
-                    
-                    const detailsHTML = `
-                        <div class="rating-breakdown">
-                            ${[5, 4, 3, 2, 1].map(star => {
-                                const count = details[`Stars-${star}`] || 0;
-                                const percentage = totalVotes > 0 ? (count / totalVotes * 100).toFixed(1) : 0;
-                                return `
-                                    <div class="rating-bar">
-                                        <span class="star-label">${star} ★</span>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: ${percentage}%"></div>
-                                        </div>
-                                        <span class="rating-count">${count}</span>
+            // Quality Rating Details (star breakdown)
+            if (note.Rating.RatingQualityDetails) {
+                const details = note.Rating.RatingQualityDetails;
+                const qualityDetails = domId('ratings-quality-breakdown');
+
+                qualityDetails.innerHTML =
+                    [5, 4, 3, 2, 1].map(star => {
+                        const count = details[`Stars-${star}`] || 0;
+                        const percentage = totalVotes > 0 ? (count / totalVotes * 100).toFixed(1) : 0;
+                        return `
+                                <div class="rating-bar">
+                                    <span class="star-label">${star} ★</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: ${percentage}%"></div>
                                     </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    `;
-                    
-                    qualityDetails.innerHTML = detailsHTML;
-                }
-            } else {
-                domHide(domId('ratings-quality'));
+                                    <span class="rating-count">${count}</span>
+                                </div>
+                            `;
+                    }).join('');
+
+                // Add hover functionality
+                qualityAverage.addEventListener('mouseenter', () => {
+                    qualityDetails.classList.add('visible');
+                });
+
+                qualityAverage.addEventListener('mouseleave', () => {
+                    qualityDetails.classList.remove('visible');
+                });
             }
         } else {
-            domHide(ratings);
+            domHide(domId('ratings-quality'));
         }
+
 
         // *** Description (HTML content) ***
 
@@ -568,7 +582,7 @@ async function renderNote(noteId, noteLanguage) {
                 const refTos = note.References.RefTo.Items.sort((a, b) => {
                     const aNum = parseInt(a.RefNumber);
                     const bNum = parseInt(b.RefNumber);
-                    return (isNaN(aNum) || isNaN(bNum)) ? 
+                    return (isNaN(aNum) || isNaN(bNum)) ?
                         a.RefNumber.localeCompare(b.RefNumber) ||
                         a.RefComponent.localeCompare(b.RefComponent) ||
                         a.RefTitle.localeCompare(b.RefTitle) :
@@ -637,7 +651,7 @@ async function renderNote(noteId, noteLanguage) {
                 const refBys = note.References.RefBy.Items.sort((a, b) => {
                     const aNum = parseInt(a.RefNumber);
                     const bNum = parseInt(b.RefNumber);
-                    return (isNaN(aNum) || isNaN(bNum)) ? 
+                    return (isNaN(aNum) || isNaN(bNum)) ?
                         a.RefNumber.localeCompare(b.RefNumber) ||
                         a.RefComponent.localeCompare(b.RefComponent) ||
                         a.RefTitle.localeCompare(b.RefTitle) :

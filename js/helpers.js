@@ -80,8 +80,7 @@ function calculateNoteStats(note) {
 }
 
 function renderStats(note, stats) {
-    const statsItems = domId('stats-items');
-    const statsGrid = domCreate('div', 'stats-grid');
+    const statsGrid = domId('stats-grid');
 
     const statItems = (note.Header.Type.value === 'SAP Knowledge Base Article') ? [
         { label: note.Attachments?._label || 'Attachments', value: stats.attachments, highlight: stats.attachments > 0, state: stats.attachmentsState }
@@ -114,8 +113,6 @@ function renderStats(note, stats) {
             domAppend(statsGrid, statItem);
         }
     });
-
-    domAppend(statsItems, statsGrid);
 }
 
 /**

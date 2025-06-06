@@ -1,125 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>About - No Nonsense Notes for SAP</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <style>
-        .about-container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-            padding: 32px 24px;
-            text-align: center;
-        }
-        .about-logo {
-            height: 60px;
-            margin-bottom: 16px;
-        }
-        .about-title {
-            font-size: 2em;
-            margin-bottom: 8px;
-        }
-        .about-subtitle {
-            font-size: 1.2em;
-            margin-bottom: 16px;
-        }
-        .about-section {
-            margin: 24px 0 0 0;
-            text-align: left;
-        }
-        .about-section h3 {
-            margin-bottom: 6px;
-        }
-        .about-license {
-            font-size: 0.95em;
-            color: #444;
-            background: #f8f9fa;
-            border-radius: 4px;
-            padding: 10px 14px;
-            margin-top: 8px;
-        }
-        .about-footer {
-            margin-top: 32px;
-            font-size: 0.95em;
-            color: #888;
-        }
-    </style>
+    <script src="js/settings.js"></script>
 </head>
+
 <body>
+    <div class="toast" id="toast">
+        <p class="toast-message" id="toast-message"></p>
+    </div>
     <div class="about-container">
         <img src="img/nnn_logo.svg" alt="No Nonsense Notes Logo" class="about-logo">
-        <div class="about-title" id="about-title">...</div>
-        <div class="about-subtitle" id="about-subtitle">...</div>
-        <div class="about-version" id="about-version">...</div>
+        <div class="about-title">No Nonsense Notes for SAP</div>
+        <div class="about-subtitle">The fastest way to browse SAP Notes and Knowledge Base Articles</div>
+        <div class="about-version" id="about-version">Version 1.0.2</div>
         <div class="about-section">
             <h3>Description</h3>
             <p>
-                Welcome to my vibe coding project with purpose! This is a Chrome Extension that makes "life with SAP" just a tiny bit better. Over the course of your career, No Nonsense Notes might save you many seconds that you should spend offline with friends and family.
+                Welcome to my vibe coding project with purpose! This is a Chrome Extension that makes "life with SAP"
+                just a tiny bit better. Over the course of your career, No Nonsense Notes will save you many seconds
+                that you should spend offline with friends and family.
             </p>
             <p>
                 Enjoy,<br>Marc
             </p>
         </div>
         <div class="about-section">
-            <h3>GitHub</h3>
-            <div>
-                <a href="https://github.com/marcfbe/chrome-no-nonsense-notes" target="_blank">https://github.com/marcfbe/chrome-no-nonsense-notes</a>
+            <h3>Settings</h3>
+            <div class="settings-group">                
+                <table class="settings-table">
+                    <tr>
+                        <td><label for="show-breadcrumbs" class="settings-label">Show Breadcrumbs:</label></td>
+                        <td><input type="checkbox" id="show-breadcrumbs" class="settings-checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="cache-duration" class="settings-label">Cache Duration:</label></td>
+                        <td><input type="number" id="cache-duration" min="0" max="30" value="1" class="settings-input"> days</td>
+                    </tr>
+                </table>
+                
             </div>
-        </div>
-        <div class="about-section">
-            <h3>License</h3>
-            <div class="about-license" id="about-license">
-                Loading license...
-            </div>
+            <button id="clear-cache" class="settings-button">Clear Cache (<span id="cached-notes-count">0</span> notes)</button>
         </div>
         <div class="about-section">
             <h3>About</h3>
             <div>
-                Made with ❤ in Canada<br>
-                Follow <a href="https://bsky.app/profile/marcf.be" target="_blank">@marcf.be</a> on Bluesky and <a href="https://linkedin.com/in/marcfbe" target="_blank">@marcfbe</a> on LinkedIn.
+                NO WARRANTY OF ANY KIND<br><br>
+                Made with ❤️ in Canada<br>
+                Follow <a href="https://bsky.app/profile/marcf.be" target="_blank">@marcf.be</a> on Bluesky and 
+                <a href="https://linkedin.com/in/marcfbe" target="_blank">@marcfbe</a> on LinkedIn.
             </div>
         </div>
         <div class="about-footer">
-            &copy; 2025 Marc Bernard
+            <div>
+                <button id="privacy-button" class="settings-button">Privacy</button>
+                <button id="license-button" class="settings-button">License</button>
+                <button id="repository-button" class="settings-button">Repository</button>
+                <button id="donate-button" class="settings-button">Buy me a slice 🍕</button>
+            </div>
+            <p>
+                &copy; 2025 Marc Bernard
+            </p>
         </div>
     </div>
 
-    <script>
-        // Load content from manifest.json and LICENSE
-        async function loadDynamicContent() {
-            try {
-                // Load manifest.json
-                const manifestResponse = await fetch(chrome.runtime.getURL('manifest.json'));
-                const manifest = await manifestResponse.json();
-
-                // Load LICENSE
-                const licenseResponse = await fetch(chrome.runtime.getURL('LICENSE'));
-                const licenseText = await licenseResponse.text();
-
-                // Update title, subtitle, and version
-                document.getElementById('about-title').textContent = manifest.name;
-                document.getElementById('about-subtitle').innerHTML = manifest.description.replace('SAP Notes and Knowledge Base Articles', 'SAP Notes and Knowledge Base Articles');
-                document.getElementById('about-version').textContent = `Version ${manifest.version}`;
-
-                // Update license content
-                document.getElementById('about-license').innerHTML = licenseText.replace(/\n/g, '<br>');
-
-            } catch (error) {
-                console.error('Error loading dynamic content:', error);
-                // Fallback to hardcoded values if loading fails
-                document.getElementById('about-title').textContent = 'No Nonsense Notes for SAP';
-                document.getElementById('about-subtitle').textContent = 'The fastest way to browse SAP Notes and Knowledge Base Articles';
-                document.getElementById('about-version').textContent = 'Version 1.0.2';
-                document.getElementById('about-license').innerHTML = 'MIT License<br>Copyright (c) 2025 Marc Bernard<br><br>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br><br>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.';
-            }
-        }
-
-        // Load content when page loads
-        document.addEventListener('DOMContentLoaded', loadDynamicContent);
-    </script>
+    <script src="js/constants.js"></script>
+    <script src="js/dom.js"></script>
+    <script src="js/about.js"></script>
 </body>
-</html> 
+
+</html>

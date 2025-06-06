@@ -6,13 +6,14 @@
     <title>SAP Note Viewer</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="js/settings.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="img/nnn_logo.svg" alt="No Nonsense Notes Logo" height="50">
+                <a href="about.html"><img src="img/nnn_logo.svg" alt="No Nonsense Notes Logo" height="50"></a>
             </div>
             <nav class="breadcrumbs" id="breadcrumbs"></nav>
             <h1 id="title">Loading SAP Note...</h1>
@@ -27,6 +28,16 @@
                 <div id="description"></div>
             </div>
             <div id="right-column" class="right-column">
+                <div class="section">
+                    <h3 id="next-label">Next Note</h3>
+                    <div id="next-note">
+                        <input type="number" id="next-note-id" class="next-note-input" placeholder="SAP Note">
+                    </div>
+                </div>
+                <div id="language-selector" class="section">
+                    <h3 id="language-selector-label">Languages</h3>
+                    <div id="language-selector-content" class="language-selector"></div>
+                </div>
                 <div class="section">
                     <h3 id="component-label">Component</h3>
                     <div id="component"></div>
@@ -49,23 +60,18 @@
                 </div>
                 <div id="stats" class="section">
                     <h3 id="stats-label">Counts</h3>
-                    <div id="stats-items"></div>
-                </div>
-                <div id="language-selector" class="section">
-                    <h3 id="language-selector-label">Languages</h3>
-                    <div id="language-selector-content" class="language-selector"></div>
-                </div>
-                <div id="ratings" class="section">
-                    <h3 id="ratings-label">Ratings</h3>
-                    <div id="ratings-helpful">
-                        <h4 id="ratings-helpful-label">Helpful</h4>
-                        <div id="ratings-helpful-value"></div>
+                    <div id="stats-items">
+                        <div id="stats-grid" class="stats-grid"></div>
                     </div>
-                    <div id="ratings-quality">
-                        <h4 id="ratings-quality-label">Quality</h4>
-                        <div id="ratings-quality-average"></div>
-                        <div id="ratings-quality-details"></div>
-                    </div>
+                </div>
+                <div id="ratings-helpful" class="section">
+                    <h3 id="ratings-helpful-label">Helpful</h3>
+                    <div id="ratings-helpful-value"></div>
+                </div>
+                <div id="ratings-quality" class="section">
+                    <h3 id="ratings-quality-label">Quality</h3>
+                    <div id="ratings-quality-average" class="rating-average"></div>
+                    <div id="ratings-quality-breakdown" class="rating-breakdown"></div>
                 </div>
             </div>
         </div>

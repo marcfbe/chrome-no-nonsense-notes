@@ -1,4 +1,59 @@
+// Cache utility functions
+async function getCacheKey(noteId, language) {
+    return `${cachePrefix}${noteId}_${language || 'default'}`;
+}
+
+async function getCachedData(noteId, language) {
+    try {
+        const cacheKey = await getCacheKey(noteId, language);
+        const result = await chrome.storage.local.get([cacheKey]);
+        const cachedItem = result[cacheKey];
+        
+        if (!cachedItem) {
+            return null;
+        }
+        
+        const cacheDuration = await getCacheDuration();
+        const now = Date.now();
+        
+        // Cache expired, remove it
+        if (now - cachedItem.timestamp > cacheDuration) {
+            await chrome.storage.local.remove([cacheKey]);
+            return null;
+        }
+        
+        return cachedItem.data;
+    } catch (error) {
+        console.error('Error getting cached data:', error);
+        return null;
+    }
+}
+
+async function setCachedData(noteId, language, data) {
+    try {
+        const cacheDuration = await getCacheDuration();
+        if (cacheDuration === 0) {
+            return;
+        }
+
+        const cacheKey = await getCacheKey(noteId, language);
+        const cacheItem = {
+            data: data,
+            timestamp: Date.now()
+        };
+        await chrome.storage.local.set({ [cacheKey]: cacheItem });
+    } catch (error) {
+        console.error('Error setting cached data:', error);
+    }
+}
+
 async function fetchSAPNote(noteId, language) {
+    // Check cache first
+    const cachedData = await getCachedData(noteId, language);
+    if (cachedData) {
+        return cachedData;
+    }
+
     // Use demo data for noteId 42424242
     if (noteId === '42424242') {
         try {
@@ -81,5 +136,10 @@ async function fetchSAPNote(noteId, language) {
         throw new Error('Invalid response format - no SAP Note data');
     }
 
-    return data.Response.SAPNote;
+    const sapNote = data.Response.SAPNote;
+    
+    // Cache the fetched data
+    await setCachedData(noteId, language, sapNote);
+    
+    return sapNote;
 } 

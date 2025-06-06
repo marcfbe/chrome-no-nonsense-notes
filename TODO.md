@@ -3,7 +3,6 @@
 ## Content
 
 - SideEffects
-- Rating
 
 ## Features
 
@@ -11,8 +10,6 @@
 - Responsive design (breadcrumbs, right column)
 - Priority alerts (HotNews, very high)
 - DisclaimerForMachineTranslation (error -> warning)
-- Next Note Input
-- Cacheing
 
 ## i18n
 

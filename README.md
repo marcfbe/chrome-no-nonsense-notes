@@ -10,7 +10,7 @@
 
 The fastest way to browse SAP Notes and Knowledge Base Articles.
 
-Welcome to my vibe coding project with purpose! This is a Chrome Extension that makes "life with SAP" just a tiny bit better. Over the course of your career, No Nonsense Notes might save you many seconds that you should spend offline with friends and family.
+Welcome to my vibe coding project with purpose! This is a Chrome Extension that makes "life with SAP" just a tiny bit better. Over the course of your career, No Nonsense Notes will save you many seconds that you should spend offline with friends and family.
 
 Enjoy,
 
@@ -33,10 +33,10 @@ NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes
 
 ## How to use
 
-1. Type <kbd>note</kbd> followed by <kbd>TAB</kbd> into the browser address bar.
+1. Go to the browser address bar (<kbd>Ctrl+L</kbd>) and type <kbd>note</kbd> followed by <kbd>TAB</kbd>.
 2. Type the SAP Note number you want to view followed by <kdb>ENTER</kbd>.
 3. Don't blink or you might miss loading the SAP Note.
-4. Enjoy reading the SAP Note or navigating to other SAP Notes
+4. Enjoy reading the SAP Note or navigating to other SAP Notes.
 
 ## Security
 

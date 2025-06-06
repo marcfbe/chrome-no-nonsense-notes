@@ -14,23 +14,26 @@ function domCreate(element, className = '') {
     return el;
 }
 
-function domText(element, textContent = '') {
+function domText(element, content = '') {
     const el = document.createElement(element);
+    const textContent = String(content).trim();
     if (textContent && textContent.includes('<') && textContent.includes('>')) {
-        el.innerHTML = String(textContent).trim();
+        el.innerHTML = textContent;
     } else {
-        el.textContent = String(textContent).trim();
+        el.textContent = textContent;
     }
     return el;
 }
 
-function domTextId(id, textContent = '') {
+function domTextId(id, content = '') {
     const el = domId(id);
+    const textContent = String(content).trim();
     if (textContent && textContent.includes('<') && textContent.includes('>')) {
-        el.innerHTML = String(textContent).trim();
+        el.innerHTML = textContent;
     } else {
-        el.textContent = String(textContent).trim();
+        el.textContent = textContent;
     }
+    return el;
 }
 
 function domLink(text, href, language = '') {
