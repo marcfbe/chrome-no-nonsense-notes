@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "No Nonsense Notes for SAP",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The fastest way to browse SAP Notes and Knowledge Base Articles",
   "author": "Marc Bernard",
   "permissions": ["storage"],
@@ -14,7 +14,7 @@
     "matches": ["<all_urls>"]
   }],
   "content_security_policy": {
-    "extension_pages": "default-src 'self'; connect-src https://me.sap.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' *.sap.com"
+    "extension_pages": "default-src 'self'; connect-src https://me.sap.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: *.sap.com; media-src 'self' *.sap.com"
   },
   "omnibox": {
     "keyword": "note"

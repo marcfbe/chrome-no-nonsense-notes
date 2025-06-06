@@ -5,6 +5,7 @@ function displayError(error, noteId = '') {
 
     const errorDisclaimer = domCreate('div');
     errorDisclaimer.id = 'DISCLAIMER';
+    errorDisclaimer.classList.add('toast-error');
 
     const errorTitle = domText('strong', error.code ? error.code + ': ' : '');
     const errorMessage = domText('div', error.message);

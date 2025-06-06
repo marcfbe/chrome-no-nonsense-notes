@@ -1,15 +1,8 @@
 # TODOs
 
-## Content
-
-- SideEffects
-
 ## Features
 
-- Link to original at me.sap.com
-- Responsive design (breadcrumbs, right column)
-- Priority alerts (HotNews, very high)
-- DisclaimerForMachineTranslation (error -> warning)
+- Responsive design (right column)
 
 ## i18n
 

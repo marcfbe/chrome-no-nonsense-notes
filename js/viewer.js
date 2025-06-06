@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderNote(noteId, noteLanguage);
 });
 
-
-
 async function renderNote(noteId, noteLanguage) {
     if (!noteId) {
         const error = new Error('Invalid SAP Note parameter');
@@ -56,6 +54,12 @@ async function renderNote(noteId, noteLanguage) {
                 domTextId('date', `${note.Header.ReleasedOn._label}: ${normalizeDateFormat(note.Header.ReleasedOn.value)}`);
             }
 
+            const isCachedLabel = note.isCached ? '<span style="color:black">(cached)</span>' : '';
+            domTextId('isCached', isCachedLabel);
+
+            const meLink = domLink('me.sap.com', `https://me.sap.com/notes/${noteId}/${noteLanguage}`);
+            domAppend(domId('meLink'), meLink);
+
             if (note.Header.SAPComponentKey) {
                 domTextId('component-label', note.Header.SAPComponentKey._label);
                 domTextId('component', note.Header.SAPComponentKey.value);
@@ -66,7 +70,10 @@ async function renderNote(noteId, noteLanguage) {
             }
             if (note.Header.Priority) {
                 domTextId('priority-label', note.Header.Priority._label);
-                domTextId('priority', note.Header.Priority.value);
+                const priority = note.Header.Priority.value;
+                // TODO: i18n
+                const priorityIcon = /hotnews/i.test(priority) ? '🔥' : /very|sehr/i.test(priority) ? '🚨' : '';
+                domTextId('priority', `${priority} ${priorityIcon}`);
             }
             if (note.Header.Status) {
                 domTextId('status-label', note.Header.Status._label);
@@ -95,6 +102,7 @@ async function renderNote(noteId, noteLanguage) {
                 }
             }
         });
+        nextNoteInput.focus();
 
         // *** Language Selector ***
 
@@ -200,7 +208,15 @@ async function renderNote(noteId, noteLanguage) {
             // CVSS Score
             domTextId('cvss-score-label', note.CVSS.CVSS_Score._label);
             const score = parseFloat(note.CVSS.CVSS_Score.value);
-            domTextId('cvss-score-value', score + ' / 10');
+
+            let cvssIcon = '';
+            if (score > 8.9) {
+                cvssIcon = '🔥';
+            } else if (score > 6.9) {
+                cvssIcon = '🚨';
+            }
+
+            domTextId(`cvss-score-value`, `${score} / 10 ${cvssIcon}`);
             const cvssScore = domId('cvss-score-value');
 
             // Color based on severity
@@ -689,6 +705,135 @@ async function renderNote(noteId, noteLanguage) {
             }
         } else {
             domHide(references);
+        }
+
+        // *** Side Effects ***
+
+        const sideEffects = domId('side-effects');
+        const hasSideEffects = (hasValues(note.SideEffects.SideEffectsCausing) || hasValues(note.SideEffects.SideEffectsSolving));
+
+        if (hasSideEffects) {
+            domTextId('side-effects-label', note.SideEffects._label);
+
+            // "Side effects causing"
+            domTextId('side-effects-causing-label', note.SideEffects.SideEffectsCausing._label);
+
+            const sideEffectsCausing = domId('side-effects-causing');
+
+            if (hasValues(note.SideEffects.SideEffectsCausing)) {
+                const sideEffectsCausingItems = domId('side-effects-causing-items');
+
+                const table = domCreate('table');
+                const thead = domCreate('thead');
+                const headerRow = domCreate('tr');
+
+                const columns = getColumns(note.SideEffects.SideEffectsCausing);
+                columns.forEach(column => {
+                    const th = domText('th', column.value);
+                    if (column.key === 'RefNumber') {
+                        th.style.whiteSpace = 'nowrap';
+                        th.style.width = '8em';
+                    }
+                    domAppend(headerRow, th);
+                });
+
+                domAppend(thead, headerRow);
+                domAppend(table, thead);
+
+                const tbody = domCreate('tbody');
+                const sideEffectsCausing = note.SideEffects.SideEffectsCausing.Items.sort((a, b) => {
+                    const aNum = parseInt(a.RefNumber);
+                    const bNum = parseInt(b.RefNumber);
+                    return (isNaN(aNum) || isNaN(bNum)) ?
+                        a.RefNumber.localeCompare(b.RefNumber) ||
+                        a.RefTitle.localeCompare(b.RefTitle) :
+                        aNum - bNum ||
+                        a.RefTitle.localeCompare(b.RefTitle);
+                })
+                sideEffectsCausing.forEach(ref => {
+                    const row = domCreate('tr');
+
+                    // Note number
+                    const noteCell = domCreate('td');
+                    const noteLink = domLink(ref.RefNumber, ref.RefNumber, noteLanguage);
+                    domAppend(noteCell, noteLink);
+                    domAppend(row, noteCell);
+
+                    // Title (as link)
+                    const titleCell = domCreate('td');
+                    const titleLink = domLink(ref.RefTitle, ref.RefUrl, noteLanguage);
+                    domAppend(titleCell, titleLink);
+                    domAppend(row, titleCell);
+
+                    domAppend(tbody, row);
+                });
+
+                domAppend(table, tbody);
+                domAppend(sideEffectsCausingItems, table);
+            } else {
+                domHide(sideEffectsCausing);
+            }
+
+            // "Side effects solving"
+            domTextId('side-effects-solving-label', note.SideEffects.SideEffectsSolving._label);
+
+            const sideEffectsSolving = domId('side-effects-solving');
+
+            if (hasValues(note.SideEffects.SideEffectsSolving)) {
+                const sideEffectsSolvingItems = domId('side-effects-solving-items');
+
+                const table = domCreate('table');
+                const thead = domCreate('thead');
+                const headerRow = domCreate('tr');
+
+                const columns = getColumns(note.SideEffects.SideEffectsSolving);
+                columns.forEach(column => {
+                    const th = domText('th', column.value);
+                    if (column.key === 'RefNumber') {
+                        th.style.whiteSpace = 'nowrap';
+                        th.style.width = '8em';
+                    }
+                    domAppend(headerRow, th);
+                });
+
+                domAppend(thead, headerRow);
+                domAppend(table, thead);
+
+                const tbody = domCreate('tbody');
+                const sideEffectsSolving = note.SideEffects.SideEffectsSolving.Items.sort((a, b) => {
+                    const aNum = parseInt(a.RefNumber);
+                    const bNum = parseInt(b.RefNumber);
+                    return (isNaN(aNum) || isNaN(bNum)) ?
+                        a.RefNumber.localeCompare(b.RefNumber) ||
+                        a.RefTitle.localeCompare(b.RefTitle) :
+                        aNum - bNum ||
+                        a.RefTitle.localeCompare(b.RefTitle);
+                })
+                sideEffectsSolving.forEach(ref => {
+                    const row = domCreate('tr');
+
+                    // Note number
+                    const noteCell = domCreate('td');
+                    const noteLink = domLink(ref.RefNumber, ref.RefNumber, noteLanguage);
+                    domAppend(noteCell, noteLink);
+                    domAppend(row, noteCell);
+
+                    // Title (as link)
+                    const titleCell = domCreate('td');
+                    const titleLink = domLink(ref.RefTitle, ref.RefUrl, noteLanguage);
+                    domAppend(titleCell, titleLink);
+                    domAppend(row, titleCell);
+
+                    domAppend(tbody, row);
+                });
+
+                domAppend(table, tbody);
+                domAppend(sideEffectsSolvingItems, table);
+            } else {
+                domHide(sideEffectsSolving);
+            }
+        } else {
+            domHide(sideEffects);
         }
 
         // *** Attachments ***

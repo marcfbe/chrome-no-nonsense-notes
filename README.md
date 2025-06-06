@@ -21,6 +21,8 @@ NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes
 ## Features
 
 - Show any SAP Note or KBA in 2 seconds, max
+- Caching of SAP Notes to make it even faster
+- Offline mode (if cached beforehand)
 - Smart language switcher keeps setting also when navigating to other SAP Notes
 - Autolink other SAP Notes to NNN including old Support Portal and Launchpad links
 - Change plain text URLs to clickable links

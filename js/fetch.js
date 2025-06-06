@@ -22,6 +22,7 @@ async function getCachedData(noteId, language) {
             return null;
         }
         
+        cachedItem.data.isCached = true;
         return cachedItem.data;
     } catch (error) {
         console.error('Error getting cached data:', error);
@@ -92,7 +93,7 @@ async function fetchSAPNote(noteId, language) {
         let message;
         switch (response.status) {
             case 401:
-                message = 'You are not authorized to access this note.<br>Please logon to <a href="https://me.sap.com/">https://me.sap.com/</a>';
+                message = 'You are not authorized to access this note.<br>Please logon to <a href="https://me.sap.com/home">https://me.sap.com/</a>';
                 break;
             case 403:
                 message = 'Access denied';

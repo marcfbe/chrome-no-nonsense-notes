@@ -35,15 +35,13 @@ body {
   background-color: #f5f6f7;
   font-size: 16px;
   color: #131e29;
-  overflow: hidden;
 }
 
 h1 {
   margin: 0 0 10px 0;
   font-size: 24px;
   color: #2f3c48;
-  font-family: "72Black", "72BlackFull", "72", "72Full", Arial, Helvetica,
-    sans-serif;
+  font-family: "72Black", "72BlackFull", "72", "72Full", Arial, Helvetica, sans-serif;
   font-weight: 400;
 }
 
@@ -151,16 +149,6 @@ table tr:hover {
   float: right;
 }
 
-.language-selector select {
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  font-size: 14px;
-  color: #333;
-  width: 100%;
-}
-
 .metadata {
   color: #666;
   font-size: 14px;
@@ -205,6 +193,18 @@ table tr:hover {
   margin-bottom: 20px;
 }
 
+/* INPUTS */
+
+.language-selector select {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    color: #333;
+    width: 100%;
+  }
+  
 .next-note-input {
   width: 100%;
   padding: 5px 10px;
@@ -216,14 +216,17 @@ table tr:hover {
   box-sizing: border-box;
 }
 
+/* DISCLAIMER */
+
 #DISCLAIMER {
-  background-color: #ffeaea;
-  border: 1px solid #f5c6cb;
+  color: black !important;
   border-radius: 4px;
   padding: 15px 20px;
   margin: 10px 0 20px;
   font-size: 14px;
   line-height: 1.5;
+  background-color: #fff8d6;
+  border-color: #ffe770;
 }
 
 #DISCLAIMER > a {
@@ -345,7 +348,7 @@ table tr:hover {
 }
 
 .stat-value.highlight {
-  color: #0070f2;
+  color: 131e29; /* #0070f2; */
 }
 
 /* CVSS */
@@ -570,14 +573,14 @@ table tr:hover {
 
 .toast-warning {
   color: #856404;
-  background-color: #fff3cd;
+  background-color: #fff8d6;
   border-color: #856404;
 }
 
 .toast-success {
-  color: #28a745;
-  background-color: #d4edda;
-  border-color: #28a745;
+  color: #256f55;
+  background-color: #ebf5cb;
+  border-color: #256f55;
 }
 
 .toast-info {
@@ -587,7 +590,7 @@ table tr:hover {
 }
 
 .toast-error {
-  color: #dc3545;
-  background-color: #f8d7da;
-  border-color: #dc3545;
+  color: #aa0805;
+  background-color: #ffd6e9;
+  border-color: #aa0805;
 }
