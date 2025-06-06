@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "No Nonsense Notes for SAP",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The fastest way to browse SAP Notes and Knowledge Base Articles",
   "author": "Marc Bernard",
   "permissions": [],

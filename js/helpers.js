@@ -154,3 +154,33 @@ function getLanguageFromHeader(note) {
         }
     }
 }
+
+/**
+ * Generate star display for rating
+ * @param {number} rating - The rating value (0-5)
+ * @returns {string} HTML string with star display
+ */
+function generateStars(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    
+    let stars = '';
+    
+    // Full stars
+    for (let i = 0; i < fullStars; i++) {
+        stars += '★';
+    }
+    
+    // Half star
+    if (hasHalfStar) {
+        stars += '☆';
+    }
+    
+    // Empty stars
+    for (let i = 0; i < emptyStars; i++) {
+        stars += '☆';
+    }
+    
+    return stars;
+}

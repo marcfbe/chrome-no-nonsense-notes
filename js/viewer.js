@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const noteId = urlParams.get('id');
     const noteLanguage = urlParams.get('t') || 'E';
+    renderNote(noteId, noteLanguage);
+});
 
+async function renderNote(noteId, noteLanguage) {
     if (!noteId) {
         const error = new Error('Invalid SAP Note parameter');
         displayError(error);
@@ -101,6 +104,69 @@ document.addEventListener('DOMContentLoaded', async () => {
             domAppend(languageSelector, select);
         } else {
             domHide(domId('language-selector'));
+        }
+
+        // *** Ratings ***
+
+        const ratings = domId('ratings');
+
+        if (note.Rating) {
+            domTextId('ratings-label', note.Rating._label);
+
+            // Helpful Rating
+            if (note.Rating.RatingHelpful && note.Rating.RatingHelpful['Helpful-Yes']) {
+                domTextId('ratings-helpful-label', note.Rating.RatingHelpful._label);
+                domTextId('ratings-helpful-value', note.Rating.RatingHelpful['Helpful-Yes']);
+            } else {
+                domHide(domId('ratings-helpful'));
+            }
+
+            // Quality Rating
+            if (note.Rating.RatingQuality && note.Rating['Quality-AVG'] !== undefined) {
+                domTextId('ratings-quality-label', note.Rating.RatingQuality._label);
+                
+                const qualityAverage = domId('ratings-quality-average');
+                const avgScore = parseFloat(note.Rating['Quality-AVG']);
+                const totalVotes = note.Rating['Quality-Votes'] || 0;
+                
+                qualityAverage.innerHTML = `
+                    <div class="rating-average">
+                        <span class="rating-score">${avgScore.toFixed(2)}</span>
+                        <span class="rating-stars">${generateStars(avgScore)}</span>
+                        <span class="rating-votes">(${totalVotes} ${totalVotes === 1 ? 'vote' : 'votes'})</span>
+                    </div>
+                `;
+
+                // Quality Rating Details (star breakdown)
+                if (note.Rating.RatingQualityDetails) {
+                    const details = note.Rating.RatingQualityDetails;
+                    const qualityDetails = domId('ratings-quality-details');
+                    
+                    const detailsHTML = `
+                        <div class="rating-breakdown">
+                            ${[5, 4, 3, 2, 1].map(star => {
+                                const count = details[`Stars-${star}`] || 0;
+                                const percentage = totalVotes > 0 ? (count / totalVotes * 100).toFixed(1) : 0;
+                                return `
+                                    <div class="rating-bar">
+                                        <span class="star-label">${star} ★</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                                        </div>
+                                        <span class="rating-count">${count}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                    
+                    qualityDetails.innerHTML = detailsHTML;
+                }
+            } else {
+                domHide(domId('ratings-quality'));
+            }
+        } else {
+            domHide(ratings);
         }
 
         // *** Description (HTML content) ***
@@ -695,5 +761,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Show the content after everything is loaded
     domId('content').classList.add('loaded');
     domId('content-wide').classList.add('loaded');
-});
-
+}

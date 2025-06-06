@@ -41,13 +41,13 @@
             "_label": "Download for SNOTE",
             "_type": "URL",
             "_visible": true,
-            "url": "https://notesdownloads.sap.com/note/0040000004242424200"
+            "url": "about.html"
           },
           "Print": {
             "_label": "PDF Version",
             "_type": "URL",
             "_visible": true,
-            "url": "https://userapps.support.sap.com/sap/support/sfm/notes/print/0042424242?language=en-US&token=DEADBEEF42CAFEBABE1337"
+            "url": "about.html"
           },
           "ShareByEmail": {
             "_label": "Share by Email",
@@ -62,14 +62,14 @@
           "Edit": {
             "_label": "Edit",
             "_type": "URL",
-            "url": "https://i7p.wdf.sap.corp/sap/support/notes/edit/0042424242",
+            "url": "about.html",
             "_visible": true
           },
           "CompareVersions": {
             "_label": "Show Changes",
             "_type": "URL",
             "_visible": true,
-            "url": "/notesLatestChanges/0042424242/E/diff"
+            "url": "about.html"
           },
           "Rating": {
             "_label": "Rate this document",
@@ -132,27 +132,27 @@
             {
               "_label": "Services & Support",
               "value": "servicessupport",
-              "_url": "/servicessupport"
+              "_url": "about.html"
             },
             {
               "_label": "KBAs & Notes",
               "value": "knowledge",
-              "_url": "/servicessupport/knowledge"
+              "_url": "about.html"
             },
             {
               "_label": "Entertainment Systems",
               "value": "ENT",
-              "_url": "/mynotes?tab=Search&sortBy=Fun"
+              "_url": "about.html"
             },
             {
               "_label": "Fun Applications",
               "value": "ENT-FUN",
-              "_url": "/mynotes?tab=Search&sortBy=Entertainment"
+              "_url": "about.html"
             },
             {
               "_label": "League of Laughs (ENT-FUN-LOL)",
               "value": "ENT-FUN-LOL",
-              "_url": "/mynotes?tab=Search&sortBy=Hilarious"
+              "_url": "about.html"
             }
           ]
         },
@@ -198,19 +198,19 @@
               "FileName": "Coffee_Machine_Integration_Guide.pdf",
               "FileSize": "2048",
               "MimeType": "application/pdf",
-              "URL": "https://attachments.sap.com/coffee/integration_guide_v42.pdf"
+              "URL": "about.html"
             },
             {
               "FileName": "Emergency_Brewing_Protocols.docx",
               "FileSize": "1337",
               "MimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-              "URL": "https://attachments.sap.com/coffee/emergency_protocols_2024.docx"
+              "URL": "about.html"
             },
             {
               "FileName": "Caffeine_Configuration_Script.py",
               "FileSize": "404",
               "MimeType": "text/x-python",
-              "URL": "https://attachments.sap.com/scripts/caffeine_config.py"
+              "URL": "about.html"
             }
           ]
         },
@@ -258,19 +258,19 @@
                 "RefNumber": "8675309",
                 "RefComponent": "ENT-FUN-LOL",
                 "RefTitle": "How to Survive Monday Mornings in SAP Environments",
-                "RefUrl": "/notes/8675309"
+                "RefUrl": "about.html"
               },
               {
                 "RefNumber": "1337420",
                 "RefComponent": "ENT-FUN-SNACKS",
                 "RefTitle": "Optimal Snack Distribution for 24/7 Operations",
-                "RefUrl": "/notes/1337420"
+                "RefUrl": "about.html"
               },
               {
                 "RefNumber": "2112001",
                 "RefComponent": "ENT-FUN-MUSIC",
                 "RefTitle": "Background Music Selection for Enhanced Coding Performance",
-                "RefUrl": "/notes/2112001"
+                "RefUrl": "about.html"
               }
             ]
           },
@@ -287,13 +287,13 @@
                 "RefNumber": "5551234",
                 "RefComponent": "ENT-FUN-WELLNESS",
                 "RefTitle": "Comprehensive Office Wellness Integration Suite",
-                "RefUrl": "/notes/5551234"
+                "RefUrl": "about.html"
               },
               {
                 "RefNumber": "7770001",
                 "RefComponent": "ENT-FUN-BREAK",
                 "RefTitle": "Mandatory Break Time Enforcement in Development Teams",
-                "RefUrl": "/notes/7770001"
+                "RefUrl": "about.html"
               }
             ]
           }
@@ -329,12 +329,12 @@
             {
               "SoftwareComponentVersion": "SAP_COFFEE 1.0",
               "SupportPackage": "SAPK-10042INSAPCOFFEE",
-              "URL": "/supportpackage/SAPK-10042INSAPCOFFEE"
+              "URL": "about.html"
             },
             {
               "SoftwareComponentVersion": "SAP_PRODUCTIVITY 42.0",
               "SupportPackage": "SAPK-42001INSAPPROD",
-              "URL": "/supportpackage/SAPK-42001INSAPPROD"
+              "URL": "about.html"
             }
           ]
         },
@@ -351,13 +351,13 @@
               "SoftwareComponentVersion": "SAP_COFFEE 1.0",
               "SupportPackage": "SAPK-10042INSAPCOFFEE",
               "SupportPackagePatch": "Level 01",
-              "URL": "/supportpackage/SAPK-10042INSAPCOFFEE/patch01"
+              "URL": "about.html"
             },
             {
               "SoftwareComponentVersion": "SAP_COFFEE 1.0",
               "SupportPackage": "SAPK-10042INSAPCOFFEE",
               "SupportPackagePatch": "Level 02 (Emergency Caffeine Fix)",
-              "URL": "/supportpackage/SAPK-10042INSAPCOFFEE/patch02"
+              "URL": "about.html"
             }
           ]
         },
@@ -372,12 +372,12 @@
             {
               "SoftwareComponent": "SAP_COFFEE",
               "NumberOfCorrin": 3,
-              "URL": "/corrins/0042424242/42"
+              "URL": "about.html"
             },
             {
               "SoftwareComponent": "SAP_PRODUCTIVITY",
               "NumberOfCorrin": 1,
-              "URL": "/corrins/0042424242/01"
+              "URL": "about.html"
             }
           ]
         },
@@ -420,7 +420,7 @@
               "ValidFrom": "1.0",
               "ValidTo": "9.0",
               "Number": "1111111",
-              "URL": "/notes/1111111",
+              "URL": "about.html",
               "Title": "Basic Coffee Machine Hardware Requirements",
               "Component": "ENT-FUN-LOL-HARDWARE"
             },
@@ -429,7 +429,7 @@
               "ValidFrom": "1.0",
               "ValidTo": "9.0",
               "Number": "2222222",
-              "URL": "/notes/2222222",
+              "URL": "about.html",
               "Title": "Network Configuration for Coffee Machine RFC Connectivity",
               "Component": "ENT-FUN-LOL-NETWORK"
             },
@@ -438,7 +438,7 @@
               "ValidFrom": "40.0",
               "ValidTo": "99.9",
               "Number": "3333333",
-              "URL": "/notes/3333333",
+              "URL": "about.html",
               "Title": "Monday Morning Survival Mode - Base Installation",
               "Component": "ENT-FUN-LOL-SURVIVAL"
             }
@@ -488,7 +488,7 @@
               {
                 "RefNumber": "9999998",
                 "RefTitle": "Chronic Fatigue in Development Teams",
-                "RefUrl": "/notes/9999998"
+                "RefUrl": "about.html"
               }
             ]
           },
@@ -503,7 +503,7 @@
               {
                 "RefNumber": "5555556",
                 "RefTitle": "Over-Caffeination Incidents in Production",
-                "RefUrl": "/notes/5555556"
+                "RefUrl": "about.html"
               }
             ]
           }
