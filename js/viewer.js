@@ -54,7 +54,7 @@ async function renderNote(noteId, noteLanguage) {
                 domTextId('date', `${note.Header.ReleasedOn._label}: ${normalizeDateFormat(note.Header.ReleasedOn.value)}`);
             }
 
-            const isCachedLabel = note.isCached ? '<span style="color:black">(cached)</span>' : '';
+            const isCachedLabel = note.isCached ? '(cached)' : '';
             domTextId('isCached', isCachedLabel);
 
             const meLink = domLink('me.sap.com', `https://me.sap.com/notes/${noteId}/${noteLanguage}`);

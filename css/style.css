@@ -154,13 +154,12 @@ table tr:hover {
   font-size: 14px;
 }
 
-.metadata span {
+.metadata > span {
   margin-right: 20px;
 }
 
 .content {
   display: none;
-  /* gap: 30px; */
 }
 
 .content.loaded {

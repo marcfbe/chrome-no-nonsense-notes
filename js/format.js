@@ -101,7 +101,13 @@ function formatLongText(longText, language) {
       .replace(/&nbsp;\<\/(strong|b|i)\>/gi, '</$1> ')
       .replace(/(?:&nbsp;)+(\d{5,7})/gi, ' $1')
 
-    // Convert relative /notes/ URLs to NNN links
+    // Convert relative /notes/XYZ/LANGUAGE URLs to NNN links
+    formattedText = formattedText.replace(
+        /href=["']\/notes\/(\d+)\/([A-Z0-9])["']/gi,
+        `href="${nnnPage}?id=$1&t=$2"`
+    );
+
+    // Convert relative /notes/XYZ URLs to NNN links
     formattedText = formattedText.replace(
         /href=["']\/notes\/(\d+)[^"']*["']/gi,
         `href="${nnnPage}?id=$1&t=${language}"`
