@@ -65,10 +65,10 @@ function getTimeAgoString(dateString) {
         return `<span style="color: #ffa07a">${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago</span>`;
     } else if (diffDays < 365) {
         const months = Math.floor(diffDays / 30);
-        return `<span style="color: #ffa07a">${months} ${months === 1 ? 'month' : 'months'} ago</span>`;
+        return `<span>${months} ${months === 1 ? 'month' : 'months'} ago</span>`;
     } else {
         const years = Math.floor(diffDays / 365);
-        return `<span style="color: #ffa07a">${years} ${years === 1 ? 'year' : 'years'} ago</span>`;
+        return `<span>${years} ${years === 1 ? 'year' : 'years'} ago</span>`;
     }
 }
 
@@ -220,6 +220,14 @@ function formatLongText(longText, language) {
         }
     );
 
+    // Convert CVSS to https://www.first.org/cvss/calculator/3-0#
+    formattedText = formattedText.replace(
+        /CVSS:\d+\.\d+\/[A-Z0-9\/:]+/gi,
+        (match) => {
+            return `<a href="https://www.first.org/cvss/calculator/3-0#${match}">${match}</a>`;
+        }
+    );
+    
     return formattedText;
 }
 

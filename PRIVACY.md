@@ -1,6 +1,6 @@
 # Privacy Policy for No Nonsense Notes for SAP
 
-**Effective Date:** 2025-06-06
+**Effective Date:** 2025-06-07
 
 ## Overview
 
@@ -79,7 +79,7 @@ We may update this privacy policy to reflect changes in the extension's function
 For questions about this privacy policy or the extension's data handling:
 - **Author**: Marc Bernard
 - **Extension**: No Nonsense Notes for SAP
-- **Version**: 1.0.2
+- **Version**: 1.0.4
 
 ## Compliance
 

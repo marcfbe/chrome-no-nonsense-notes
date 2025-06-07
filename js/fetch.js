@@ -48,11 +48,13 @@ async function setCachedData(noteId, language, data) {
     }
 }
 
-async function fetchSAPNote(noteId, language) {
-    // Check cache first
-    const cachedData = await getCachedData(noteId, language);
-    if (cachedData) {
-        return cachedData;
+async function fetchSAPNote(noteId, language, skipCache = false) {
+    // Check cache first (unless skipCache is true)
+    if (!skipCache) {
+        const cachedData = await getCachedData(noteId, language);
+        if (cachedData) {
+            return cachedData;
+        }
     }
 
     // Use demo data for noteId 42424242

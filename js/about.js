@@ -120,8 +120,8 @@ async function saveSettingsLocal() {
         const cacheDuration = parseInt(domId('cache-duration').value) || 1;
         const showBreadcrumbs = domId('show-breadcrumbs').checked;
 
-        if (cacheDuration < 0 || cacheDuration > 30) {
-            displayMessage('Cache duration must be between 0 and 30 days', 'toast-error');
+        if (cacheDuration < 0 || cacheDuration > 365) {
+            displayMessage('Cache duration must be between 0 and 365 days', 'toast-error');
             return;
         }
 

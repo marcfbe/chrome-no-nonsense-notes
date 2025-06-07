@@ -110,7 +110,7 @@
           },
           "Priority": {
             "_label": "Priority",
-            "value": "UltraNews"
+            "value": "HotNews"
           },
           "Status": {
             "_label": "Release Status",
@@ -443,6 +443,56 @@
               "Component": "ENT-FUN-LOL-SURVIVAL"
             }
           ]
+        },
+        "CVSS": {
+          "_label": "CVSS",
+          "CVSS_Score": {
+              "_label": "CVSS Score                                        ",
+              "value": "9.9"
+          },
+          "CVSS_Vector": {
+              "_label": "CVSS Vector                                       ",
+              "vectorValue": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
+              "vectorVersion": "3.0",
+              "_columnNames": {
+                  "Key": "Key",
+                  "Value": "Value"
+              },
+              "Items": [
+                  {
+                      "Key": "Attack Vector (AV)",
+                      "Value": "Network (N)"
+                  },
+                  {
+                      "Key": "Attack Complexity (AC)",
+                      "Value": "Low (L)"
+                  },
+                  {
+                      "Key": "Privileges Required (PR)",
+                      "Value": "Low (L)"
+                  },
+                  {
+                      "Key": "User Interaction (UI)",
+                      "Value": "None (N)"
+                  },
+                  {
+                      "Key": "Scope (S)",
+                      "Value": "Changed (C)"
+                  },
+                  {
+                      "Key": "Confidentiality Impact (C)",
+                      "Value": "High (H)"
+                  },
+                  {
+                      "Key": "Integrity Impact (I)",
+                      "Value": "High (H)"
+                  },
+                  {
+                      "Key": "Availability Impact (A)",
+                      "Value": "High (H)"
+                  }
+              ]
+          }
         },
         "Rating": {
           "_label": "Rate this document",

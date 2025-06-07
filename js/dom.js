@@ -36,7 +36,7 @@ function domTextId(id, content = '') {
     return el;
 }
 
-function domLink(text, href, language = '') {
+function domLink(text, href, language = '', skipCache = false) {
     if (!href) {
         return domText('span', text);
     }
@@ -47,9 +47,9 @@ function domLink(text, href, language = '') {
     // map to extension (same tab)
     if (ref.startsWith('/notes/')) {
         const noteId = ref.split('/')[2];
-        link.href = `${nnnPage}?id=${noteId}${lang}`;
+        link.href = `${nnnPage}?id=${noteId}${lang}${skipCache ? '&cache=no' : ''}`;
     } else if (ref.match(/^\d+\s*$/)) {
-        link.href = `${nnnPage}?id=${ref}${lang}`;
+        link.href = `${nnnPage}?id=${ref}${lang}${skipCache ? '&cache=no' : ''}`;
     } else {
         // map to website and open in new tab
         if (ref.startsWith('/')) {

@@ -593,3 +593,121 @@ table tr:hover {
   background-color: #ffd6e9;
   border-color: #aa0805;
 }
+
+/* RESPONSIVE DESIGN */
+
+/* Tablet and smaller devices */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 0 15px 15px 15px;
+  }
+
+  .content.loaded {
+    flex-direction: column;
+  }
+
+  .right-column {
+    flex: none;
+    order: -1; /* Move right column to top */
+    width: 100%;
+    padding: 0 0 20px 0;
+    margin: 0 0 20px 0;
+    border-left: none;
+    border-bottom: 1px dashed lightgray;
+  }
+
+  .left-column {
+    padding-top: 0;
+  }
+
+  /* Adjust stats grid for mobile */
+  #stats-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Stack metadata items vertically on mobile */
+  .metadata {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .metadata > span {
+    margin-right: 0;
+  }
+
+  /* Make tables more mobile-friendly */
+  .content-wide table {
+    font-size: 12px;
+  }
+
+  .content-wide table th,
+  .content-wide table td {
+    padding: 6px 8px;
+  }
+
+  /* Adjust breadcrumbs for mobile */
+  .breadcrumbs-list {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .breadcrumb-item:not(:last-child)::after {
+    margin: 0 4px;
+  }
+
+  /* Mobile-friendly form inputs */
+  .next-note-input,
+  .language-selector select {
+    padding: 8px 12px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+
+  .container {
+    padding: 0 10px 10px 10px;
+  }
+
+  .header {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  /* Further reduce table font size on very small screens */
+  .content-wide table {
+    font-size: 11px;
+  }
+
+  .content-wide table th,
+  .content-wide table td {
+    padding: 4px 6px;
+  }
+
+  /* Make scroll to top button smaller on mobile */
+  .scroll-to-top {
+    width: 40px;
+    height: 40px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 16px;
+  }
+}

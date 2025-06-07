@@ -3,10 +3,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const noteId = urlParams.get('id');
     const noteLanguage = urlParams.get('t') || 'E';
-    renderNote(noteId, noteLanguage);
+    const skipCache = urlParams.get('cache') === 'no';
+    renderNote(noteId, noteLanguage, skipCache);
 });
 
-async function renderNote(noteId, noteLanguage) {
+async function renderNote(noteId, noteLanguage, skipCache = false) {
     if (!noteId) {
         const error = new Error('Invalid SAP Note parameter');
         displayError(error);
@@ -14,7 +15,7 @@ async function renderNote(noteId, noteLanguage) {
     }
 
     try {
-        const note = await fetchSAPNote(noteId, noteLanguage);
+        const note = await fetchSAPNote(noteId, noteLanguage, skipCache);
 
         // console.log('Fetched note data:', note); // Add for debugging
 
@@ -47,19 +48,25 @@ async function renderNote(noteId, noteLanguage) {
         // *** Header ***
 
         if (note.Header) {
+            // Sticky area
+            const meLink = domLink('me.sap.com', `https://me.sap.com/notes/${noteId}/${noteLanguage}`);
+            meLink.title = 'Show SAP Note on me.sap.com';
+            domAppend(domId('me-link'), meLink);
+
             if (note.Header.Type && note.Header.Version) {
                 domTextId('type-version', `${note.Header.Type.value}, ${note.Header.Version._label}: ${note.Header.Version.value}`);
-            }
+            }    
             if (note.Header.ReleasedOn && note.Header.ReleasedOn.value) {
                 domTextId('date', `${note.Header.ReleasedOn._label}: ${normalizeDateFormat(note.Header.ReleasedOn.value)}`);
+            }    
+
+            if (note.isCached) {
+                const noCacheLink = domLink('(cached)', noteId, noteLanguage, true);
+                noCacheLink.title = 'Get latest version from me.sap.com';
+                domAppend(domId('is-cached'), noCacheLink);
             }
 
-            const isCachedLabel = note.isCached ? '(cached)' : '';
-            domTextId('isCached', isCachedLabel);
-
-            const meLink = domLink('me.sap.com', `https://me.sap.com/notes/${noteId}/${noteLanguage}`);
-            domAppend(domId('meLink'), meLink);
-
+            // Sidebar
             if (note.Header.SAPComponentKey) {
                 domTextId('component-label', note.Header.SAPComponentKey._label);
                 domTextId('component', note.Header.SAPComponentKey.value);
@@ -71,8 +78,7 @@ async function renderNote(noteId, noteLanguage) {
             if (note.Header.Priority) {
                 domTextId('priority-label', note.Header.Priority._label);
                 const priority = note.Header.Priority.value;
-                // TODO: i18n
-                const priorityIcon = /hotnews/i.test(priority) ? '🔥' : /very|sehr/i.test(priority) ? '🚨' : '';
+                const priorityIcon = /hotnews/i.test(priority) ? '🔥' : '';
                 domTextId('priority', `${priority} ${priorityIcon}`);
             }
             if (note.Header.Status) {
@@ -208,13 +214,7 @@ async function renderNote(noteId, noteLanguage) {
             // CVSS Score
             domTextId('cvss-score-label', note.CVSS.CVSS_Score._label);
             const score = parseFloat(note.CVSS.CVSS_Score.value);
-
-            let cvssIcon = '';
-            if (score > 8.9) {
-                cvssIcon = '🔥';
-            } else if (score > 6.9) {
-                cvssIcon = '🚨';
-            }
+            const cvssIcon = score > 8.9 ? '🔥' : score > 6.9 ? '🚨' : '';
 
             domTextId(`cvss-score-value`, `${score} / 10 ${cvssIcon}`);
             const cvssScore = domId('cvss-score-value');

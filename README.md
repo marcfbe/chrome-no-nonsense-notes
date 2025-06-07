@@ -20,8 +20,9 @@ NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes
 
 ## Features
 
-- Show any SAP Note or KBA in 2 seconds, max
-- Caching of SAP Notes to make it even faster
+- Show any SAP Note or KBA in 2 seconds, max^
+- Responsive design optimized for mobile
+- Caching of SAP Note content to make it even faster
 - Offline mode (if cached beforehand)
 - Smart language switcher keeps setting also when navigating to other SAP Notes
 - Autolink other SAP Notes to NNN including old Support Portal and Launchpad links
@@ -29,9 +30,12 @@ NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes
 - No paging of long list so you won't have to click "More..." again and again
 - Convert "Release Date" to ISO format and add "time ago" with highlighting of recently released SAP Notes
 - Sort list of referenced SAP Notes by number
-- Highlight of CVSS Score and link of CVSS Vector to https://first.org
+- Highlight of CVSS Score and autolink of CVSS Vectors to https://first.org
+- Alert icon for HotNews and critical SAP Security Notes
 - Display attachment counter
 - Scroll-to-top button
+
+^ There are exceptions like SAP Notes that have an extreme number of references (for example, SAP Note 2144559 which has over 8400 references).
 
 ## How to use
 
@@ -39,6 +43,10 @@ NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes
 2. Type the SAP Note number you want to view followed by <kdb>ENTER</kbd>.
 3. Don't blink or you might miss loading the SAP Note.
 4. Enjoy reading the SAP Note or navigating to other SAP Notes.
+
+## Demo
+
+You can test the extension using `SAP Note 42424242 - How to Configure Your Coffee Machine for Maximum Productivity in SAP Environments`. No access to me.sap.com required.
 
 ## Security
 
