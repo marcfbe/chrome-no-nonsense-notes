@@ -1,0 +1,33 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Publish Chrome Extension
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4.2.2
+    - uses: actions/setup-node@v4.4.0
+      with:
+        node-version: 22
+    - name: Build
+      run: |
+        mkdir -p dist
+        echo "${{ secrets.PEM }}" > dist/key.pem
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+        google-chrome --pack-extension=. --pack-extension-key=dist/key.pem
+        rm dist/key.pem
+        mv *.crx dist/nnn.crx
+    - name: Upload & Release
+      uses: mnao305/chrome-extension-upload@v5.0.0
+      with:
+        file-path: dist/nnn.crx
+        extension-id: conemkapghgifleljonppmkekbfeckko
+        client-id: ${{ secrets.CLIENT_ID }}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        refresh-token: ${{ secrets.REFRESH_TOKEN }}
+        publish: false
