@@ -1,4 +1,4 @@
-name: Publish CRX (Test)
+name: Publish ZIP (Test)
 
 on:
   workflow_dispatch:
@@ -16,23 +16,16 @@ jobs:
     - uses: actions/setup-node@v4.4.0
       with:
         node-version: 22
-    - name: Prepare
-      run: |
-        mkdir -p dist
-        echo "${{ secrets.PEM }}" > key.pem
     - name: Build
       run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
-        google-chrome-stable --pack-extension=./src --pack-extension-key=key.pem
-    - name: Upload
+        mkdir -p dist
+        zip -r dist/nnn.zip . -x "*.git*" "dist/*" "node_modules/*" "demo/*.png" "examples/*"
+    - name: Upload & Release
       uses: mnao305/chrome-extension-upload@v5.0.0
       with:
-        file-path: nnn.crx
+        file-path: dist/nnn.zip
         extension-id: conemkapghgifleljonppmkekbfeckko
         client-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         refresh-token: ${{ secrets.REFRESH_TOKEN }}
         publish: false
-    - name: Clean up
-      run: rm key.pem

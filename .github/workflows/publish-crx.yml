@@ -1,11 +1,11 @@
-name: Publish CRX (Test)
+name: Publish CRX
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Publish Chrome Extension (Test)
+    name: Publish Chrome Extension
     runs-on: ubuntu-latest
     environment: chrome-extension-upload
     permissions:
@@ -33,6 +33,6 @@ jobs:
         client-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         refresh-token: ${{ secrets.REFRESH_TOKEN }}
-        publish: false
+        publish: true
     - name: Clean up
       run: rm key.pem

@@ -9,5 +9,5 @@ insert_final_newline = true
 # 2 space indentation
 [{.,}*.{ts,tsx,js,jsx,yml,yaml}]
 indent_style = space
-indent_size = 2
+indent_size = 4
 quote_type = single

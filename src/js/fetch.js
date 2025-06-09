@@ -60,7 +60,7 @@ async function fetchSAPNote(noteId, language, skipCache = false) {
     // Use demo data for noteId 42424242
     if (noteId === '42424242') {
         try {
-            const response = await fetch('./demo/42424242-demo.json');
+            const response = await fetch('./demo/demo.json');
             if (!response.ok) {
                 throw new Error(`Failed to load demo data: ${response.status}`);
             }
