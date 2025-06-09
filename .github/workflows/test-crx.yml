@@ -19,14 +19,13 @@ jobs:
     - name: Prepare
       run: echo "${{ secrets.PEM }}" > key.pem
     - name: Build
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
-        google-chrome-stable --pack-extension=./src --pack-extension-key=key.pem
+      run: google-chrome-stable --pack-extension=./src --pack-extension-key=key.pem
+    - name: Check
+      run: ls -la
     - name: Upload
       uses: mnao305/chrome-extension-upload@v5.0.0
       with:
-        file-path: nnn.crx
+        file-path: src.crx
         extension-id: conemkapghgifleljonppmkekbfeckko
         client-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
