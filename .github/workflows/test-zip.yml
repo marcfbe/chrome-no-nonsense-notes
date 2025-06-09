@@ -17,13 +17,11 @@ jobs:
       with:
         node-version: 22
     - name: Build
-      run: |
-        mkdir -p dist
-        zip -r dist/nnn.zip . -x "*.git*" "dist/*" "node_modules/*" "demo/*.png" "examples/*"
+      run: zip -r nnn.zip ./src
     - name: Upload & Release
       uses: mnao305/chrome-extension-upload@v5.0.0
       with:
-        file-path: dist/nnn.zip
+        file-path: nnn.zip
         extension-id: conemkapghgifleljonppmkekbfeckko
         client-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
