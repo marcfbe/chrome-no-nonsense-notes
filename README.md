@@ -50,6 +50,14 @@ NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes
 
 You can test the extension using `SAP Note 42424242 - How to Configure Your Coffee Machine for Maximum Productivity in SAP Environments`. No access to me.sap.com required.
 
+![Demo 1](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/assets/demo-1.png)
+
+![Demo 2](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/assets/demo-2.png)
+
+![Demo 3](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/assets/demo-3.png)
+
+![Demo 4](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/assets/demo-4.png)
+
 ## Security
 
 The extension requires a valid session cookie for me.sap.com. If you get an authentication error, simply log on to https://me.sap.com/home, once. Then you can use the extension, freely.
