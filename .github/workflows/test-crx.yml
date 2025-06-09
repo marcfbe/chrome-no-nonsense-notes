@@ -20,10 +20,13 @@ jobs:
       run: echo "${{ secrets.PEM }}" > key.pem
     - name: Build
       run: google-chrome-stable --pack-extension=./src --pack-extension-key=key.pem
-    - name: Clean up
+    - name: Cleanup
       run: rm key.pem
-    - name: Check
-      run: ls -la
+    - name: Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: CRX extension
+        path: src.crx
     - name: Upload
       uses: mnao305/chrome-extension-upload@v5.0.0
       with:
@@ -33,8 +36,3 @@ jobs:
         client-secret: ${{ secrets.CLIENT_SECRET }}
         refresh-token: ${{ secrets.REFRESH_TOKEN }}
         publish: false
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: CRX extension
-        path: src.crx
