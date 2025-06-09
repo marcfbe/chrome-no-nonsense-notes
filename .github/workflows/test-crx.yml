@@ -1,4 +1,4 @@
-name: Test
+name: Test CRX
 
 on:
   workflow_dispatch:
