@@ -16,6 +16,19 @@ jobs:
     - uses: actions/setup-node@v4.4.0
       with:
         node-version: 22
+    - name: Debug Secrets
+      run: |
+        echo "Checking if secrets are available..."
+        echo "CLIENT_ID length: ${#CLIENT_ID}"
+        echo "CLIENT_SECRET length: ${#CLIENT_SECRET}"
+        echo "REFRESH_TOKEN length: ${#REFRESH_TOKEN}"
+        if [ -z "$CLIENT_ID" ]; then echo "CLIENT_ID is empty!"; fi
+        if [ -z "$CLIENT_SECRET" ]; then echo "CLIENT_SECRET is empty!"; fi
+        if [ -z "$REFRESH_TOKEN" ]; then echo "REFRESH_TOKEN is empty!"; fi
+      env:
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
     - name: Build
       run: |
         mkdir -p dist
