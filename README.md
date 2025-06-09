@@ -1,10 +1,10 @@
-![Version](https://img.shields.io/github/manifest-json/v/marcfbe/chrome-no-nonsense-notes?label=Version&color=blue)
+![Version](https://img.shields.io/github/manifest-json/v/marcfbe/chrome-no-nonsense-notes/src?label=Version&color=blue)
 
 [![License](https://img.shields.io/github/license/marcfbe/chrome-no-nonsense-notes?label=License&color=success)](https://github.com/marcfbe/chrome-no-nonsense-notes/blob/main/LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?color=success)](https://github.com/abapPM/.github/blob/main/CODE_OF_CONDUCT.md)
 [![REUSE Status](https://api.reuse.software/badge/github.com/marcfbe/chrome-no-nonsense-notes)](https://api.reuse.software/info/github.com/marcfbe/chrome-no-nonsense-notes)
 
-![NNN](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/img/nnn_logo.svg)
+![NNN](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/src/img/nnn_logo.svg)
 
 # No Nonsense Notes for SAP (NNN)
 
@@ -17,6 +17,8 @@ Enjoy,
 Marc
 
 NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes/blob/main/LICENSE)
+
+[![Chrome Web Store](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/src/img/chrome-web-store.jpg)](https://chromewebstore.google.com/detail/conemkapghgifleljonppmkekbfeckko?utm_source=item-share-cb)
 
 ## Features
 
@@ -51,12 +53,6 @@ You can test the extension using `SAP Note 42424242 - How to Configure Your Coff
 ## Security
 
 The extension requires a valid session cookie for me.sap.com. If you get an authentication error, simply log on to https://me.sap.com, once. Then you can use the extension, freely.
-
-## Installation
-
-Currently, installation is manual: unpack to local folder, load unpackaged in Google Chrome (chrome://extensions/).
-
-Google Chrome Store is planned
 
 ## About
 
