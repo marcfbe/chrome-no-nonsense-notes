@@ -27,3 +27,9 @@ jobs:
         client-secret: ${{ secrets.CLIENT_SECRET }}
         refresh-token: ${{ secrets.REFRESH_TOKEN }}
         publish: false
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ZIP extension
+        path: nnn.zip
+  
