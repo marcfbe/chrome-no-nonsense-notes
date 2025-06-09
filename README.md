@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/github/manifest-json/v/marcfbe/chrome-no-nonsense-notes/src?label=Version&color=blue)
+![Version](https://img.shields.io/github/manifest-json/v/marcfbe/chrome-no-nonsense-notes?filename=src%2Fmanifest.json&label=Version&color=blue)
 
 [![License](https://img.shields.io/github/license/marcfbe/chrome-no-nonsense-notes?label=License&color=success)](https://github.com/marcfbe/chrome-no-nonsense-notes/blob/main/LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?color=success)](https://github.com/abapPM/.github/blob/main/CODE_OF_CONDUCT.md)
@@ -18,7 +18,7 @@ Marc
 
 NO WARRANTIES, [MIT License](https://github.com/marcfbe/chrome-no-nonsense-notes/blob/main/LICENSE)
 
-[![Chrome Web Store](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/src/img/chrome-web-store.jpg)](https://chromewebstore.google.com/detail/conemkapghgifleljonppmkekbfeckko?utm_source=item-share-cb)
+[![Chrome Web Store](https://raw.githubusercontent.com/marcfbe/chrome-no-nonsense-notes/main/assets/chrome-web-store.jpg)](https://chromewebstore.google.com/detail/conemkapghgifleljonppmkekbfeckko?utm_source=item-share-cb)
 
 ## Features
 
@@ -52,7 +52,7 @@ You can test the extension using `SAP Note 42424242 - How to Configure Your Coff
 
 ## Security
 
-The extension requires a valid session cookie for me.sap.com. If you get an authentication error, simply log on to https://me.sap.com, once. Then you can use the extension, freely.
+The extension requires a valid session cookie for me.sap.com. If you get an authentication error, simply log on to https://me.sap.com/home, once. Then you can use the extension, freely.
 
 ## About
 
