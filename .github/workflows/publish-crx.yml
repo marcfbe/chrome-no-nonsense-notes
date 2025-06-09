@@ -17,9 +17,7 @@ jobs:
       with:
         node-version: 22
     - name: Prepare
-      run: |
-        mkdir -p dist
-        echo "${{ secrets.PEM }}" > key.pem
+      run: echo "${{ secrets.PEM }}" > key.pem
     - name: Build
       run: |
         sudo apt-get update
