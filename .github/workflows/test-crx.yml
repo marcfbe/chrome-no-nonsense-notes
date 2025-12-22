@@ -12,26 +12,21 @@ jobs:
       contents: read
 
     steps:
-    - uses: actions/checkout@v4.2.2
-    - uses: actions/setup-node@v4.4.0
-      with:
-        node-version: 22
-    - name: Install zip & Prepare ZIP
-      run: |
-        sudo apt-get update && sudo apt-get install -y zip
-        zip -r ./dist/extension.zip ./src
-    - name: Upload ZIP Artifact
+    - uses: actions/checkout@v4
+    - name: Prepare ZIP
+      run: zip -r ./extension.zip ./src
+    - name: Upload ZIP
       uses: actions/upload-artifact@v4
       with:
         name: extension-zip
-        path: ./dist/extension.zip
+        path: ./extension.zip
     - name: Publish to Chrome Web Store
       id: publish-chrome-extension
       uses: puzzlers-labs/chrome-webstore-publish@v1
       with:
         mode: publish
         publish_target: testers
-        zip_file_path: ./dist/extension.zip
+        zip_file_path: ./extension.zip
         extension_id: ${{ secrets.EXTENSION_ID }}
         client_id: ${{ secrets.CLIENT_ID }}
         client_secret: ${{ secrets.CLIENT_SECRET }}
