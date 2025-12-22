@@ -1,0 +1,140 @@
+/**
+ * Translations for time ago strings
+ */
+const timeAgoTranslations = {
+    'D': { // Deutsch
+        today: 'heute',
+        yesterday: 'gestern',
+        day: 'Tag',
+        days: 'Tage',
+        week: 'Woche',
+        weeks: 'Wochen',
+        month: 'Monat',
+        months: 'Monate',
+        year: 'Jahr',
+        years: 'Jahre',
+        ago: 'alt'
+    },
+    'E': { // English
+        today: 'today',
+        yesterday: 'yesterday',
+        day: 'day',
+        days: 'days',
+        week: 'week',
+        weeks: 'weeks',
+        month: 'month',
+        months: 'months',
+        year: 'year',
+        years: 'years',
+        ago: 'ago'
+    },
+    'P': { // Português
+        today: 'hoje',
+        yesterday: 'ontem',
+        day: 'dia',
+        days: 'dias',
+        week: 'semana',
+        weeks: 'semanas',
+        month: 'mês',
+        months: 'meses',
+        year: 'ano',
+        years: 'anos',
+        ago: 'atrás'
+    },
+    'S': { // Español
+        today: 'hoy',
+        yesterday: 'ayer',
+        day: 'día',
+        days: 'días',
+        week: 'semana',
+        weeks: 'semanas',
+        month: 'mes',
+        months: 'meses',
+        year: 'año',
+        years: 'años',
+        ago: 'hace'
+    },
+    'F': { // Français
+        today: "aujourd'hui",
+        yesterday: 'hier',
+        day: 'jour',
+        days: 'jours',
+        week: 'semaine',
+        weeks: 'semaines',
+        month: 'mois',
+        months: 'mois',
+        year: 'an',
+        years: 'ans',
+        ago: 'il y a'
+    },
+    'I': { // Italiano
+        today: 'oggi',
+        yesterday: 'ieri',
+        day: 'giorno',
+        days: 'giorni',
+        week: 'settimana',
+        weeks: 'settimane',
+        month: 'mese',
+        months: 'mesi',
+        year: 'anno',
+        years: 'anni',
+        ago: 'fa'
+    },
+    'J': { // Japanese
+        today: '今日',
+        yesterday: '昨日',
+        day: '日前',
+        days: '日前',
+        week: '週間前',
+        weeks: '週間前',
+        month: 'ヶ月前',
+        months: 'ヶ月前',
+        year: '年前',
+        years: '年前',
+        ago: ''
+    },
+    'R': { // Russian
+        today: 'сегодня',
+        yesterday: 'вчера',
+        day: 'день',
+        days: 'дня',
+        daysMany: 'дней',
+        week: 'неделя',
+        weeks: 'недели',
+        weeksMany: 'недель',
+        month: 'месяц',
+        months: 'месяца',
+        monthsMany: 'месяцев',
+        year: 'год',
+        years: 'года',
+        yearsMany: 'лет',
+        ago: 'назад'
+    },
+    '1': { // Chinese
+        today: '今天',
+        yesterday: '昨天',
+        day: '天前',
+        days: '天前',
+        week: '周前',
+        weeks: '周前',
+        month: '个月前',
+        months: '个月前',
+        year: '年前',
+        years: '年前',
+        ago: ''
+    },
+    '3': { // Chinese
+        today: '今天',
+        yesterday: '昨天',
+        day: '天前',
+        days: '天前',
+        week: '周前',
+        weeks: '周前',
+        month: '个月前',
+        months: '个月前',
+        year: '年前',
+        years: '年前',
+        ago: ''
+    }
+};
+
