@@ -57,7 +57,7 @@ async function renderNote(noteId, noteLanguage, skipCache = false) {
                 domTextId('type-version', `${note.Header.Type.value}, ${note.Header.Version._label}: ${note.Header.Version.value}`);
             }    
             if (note.Header.ReleasedOn && note.Header.ReleasedOn.value) {
-                domTextId('date', `${note.Header.ReleasedOn._label}: ${normalizeDateFormat(note.Header.ReleasedOn.value)}`);
+                domTextId('date', `${note.Header.ReleasedOn._label}: ${normalizeDateFormat(note.Header.ReleasedOn.value,noteLanguage)}`);
             }    
 
             if (note.isCached) {

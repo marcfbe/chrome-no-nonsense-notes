@@ -3,7 +3,7 @@
  * @param {string} dateString - Various date formats
  * @returns {string} Date in yyyy-mm-dd format
  */
-function normalizeDateFormat(dateString) {
+function normalizeDateFormat(dateString, language) {
     if (!dateString || typeof dateString !== 'string') {
         return dateString;
     }
@@ -34,8 +34,7 @@ function normalizeDateFormat(dateString) {
 
     // Add "time ago" information to the normalized date
     if (cleanDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-        const timeAgo = getTimeAgoString(cleanDate);
-
+        const timeAgo = getTimeAgoString(cleanDate, language);
 
         cleanDate = `${cleanDate}, ${timeAgo}`;
     }
@@ -44,31 +43,82 @@ function normalizeDateFormat(dateString) {
 }
 
 /**
+ * Gets the correct plural form for Russian
+ */
+function getRussianPlural(count, one, few, many) {
+    const mod10 = count % 10;
+    const mod100 = count % 100;
+    if (mod10 === 1 && mod100 !== 11) {
+        return one;
+    } else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) {
+        return few;
+    } else {
+        return many;
+    }
+}
+
+/**
  * Formats date strings to include "time ago" information
  * @param {string} dateString - The date string to format
+ * @param {string} language - The language code (D, E, P, S, F, I, J, R, 1, 3)
  * @returns {string} Formatted date string with time ago information
  */
-function getTimeAgoString(dateString) {
+function getTimeAgoString(dateString, language) {
     const date = new Date(dateString);
     const now = new Date();
     const diffDays = Math.floor(Math.abs(now - date) / (1000 * 60 * 60 * 24));
 
-    // TODO: i18n
+    // Default to English if language not found
+    const lang = language || 'E';
+    const t = timeAgoTranslations[lang] || timeAgoTranslations['E'];
+
     if (diffDays === 0) {
-        return '<span style="color: red">today</span>';
+        return `<span style="color: red">${t.today}</span>`;
     } else if (diffDays === 1) {
-        return '<span style="color: red">yesterday</span>';
+        return `<span style="color: red">${t.yesterday}</span>`;
     } else if (diffDays < 7) {
-        return `<span style="color: orange">${diffDays} days ago</span>`;
+        if (lang === 'R') {
+            const dayWord = getRussianPlural(diffDays, t.day, t.days, t.daysMany);
+            return `<span style="color: orange">${diffDays} ${dayWord} ${t.ago}</span>`;
+        } else if (lang === 'J' || lang === '1' || lang === '3') {
+            return `<span style="color: orange">${diffDays}${t.days}</span>`;
+        } else {
+            const dayWord = diffDays === 1 ? t.day : t.days;
+            return `<span style="color: orange">${diffDays} ${dayWord} ${t.ago}</span>`;
+        }
     } else if (diffDays < 30) {
         const weeks = Math.floor(diffDays / 7);
-        return `<span style="color: #ffa07a">${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago</span>`;
+        if (lang === 'R') {
+            const weekWord = getRussianPlural(weeks, t.week, t.weeks, t.weeksMany);
+            return `<span style="color: #ffa07a">${weeks} ${weekWord} ${t.ago}</span>`;
+        } else if (lang === 'J' || lang === '1' || lang === '3') {
+            return `<span style="color: #ffa07a">${weeks}${t.weeks}</span>`;
+        } else {
+            const weekWord = weeks === 1 ? t.week : t.weeks;
+            return `<span style="color: #ffa07a">${weeks} ${weekWord} ${t.ago}</span>`;
+        }
     } else if (diffDays < 365) {
         const months = Math.floor(diffDays / 30);
-        return `<span>${months} ${months === 1 ? 'month' : 'months'} ago</span>`;
+        if (lang === 'R') {
+            const monthWord = getRussianPlural(months, t.month, t.months, t.monthsMany);
+            return `<span>${months} ${monthWord} ${t.ago}</span>`;
+        } else if (lang === 'J' || lang === '1' || lang === '3') {
+            return `<span>${months}${t.months}</span>`;
+        } else {
+            const monthWord = months === 1 ? t.month : t.months;
+            return `<span>${months} ${monthWord} ${t.ago}</span>`;
+        }
     } else {
         const years = Math.floor(diffDays / 365);
-        return `<span>${years} ${years === 1 ? 'year' : 'years'} ago</span>`;
+        if (lang === 'R') {
+            const yearWord = getRussianPlural(years, t.year, t.years, t.yearsMany);
+            return `<span>${years} ${yearWord} ${t.ago}</span>`;
+        } else if (lang === 'J' || lang === '1' || lang === '3') {
+            return `<span>${years}${t.years}</span>`;
+        } else {
+            const yearWord = years === 1 ? t.year : t.years;
+            return `<span>${years} ${yearWord} ${t.ago}</span>`;
+        }
     }
 }
 
@@ -82,6 +132,21 @@ function normalizeManualActivities(manualActivities) {
         .replace(' <code>   <P><br/><br/>', '<code><p>')
         .replace('<br/></P> <br/>  </code> ', '</p></code>');
     return html;
+}
+
+/**
+ * Converts a URL match to an NNN link if it contains a valid note ID
+ * @param {string} match - The original match string
+ * @param {string} url - The URL to extract note ID from
+ * @param {string} language - The language code for the NNN link
+ * @returns {string} Formatted NNN link or original match
+ */
+function convertUrlToNnnLink(match, url, language) {
+    const noteId = extractNoteId(url);
+    if (noteId && /^\d+$/.test(noteId)) {
+        return `<a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
+    }
+    return match;
 }
 
 /**
@@ -124,37 +189,25 @@ function formatLongText(longText, language) {
     // Convert me.sap.com/notes/ links to NNN
     formattedText = formattedText.replace(
         /<a[^>]*href=["']([^"']*me\.sap\.com\/notes\/[^"']*)["'][^>]*>([^<]*)<\/a>/gi,
-        (match, url, text) => {
-            const noteId = extractNoteId(url);
-            if (noteId) {
-                return `<a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
-            }
-            return match;
-        }
+        (match, url, _text) => convertUrlToNnnLink(match, url, language)
     );
 
     // Convert launchpad.support.sap.com/#/notes/ links to NNN
     formattedText = formattedText.replace(
         /<a[^>]*href=["']([^"']*launchpad\.support\.sap\.com\/#\/notes\/[^"']*)["'][^>]*>([^<]*)<\/a>/gi,
-        (match, url, text) => {
-            const noteId = extractNoteId(url);
-            if (noteId) {
-                return `<a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
-            }
-            return match;
-        }
+        (match, url, _text) => convertUrlToNnnLink(match, url, language)
     );
 
     // Convert service.sap.com/sap/support/notes/ links to NNN
     formattedText = formattedText.replace(
         /<a[^>]*href=["']([^"']*service\.sap\.com\/sap\/support\/notes\/[^"']*)["'][^>]*>([^<]*)<\/a>/gi,
-        (match, url, text) => {
-            const noteId = extractNoteId(url);
-            if (noteId) {
-                return `<a href="${nnnPage}?id=${noteId}&t=${language}">${noteId}</a>`;
-            }
-            return match;
-        }
+        (match, url, _text) => convertUrlToNnnLink(match, url, language)
+    );
+
+    // Convert SAP internal i7p.wdf.sap.corp links to NNN
+    formattedText = formattedText.replace(
+        /<a[^>]*href=["'][^"']*i7p\.wdf\.sap\.corp\/.*\/entry\.htm[^"']*["'][^>]*>([^<]*)<\/a>/gi,
+        (match, text) => convertUrlToNnnLink(match, `me.sap.com/notes/${text}`, language)
     );
 
     // Add target="_blank" to external links that don't already have it
@@ -164,9 +217,8 @@ function formatLongText(longText, language) {
     );
 
     // Convert plain "Note XYZ" references to NNN links
-    // TODO: i18n (Japanese, Russian, Chinese)
     formattedText = formattedText.replace(
-        /\b(Note|Hinweis|nota|SAP)\s+(\d+)\b/gi,
+        /\b(Note|Hinweis|nota|SAP|ノート|注意|注意事項|注記)\s+(\d+)\b/gi,
         (match, text, noteId) => {
             // Check if this is already inside an <a> tag
             const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
@@ -183,9 +235,8 @@ function formatLongText(longText, language) {
     );
 
     // Convert plain "Notes XYZ and ABC" references to NNN links
-    // TODO: i18n (Japanese, Russian, Chinese)
     formattedText = formattedText.replace(
-        /\b(Notes?|Hinweise?|notas?|SAP)\s+(\d+)\s+(and|und|et|e|y)\s+(\d+)\b/gi,
+        /\b(Notes?|Hinweise?|notas?|SAP|ノート|注意|注意事項|注記)\s+(\d+)\s+(and|und|et|e|y)\s+(\d+)\b/gi,
         (match, text, noteId1, textAnd, noteId2) => {
             // Check if this is already inside an <a> tag
             const beforeMatch = formattedText.substring(0, formattedText.indexOf(match));
