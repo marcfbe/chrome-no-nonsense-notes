@@ -16,23 +16,22 @@ jobs:
     - uses: actions/setup-node@v4.4.0
       with:
         node-version: 22
-    - name: Prepare
-      run: echo "${{ secrets.PEM }}" > key.pem
-    - name: Build
-      run: google-chrome-stable --pack-extension=./src --pack-extension-key=key.pem
-    - name: Cleanup
-      run: rm key.pem
-    - name: Artifact
+    - name: Prepare ZIP
+      run: zip -r ./dist/extension.zip ./src
+    - name: Upload ZIP Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: CRX extension
-        path: src.crx
-    - name: Upload
-      uses: mnao305/chrome-extension-upload@v5.0.0
+        name: extension-zip
+        path: ./dist/extension.zip
+    - name: Publish to Chrome Web Store
+      id: publish-chrome-extension
+      uses: puzzlers-labs/chrome-webstore-publish@v1
       with:
-        file-path: src.crx
-        extension-id: conemkapghgifleljonppmkekbfeckko
-        client-id: ${{ secrets.CLIENT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        refresh-token: ${{ secrets.REFRESH_TOKEN }}
-        publish: false
+        mode: publish
+        publish_target: testers
+        zip_file_path: ./dist/extension.zip
+        extension_id: ${{ secrets.EXTENSION_ID }}
+        client_id: ${{ secrets.CLIENT_ID }}
+        client_secret: ${{ secrets.CLIENT_SECRET }}
+        refresh_token: ${{ secrets.REFRESH_TOKEN }}
+        crx_private_key: ${{ secrets.PEM }}
